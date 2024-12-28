@@ -4,13 +4,10 @@ import { addUser } from '@/app/libs/action';
 import styles from './admin.module.css';
 import { getSession, signIn } from 'next-auth/react';
 
-async function Admin() {
+function Admin() {
   const handleLoginWithGithub = () => {
-    signIn('github', { callbackUrl: '/' });
+    signIn('github');
   };
-
-  const session = await getSession();
-  console.log('session : ' + session);
 
   return (
     <div className={styles.container}>

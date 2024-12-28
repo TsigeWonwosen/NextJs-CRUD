@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { navLists } from './navLists';
 import Links from './Links';
@@ -8,7 +8,15 @@ import { getSession, signOut } from 'next-auth/react';
 import LogoutForm from '../LogoutForm';
 
 const Lists = () => {
-  let session = getSession();
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const sessionNew = await getSession();
+      setSession(sessionNew);
+    };
+    fetchSession();
+  }, []);
 
   let isAdmin = true;
 

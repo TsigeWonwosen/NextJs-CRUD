@@ -39,9 +39,9 @@ export const addUser = async (formData) => {
 
 export const handleSignIn = async () => {
   console.log('From Login Server Action.');
-  await signIn('github', { callbackUrl: '/' });
+  // await signIn('github', { callbackUrl: '/' });
 };
 
-export const addUser = async () => {
+export const deleteUser = async () => {
   return true;
 };

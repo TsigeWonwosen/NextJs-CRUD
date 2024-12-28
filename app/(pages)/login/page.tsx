@@ -10,6 +10,7 @@ const LoginForm = () => {
 
   return (
     <section className={styles.container}>
+      <GithubSignIn />
       <div className={styles.imgContainer}>
         <Image
           src='/login.svg'
@@ -17,7 +18,6 @@ const LoginForm = () => {
           fill
           className={styles.img}
         />
-        <GithubSignIn />
       </div>
       <form
         className={styles.form}

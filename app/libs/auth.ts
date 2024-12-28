@@ -3,16 +3,16 @@ import NextAuth from 'next-auth/next';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProviders from 'next-auth/providers/google';
 import EmailProviders from 'next-auth/providers/credentials';
+import { Profiler } from 'react';
 
 export const Options: NextAuthOptions = {
   providers: [
     GoogleProviders({
       profile(profile) {
         console.log('profile  GitHub: ' + profile);
-        console.log('Auth Working ');
         let userRole = 'Google user';
 
-        if (profile?.email == 'wondwosen.shi@gamil.com') {
+        if (profile?.email == 'wondwosen.shi@gamail.com') {
           userRole = 'admin';
         }
         return { ...profile, id: profile.sub, role: userRole };
@@ -22,11 +22,10 @@ export const Options: NextAuthOptions = {
     }),
     GithubProvider({
       profile(profile) {
-        console.log('profile  GitHub: ' + profile);
+        console.log('profile  GitHub 1: ' + profile);
         let userRole = 'GitHub user';
-
-        if (profile?.email == 'wondwosen.shi@gamil.com') {
-          userRole = 'admin';
+        if (profile?.email == 'wondwosen.shi@gamail.com') {
+          userRole = 'Admin';
         }
         return { ...profile, role: userRole };
       },
@@ -69,17 +68,22 @@ export const Options: NextAuthOptions = {
 
   // Optional: Include custom logic on sign in
   callbacks: {
+    async signIn({ user, account, profile }) {
+      // This callback is optional for custom logic during sign-in
+      return true; // Allow sign-in
+    },
     async jwt({ token, user, account, profile }) {
-      console.log('JWT Token:', token);
-      console.log('User:', user);
-      console.log('Account:', account);
-      console.log('Profile:', profile);
+      // token.role = profile?.role;
+      console.log('profile: ', profile?.role);
+      if (user) {
+        token.role = profile?.email === 'wondwosen.shi@gmail.com' ? 'Admin' : 'GitHub user';
+      }
       return token;
     },
     async session({ session, token }) {
-      console.log('Session Token:', token);
-      console.log('Session :', session);
       session.user.id = token.sub; // Ensure sub is set
+      session.user.role = token.role;
+      console.log('Session :', session);
       return session;
     },
   },
