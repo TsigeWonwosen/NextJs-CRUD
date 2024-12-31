@@ -1,12 +1,46 @@
+'use client';
+
 import styles from './login.module.css';
-import { useFormState } from 'react-dom';
+// import { useFormState } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
-import { login } from '@/app/libs/action';
+// import { login } from '@/app/libs/action';
 import GithubSignIn from '@/app/components/GithubSignIn';
+import { useState } from 'react';
+import { getSession, signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 const LoginForm = () => {
-  // const [state, formAction] = useFormState(login, undefined);
+  const [userInfo, setUser] = useState({ username: '', password: '' });
+  const route = useRouter();
+
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+                                                  setUser({ ...userInfo, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      
+     const resultSingIn = await signIn('credentials', {
+        redirect: false,
+        username: userInfo.username,
+        password: userInfo.password,
+      });
+
+      if (resultSingIn?.ok) {
+        const session = await getSession();
+      }else{
+        return { error: 'Invalid username or password' };
+      }
+
+      route.push('/dashboard');
+      revalidatePath('/');
+    } catch (error:any|Error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <section className={styles.container}>
@@ -21,19 +55,23 @@ const LoginForm = () => {
       </div>
       <form
         className={styles.form}
-        action={login}
+        onSubmit={handleSubmit}
       >
         <input
           type='text'
           placeholder='username'
           name='username'
+          onChange={handleChange}
+          value={userInfo.username}
         />
         <input
           type='password'
           placeholder='password'
           name='password'
+          onChange={handleChange}
+          value={userInfo.password}
         />
-        <button>Login</button>
+        <button type='submit'>Login</button>
         {/* {state?.error} */}
         <Link href='/register'>
           {"Don't have an account?"} <b>Register</b>

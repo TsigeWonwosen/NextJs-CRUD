@@ -2,17 +2,17 @@
 
 import React from 'react';
 import { signIn } from 'next-auth/react'; // Import the signIn function
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation'; // Import the useRouter hook
 import { revalidatePath } from 'next/cache';
 
 export default function GithubSignIn() {
-  const navigate = useRouter;
+  const navigate = useRouter();
   const handleSignIn = async () => {
     try {
       console.log('Initiating GitHub Sign-In...');
       await signIn('github');
-      revalidatePath('/');
       navigate.push('/'); // Triggers GitHub authentication
+      revalidatePath('/');
     } catch (error) {
       console.error('GitHub Sign-In Failed:', error);
     }

@@ -1,26 +1,16 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React  from 'react';
 import Link from 'next/link';
 import { navLists } from './navLists';
 import Links from './Links';
 import styles from './nav.module.css';
-import { getSession, signOut } from 'next-auth/react';
+import { getSession, signOut, useSession } from 'next-auth/react';
 import LogoutForm from '../LogoutForm';
 
 const Lists = () => {
-  const [session, setSession] = useState(null);
 
-  useEffect(() => {
-    const fetchSession = async () => {
-      const sessionNew = await getSession();
-      setSession(sessionNew);
-    };
-    fetchSession();
-  }, []);
+  const { data: session } = useSession();
 
-  let isAdmin = true;
-
-  console.log('From login Session ' + JSON.stringify(session));
   return (
     <div className='px-10 py-8 flex justify-between items-center h-25 w-full'>
       <Link
@@ -38,15 +28,17 @@ const Lists = () => {
         ))}
         {session?.user ? (
           <>
-            {isAdmin && (
-              <>
+            {session?.user?.role ==="Admin" ? (
+                 <>
                 <Links
                   name='Admin'
                   path='/admin'
-                />
+               />
                 <LogoutForm />
               </>
-            )}
+                )
+              :(<LogoutForm />)
+            }
           </>
         ) : (
           <Links
