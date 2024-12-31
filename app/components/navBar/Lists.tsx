@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { navLists } from './navLists';
 import Links from './Links';
 import styles from './nav.module.css';
-import { getSession, signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import LogoutForm from '../LogoutForm';
 
 const Lists = () => {

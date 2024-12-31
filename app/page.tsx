@@ -4,7 +4,7 @@ import { Options } from "./libs/auth";
 
 
 
-export default function Home() {
- const session =  getServerSession(Options)
+export default async function Home() {
+ const session =  await getServerSession(Options)
   return  <div>Welcome, {session?.user?.name || "Guest"}</div>;
 }
