@@ -1,4 +1,4 @@
-import {User} from '@/app/models/userModel';
+import {Staff} from '@/app/models/userModel';
 import connectToDatabase from '@/app/utils/mongoose';
 import { NextResponse } from 'next/server';
 
@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   await connectToDatabase();
   try {
-    const users = await User.find({});
+    const users = await Staff.find({});
 
     return NextResponse.json({ users });
   } catch (error) {
@@ -18,19 +18,19 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   // Parse the request body as JSON
   await connectToDatabase();
-
+  
   const body = await request.json();
-  const { name, email } = body;
+  const { username, email,role,password } = body;
 
   // Simulate saving to a database (mock response)
 
-  const newUser = User.create({ name, email });
+  const newStaff = Staff.create({ username, email,role,password });
 
-  return NextResponse.json({ message: 'User created', user: newUser });
+  return NextResponse.json({ message: 'User created', user: {username,email,role} });
 }
 
 // PUT Request Handler (Updating data)
-export async function PUT(request:  Request) {
+export async function PUT(request: Request) {
   const body = await request.json();
   const { id, name, email } = body;
 

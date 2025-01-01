@@ -1,46 +1,56 @@
-import type { NextAuthOptions } from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
-import GoogleProviders from 'next-auth/providers/google';
-import CredentialsProvider  from 'next-auth/providers/credentials';
+import type { NextAuthOptions } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProviders from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import connectToDatabase from "../utils/mongoose";
+import { Staff } from "../models/userModel";
+import { use } from "react";
 
 export const Options: NextAuthOptions = {
   providers: [
     GoogleProviders({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     }),
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         username: {
-          label: 'Username:',
-          type: 'text',
-          placeholder: 'your-cool-username',
+          label: "Username:",
+          type: "text",
+          placeholder: "your-cool-username",
         },
         password: {
-          label: 'Password:',
-          type: 'password',
-          placeholder: 'your-awesome-password',
+          label: "Password:",
+          type: "password",
+          placeholder: "your-awesome-password",
         },
       },
       async authorize(credentials) {
-        const { username, password } = credentials;
+        try {
+          if (credentials) {
+            const { username, password } = credentials;
 
-        const userInfos:{id:string,email:string,name:string,password:string,isAdmin:boolean}[] =[ { id: '1', email: 'wondeshi@gmail.com', name: 'wondeshi', password: 'wonde', role: 'Admin' },
-          { id: '2', email: 'wondwosen.shi@gmail.com', name: 'wondwosen', password: 'wonde', role: 'Developer' },
-          { id: '3', email: 'chuchu@gmail.com', name: 'chuchu', password: 'wonde', role: 'Guest' },
-        ];
+            connectToDatabase();
 
-        const user = await userInfos.findIndex((user) => user.name === username && user.password === password);
-        console.log("User db: ",user)
-        if (user !== -1) {
-          return userInfos[user];
-        } else {
-          return null;
+            const user = await Staff.findOne({
+              username: username,
+              password: password,
+            });
+
+            if (user) {
+              return user;
+            } else {
+              return null;
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          throw new Error("Error in credentials");
         }
       },
     }),
@@ -48,7 +58,7 @@ export const Options: NextAuthOptions = {
 
   // Custom session behavior
   session: {
-    strategy: 'jwt', // Ensure you're using the 'jwt' strategy if required
+    strategy: "jwt", // Ensure you're using the 'jwt' strategy if required
   },
 
   // Optional: Include custom logic on sign in
@@ -57,25 +67,24 @@ export const Options: NextAuthOptions = {
       // This callback is optional for custom logic during sign-in
       return true; // Allow sign-in
     },
-    async jwt({ token, user}) {
-      
+    async jwt({ token, user }) {
       if (user) {
-        token.id= user.id;
-        token.name = user.name;
+        token.id = user.id;
+        token.name = user?.username;
         token.email = user.email;
-        token.role = user?.email === 'wondwosen.shi@gmail.com' ? 'Admin' : 'GitHub user';
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
       session.user = {
-        id:token.id, 
-        name: token.name, 
-        email: token.email, 
+        id: token.id,
+        name: token.name,
+        email: token.email,
         role: token.role,
-      };  
+      };
 
-      console.log('Session :', session);
+      // console.log("Session :", session);
       return session;
     },
   },
