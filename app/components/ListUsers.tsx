@@ -1,12 +1,10 @@
-import Link from 'next/link';
-import React from 'react';
+import Link from "next/link";
+import React from "react";
+import { User } from "../dashboard/@user/page";
 
-function ListUsers({ id, name, email }) {
+function ListUsers({ _id, name, email }: User) {
   return (
-    <Link
-      href={`/dashboard/user/${id}`}
-      className='list-none text-left'
-    >
+    <Link href={`/dashboard/user/${_id}`} className="list-none text-left">
       {name}
     </Link>
   );

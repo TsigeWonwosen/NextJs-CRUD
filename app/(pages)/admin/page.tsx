@@ -1,20 +1,20 @@
 "use client";
-import React, { use, useActionState, useEffect, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import { addUser, getStaffs } from "@/app/libs/action";
-import ListOfStaff from "@/app/components/ListOfStaff";
 import StaffCard from "@/app/components/StaffCard";
+import { StaffType } from "@/app/libs/types";
 
 function Admin() {
   const [state, action, isPanding] = useActionState(addUser, null);
-  const [staffs, setStaffs] = useState([]);
+  const [staffs, setStaffs] = useState<StaffType[]>([]);
   useEffect(() => {
     const getData = async () => {
-      const data = await getStaffs();
+      const data: StaffType | any = await getStaffs();
 
       setStaffs(data);
     };
     getData();
-  }, []);
+  }, [isPanding]);
 
   return (
     <div className="flex gap-x-4">
@@ -40,7 +40,7 @@ function Admin() {
             type="text"
             id="username"
             name="username"
-            className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your username"
             required
           />
@@ -57,7 +57,7 @@ function Admin() {
             type="email"
             id="email"
             name="email"
-            className=" p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className=" p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your email"
             required
           />
@@ -74,7 +74,7 @@ function Admin() {
             type="password"
             id="password"
             name="password"
-            className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your password"
             required
           />

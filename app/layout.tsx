@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body>
         <SessionProviderWrapper>
           <main className="min-h-screen flex justify-between flex-col text-center h-screen">
             <Header />

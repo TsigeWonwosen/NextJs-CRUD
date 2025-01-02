@@ -1,14 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import bcrypt from "bcryptjs";
-import { User, Staff } from "../models/userModel";
+import { Staff } from "../models/userModel";
 import connectToDatabase from "../utils/mongoose";
-import { signIn, signOut } from "next-auth/react";
-import superjson from "superjson";
-import Users from "../dashboard/@user/default";
+import { signOut } from "next-auth/react";
+import { StaffType } from "./types";
 
-export const login = async (prevState, formData) => {
+export const login = async (prevState: string, formData: FormData) => {
   const { username, password } = Object.fromEntries(formData);
 
   try {
@@ -24,7 +22,7 @@ export const login = async (prevState, formData) => {
     const result = await response.json();
 
     return { success: true, result };
-  } catch (err) {
+  } catch (err: any) {
     if (err.message.includes("CredentialsSignin")) {
       return { error: "Invalid username or password" };
     }
@@ -37,33 +35,40 @@ export const sighOut = async () => {
 };
 
 // ADD staff to the database
-export const addUser = async (prevState, formData: FormData) => {
+export const addUser = async (
+  prevState: { error?: string | null; success?: boolean | null } | null,
+  formData: FormData
+): Promise<{ error: string | null; success: boolean | null } | null> => {
   try {
     await connectToDatabase();
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
     const { username, email, password, role } = Object.fromEntries(formData);
     const user = await Staff.findOne({ email });
     if (user) {
-      return { error: "User already exists" };
+      return { error: "User already exists", success: false };
     }
     const newStaff = new Staff({ username, email, password, role });
     await newStaff.save();
 
     revalidatePath("/admin");
     revalidatePath("/services");
+    return { success: true, error: null };
   } catch (error) {
-    return { error: "Invalid username or password" };
+    return { error: "Invalid username or password", success: false };
   }
 };
 
 export const getStaffs = async () => {
   try {
     await connectToDatabase();
-    const users = await Staff.find().lean();
+    const users: StaffType[] | any = await Staff.find().lean();
+
+    let serializedData = await users.sort((a: any, b: any) => {
+      return b.createdAt - a.createdAt;
+    });
 
     // Serialize the data for client
-    const serializedData = users.map((item) => ({
+    serializedData = users.map((item: StaffType) => ({
       ...item,
       _id: item._id.toString(),
     }));
@@ -83,7 +88,7 @@ export const deleteStaff = async (formData: FormData) => {
     await connectToDatabase();
 
     const { _id } = Object.fromEntries(formData);
-    const user = await Staff.findOne({ _id });
+    const user: StaffType | any = await Staff.findOne({ _id });
     console.log("User : ", user);
 
     if (!user) {
