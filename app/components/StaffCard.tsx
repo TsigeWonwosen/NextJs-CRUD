@@ -1,7 +1,8 @@
 import React from "react";
 import { deleteStaff } from "../libs/action";
+import { StaffType } from "../libs/types";
 
-function StaffCard({ staff }) {
+function StaffCard({ staff }: { staff: StaffType }) {
   const { username, email, role, _id } = staff;
   return (
     <ul role="list" className=" max-w-screen-md divide-y divide-gray-100">

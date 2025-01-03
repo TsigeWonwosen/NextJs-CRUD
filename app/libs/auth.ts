@@ -4,7 +4,6 @@ import GoogleProviders from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectToDatabase from "../utils/mongoose";
 import { Staff } from "../models/userModel";
-import { use } from "react";
 
 export const Options: NextAuthOptions = {
   providers: [

@@ -68,7 +68,7 @@ export const getStaffs = async () => {
     });
 
     // Serialize the data for client
-    serializedData = users.map((item: StaffType) => ({
+    serializedData = users.map((item: { item: StaffType }) => ({
       ...item,
       _id: item._id.toString(),
     }));
@@ -83,13 +83,15 @@ export const getStaffs = async () => {
   }
 };
 
-export const deleteStaff = async (formData: FormData) => {
+export const deleteStaff = async (
+  prvState: { error?: string | null } | null,
+  formData: FormData
+): Promise<{ error: string | null } | null | undefined> => {
   try {
     await connectToDatabase();
 
     const { _id } = Object.fromEntries(formData);
     const user: StaffType | any = await Staff.findOne({ _id });
-    console.log("User : ", user);
 
     if (!user) {
       return { error: "User not found" };

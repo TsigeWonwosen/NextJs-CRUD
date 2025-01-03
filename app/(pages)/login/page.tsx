@@ -7,7 +7,6 @@ import GithubSignIn from "@/app/components/GithubSignIn";
 import { useState } from "react";
 import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
 const LoginForm = () => {
   const [userInfo, setUser] = useState({ username: "", password: "" });
@@ -34,7 +33,6 @@ const LoginForm = () => {
       }
 
       route.push("/dashboard");
-      revalidatePath("/");
     } catch (error: any | Error) {
       setState({ error: error.message });
     }
