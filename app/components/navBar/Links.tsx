@@ -1,9 +1,9 @@
-import React from 'react';
-import Link from 'next/link';
-import styles from './nav.module.css';
-import { usePathname } from 'next/navigation';
+import React from "react";
+import Link from "next/link";
+import styles from "./nav.module.css";
+import { usePathname } from "next/navigation";
 
-function Links({ path, name }) {
+function Links({ path, name }: { path: string; name: string }) {
   const pathName = usePathname();
 
   return (

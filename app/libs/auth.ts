@@ -4,6 +4,7 @@ import GoogleProviders from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectToDatabase from "../utils/mongoose";
 import { Staff } from "../models/userModel";
+import { StaffType } from "./types";
 
 export const Options: NextAuthOptions = {
   providers: [
@@ -21,12 +22,12 @@ export const Options: NextAuthOptions = {
         username: {
           label: "Username:",
           type: "text",
-          placeholder: "your-cool-username",
+          placeholder: "Enter your username",
         },
         password: {
           label: "Password:",
           type: "password",
-          placeholder: "your-awesome-password",
+          placeholder: "Enter your password",
         },
       },
       async authorize(credentials) {
@@ -83,7 +84,6 @@ export const Options: NextAuthOptions = {
         role: token.role,
       };
 
-      // console.log("Session :", session);
       return session;
     },
   },

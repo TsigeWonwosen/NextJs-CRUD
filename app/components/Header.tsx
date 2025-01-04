@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
 import { navLists } from "./navBar/navLists";
@@ -9,6 +10,7 @@ import Image from "next/image";
 
 const Header = () => {
   const { data: session } = useSession();
+  const { user } = session || {};
 
   return (
     <div className="px-10 py-8 flex justify-between items-center h-25 w-full">
@@ -27,15 +29,17 @@ const Header = () => {
         {navLists?.map((list) => (
           <Links {...list} key={list.name} />
         ))}
-        {session?.user ? (
+        {user ? (
           <>
-            {session?.user?.role === "Admin" ? (
+            {user?.role === "Admin" || "admin" ? (
               <>
                 <Links name="Admin" path="/admin" />
-                <LogoutForm />
+                <LogoutForm user={user} />
               </>
             ) : (
-              <LogoutForm />
+              <>
+                <LogoutForm user={user} />
+              </>
             )}
           </>
         ) : (
