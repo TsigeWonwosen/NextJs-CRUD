@@ -7,6 +7,7 @@ import Links from "./navBar/Links";
 import { useSession } from "next-auth/react";
 import LogoutForm from "./LogoutForm";
 import Image from "next/image";
+import { StaffType } from "../libs/types";
 
 const Header = () => {
   const { data: session } = useSession();

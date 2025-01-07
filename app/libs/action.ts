@@ -42,11 +42,15 @@ export const addUser = async (
   try {
     await connectToDatabase();
 
-    const { username, email, password, role } = Object.fromEntries(formData);
+    let { username, email, password, role } = Object.fromEntries(formData);
     const user = await Staff.findOne({ email });
     if (user) {
       return { error: "User already exists", success: false };
     }
+    if (typeof username === "string") {
+      username = username.toLowerCase();
+    }
+
     const newStaff = new Staff({ username, email, password, role });
     await newStaff.save();
 
@@ -68,9 +72,9 @@ export const getStaffs = async () => {
     });
 
     // Serialize the data for client
-    serializedData = users.map((item: { item: StaffType }) => ({
+    serializedData = users.map((item: StaffType) => ({
       ...item,
-      _id: item._id.toString(),
+      _id: item?._id.toString(),
     }));
 
     if (!users) {
@@ -84,7 +88,6 @@ export const getStaffs = async () => {
 };
 
 export const deleteStaff = async (
-  prvState: { error?: string | null } | null,
   formData: FormData
 ): Promise<{ error: string | null } | null | undefined> => {
   try {

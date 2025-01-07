@@ -15,6 +15,7 @@ function StaffCard({ staff }: { staff: StaffType }) {
         </div>
         <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
           <p className="text-sm/6 text-gray-300">{role}</p>
+          <p className="text-sm/6 text-gray-300">{_id}</p>
           <p className="mt-1 text-xs/5 text-gray-300">
             Last seen <time dateTime="2023-01-23T13:23Z">3h ago</time>
           </p>

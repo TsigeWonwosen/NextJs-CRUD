@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import styles from "./navBar/nav.module.css";
 
 function LogoutForm({ user }: { user: { name: string } }) {
-  const handleLogout = async (even: React.FormEvent<HTMLFormElement>) => {
+  const handleLogout = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await signOut();
     revalidatePath("/");

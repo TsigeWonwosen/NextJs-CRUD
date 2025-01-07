@@ -1,5 +1,7 @@
+import { ObjectId } from "mongoose";
+
 export type StaffType = {
-  _id?: string;
+  _id: string;
   username: string;
   email: string;
   password?: string;
