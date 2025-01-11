@@ -1,10 +1,9 @@
-import type { NextAuthOptions } from "next-auth";
+import type { NextAuthOptions, Profile } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProviders from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectToDatabase from "../utils/mongoose";
 import { Staff } from "../models/userModel";
-import { StaffType } from "./types";
 
 export const Options: NextAuthOptions = {
   providers: [
@@ -41,7 +40,6 @@ export const Options: NextAuthOptions = {
               username: username,
               password: password,
             });
-
             if (user) {
               return user;
             } else {
@@ -58,32 +56,30 @@ export const Options: NextAuthOptions = {
 
   // Custom session behavior
   session: {
-    strategy: "jwt", // Ensure you're using the 'jwt' strategy if required
+    strategy: "jwt",
   },
 
   // Optional: Include custom logic on sign in
   callbacks: {
     async signIn({ user, account, profile }) {
-      // This callback is optional for custom logic during sign-in
-      return true; // Allow sign-in
+      return true;
     },
     async jwt({ token, user }) {
       if (user) {
-        token.id = user._id as string;
-        token.name = user?.username;
+        token.id = user._id;
+        token.name = user.username;
         token.email = user.email;
         token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
-      console.log("Session : ", session);
-      console.log("Token : ", token);
+      console.log("Token: ", token);
       session.user = {
-        id: token.id,
-        name: token.name,
-        email: token.email,
-        role: token.role,
+        id: token.id as string,
+        username: token.name as string,
+        email: token.email as string,
+        role: token.role as string,
       };
 
       return session;
