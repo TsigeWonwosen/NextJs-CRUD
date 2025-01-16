@@ -4,6 +4,7 @@ import GoogleProviders from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectToDatabase from "../utils/mongoose";
 import { Staff } from "../models/userModel";
+import { use } from "react";
 
 export const Options: NextAuthOptions = {
   providers: [
@@ -67,19 +68,19 @@ export const Options: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user._id;
-        token.name = user.username;
+        token.name = user.username || user.name;
         token.email = user.email;
         token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
-      console.log("Token: ", token);
       session.user = {
         id: token.id as string,
         username: token.name as string,
         email: token.email as string,
         role: token.role as string,
+        image: token.picture as string,
       };
 
       return session;

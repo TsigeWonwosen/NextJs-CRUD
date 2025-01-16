@@ -3,7 +3,11 @@ import { signOut } from "next-auth/react";
 import { revalidatePath } from "next/cache";
 import styles from "./navBar/nav.module.css";
 
-function LogoutForm({ user }: { user: { name: string } }) {
+function LogoutForm({
+  user,
+}: {
+  user: { username: string; image: string | undefined };
+}) {
   const handleLogout = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await signOut();
@@ -11,9 +15,19 @@ function LogoutForm({ user }: { user: { name: string } }) {
   };
 
   return (
-    <form onSubmit={handleLogout} className="flex center hover:text-gray-200">
-      {<p className={`${styles.navButton} text-lime-500`}> {user?.name}</p>}
-      <span className="px-2">|</span>
+    <form
+      onSubmit={handleLogout}
+      className="flex  flex-col justify-center items-start hover:text-gray-200 bg-slate-800 w-[200px] h-[80px] p-[10px] "
+    >
+      {
+        <div className="flex text-start">
+          <p className={`${styles.navButton} text-lime-500 capitalize w-full`}>
+            {" "}
+            {user?.username}
+          </p>
+        </div>
+      }
+
       <button type="submit" className="navButton">
         Logout
       </button>
