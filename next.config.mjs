@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     unoptimized: true,
+    remotePatterns: [{ hostname: "images.pexels.com" }],
   },
 };
 
