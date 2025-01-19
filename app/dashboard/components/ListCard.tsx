@@ -17,7 +17,7 @@ function ListCard({ user }: { user: UserProps }) {
   return (
     <tr
       key={user.id}
-      className="w-full h-full border border-b-slate-700 hover:bg-gray-700"
+      className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
     >
       <td className=" flex flex-row justify-around  px-1 py-2 ">
         <Image
@@ -33,25 +33,29 @@ function ListCard({ user }: { user: UserProps }) {
         </section>
       </td>
       <td className=" px-4 py-2 text-sm">{user.teacherId}</td>
-      <td className=" px-4 py-2 text-sm ">
-        {user.subjects.map((sub) => (
-          <span key={sub}>{sub + " "}</span>
-        ))}
-      </td>
-      <td className="  px-4 py-2 text-sm">
-        {user.classes.map((clas) => (
-          <span key={clas}>{clas + " "}</span>
-        ))}
-      </td>
+      <td className=" px-4 py-2 text-sm ">{user.subjects.join(", ")}</td>
+      <td className="  px-4 py-2 text-sm">{user.classes.join(", ")}</td>
       <td className="  px-4 py-2 text-sm">{user.address}</td>
       <td className="  px-4 py-2 text-sm">{user.phone}</td>
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
-          <button className=" flex justify-center text-center text-yellow-400  items-center h-[16] w-[16] p-2 bg-slate-600 rounded-full">
-            +
+          <button className=" flex justify-center text-center  items-center w-7 h-7 p-1 bg-lime-950 rounded-full ">
+            <Image
+              src="/view.png"
+              alt=""
+              width={16}
+              height={16}
+              className="rounded-full bg-lime-500 object-cover"
+            />
           </button>
-          <button className="flex justify-center text-center text-yellow-400 h-[16] w-[16] p-2 items-center bg-teal-600 rounded-full">
-            +
+          <button className="flex justify-center items-center w-7 h-7 p-1  bg-red-200 rounded-full">
+            <Image
+              src="/delete.png"
+              alt=""
+              width={16}
+              height={16}
+              className=" rounded-full bg-red-700 object-cover"
+            />
           </button>
         </div>
       </td>
