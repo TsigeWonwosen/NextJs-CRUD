@@ -1,19 +1,19 @@
 import Image from "next/image";
 import React from "react";
 
-type UserProps = {
+type StudentProps = {
   id: number;
-  teacherId: string;
+  studentId: string;
   name: string;
   email: string;
   photo: string;
   phone: string;
-  subjects: string[];
-  classes: string[];
+  grade: number;
+  class: string;
   address: string;
 };
 
-function ListCard({ user }: { user: UserProps }) {
+function StudentsList({ user }: { user: StudentProps }) {
   return (
     <tr
       key={user.id}
@@ -33,14 +33,10 @@ function ListCard({ user }: { user: UserProps }) {
         </section>
       </td>
       <td className=" px-4 py-2 text-sm hidden md:table-cell">
-        {user.teacherId}
+        {user.studentId}
       </td>
-      <td className=" px-4 py-2 text-sm hidden sm:table-cell">
-        {user.subjects.join(", ")}
-      </td>
-      <td className="  px-4 py-2 text-sm hidden md:table-cell">
-        {user.classes.join(", ")}
-      </td>
+      <td className=" px-4 py-2 text-sm hidden sm:table-cell">{user.class}</td>
+      <td className="  px-4 py-2 text-sm hidden md:table-cell">{user.grade}</td>
       <td className="  px-4 py-2 text-sm hidden md:table-cell">
         {user.address}
       </td>
@@ -71,4 +67,4 @@ function ListCard({ user }: { user: UserProps }) {
   );
 }
 
-export default ListCard;
+export default StudentsList;

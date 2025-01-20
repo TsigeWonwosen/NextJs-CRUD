@@ -3,10 +3,12 @@ import React from "react";
 
 function SearchAndHeader({ title }: { title: string }) {
   return (
-    <div className="flex justify-center items-center mb-3">
-      <h4 className="flex-1 text-left text-base text-slate-500">{title}</h4>
-      <section className="flex justify-between items-center">
-        <div className="flex justify-center  bg-slate-300 text-slate-200 rounded-full px-2 py-[1px] gap-2">
+    <div className="flex flex-col justify-start items-start mb-3 md:flex-row md:justify-between md:items-start">
+      <h4 className="text-left text-base text-slate-500  mb-2 w-auto md:flex-1 md:mb-0">
+        {title}
+      </h4>
+      <section className="flex justify-between items-center ">
+        <div className="flex justify-center  bg-slate-300 text-slate-200 rounded-full px-2 py-[1px] gap-2 max-w-[250px] sm:w-full">
           <Image
             src="/search-icon.jpg"
             alt="Search Icone"

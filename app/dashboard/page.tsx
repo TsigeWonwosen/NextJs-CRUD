@@ -1,5 +1,7 @@
 import React from "react";
 
+import Teacher from "./teachers/page";
+
 export default function DashboardPage() {
-  return <h3>Dashboard</h3>;
+  return <Teacher />;
 }

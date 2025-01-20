@@ -11,19 +11,19 @@ export const menuItems = [
       {
         icon: "/teacher.png",
         label: "Teachers",
-        href: "/list/teachers",
+        href: "/dashboard/teachers",
         visible: ["admin", "teacher"],
       },
       {
         icon: "/student.png",
         label: "Students",
-        href: "/list/students",
+        href: "/dashboard/students",
         visible: ["admin", "teacher"],
       },
       {
         icon: "/parent.png",
         label: "Parents",
-        href: "/list/parents",
+        href: "/dashboard/parents",
         visible: ["admin", "teacher"],
       },
       {

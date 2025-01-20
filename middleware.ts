@@ -18,5 +18,5 @@ export const middleware = async (req: NextRequest, res: NextResponse) => {
 };
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/services/:path*", "/admin/:path*"], // Apply middleware only to these routes
+  matcher: ["/services/:path*", "/admin/:path*"], // Apply middleware only to these routes
 };
