@@ -1,7 +1,14 @@
 import React from "react";
-import ListCard from "./ListCard";
 
-function Table({ data, tableHeader }: { data: any[]; tableHeader: any[] }) {
+function Table({
+  data,
+  tableHeader,
+  Lists,
+}: {
+  data: any[];
+  tableHeader: any[];
+  Lists: (item: any) => React.ReactNode;
+}) {
   return (
     <table className="min-w-full border-collapse border-0 border-b-slate-700 rounded-full">
       <thead className="rounded-full border-0 w-full">
@@ -17,9 +24,7 @@ function Table({ data, tableHeader }: { data: any[]; tableHeader: any[] }) {
         </tr>
       </thead>
       <tbody className="border-b border-y-gray-900">
-        {data.map((teacher) => (
-          <ListCard key={teacher.id} user={teacher} />
-        ))}
+        {data.map((teacher) => Lists(teacher))}
       </tbody>
     </table>
   );

@@ -13,7 +13,7 @@ type StudentProps = {
   address: string;
 };
 
-function StudentsList({ user }: { user: StudentProps }) {
+function StudentsList(user: StudentProps) {
   return (
     <tr
       key={user.id}

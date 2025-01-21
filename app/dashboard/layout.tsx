@@ -14,12 +14,7 @@ export default function DashBoardLayout({
             <SideMenu />
           </Card>
         </div>
-        <div className="flex h-full w-full basis-3/5 ">{children}</div>
-        <div className="basis-1/5 h-full  ">
-          <Card>
-            <h4>Left side Menu</h4>
-          </Card>
-        </div>
+        <div className="flex h-full w-full ">{children}</div>
       </div>
     </section>
   );

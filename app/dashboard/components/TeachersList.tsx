@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 type UserProps = {
@@ -13,7 +14,7 @@ type UserProps = {
   address: string;
 };
 
-function ListCard({ user }: { user: UserProps }) {
+function TeachersList(user: UserProps) {
   return (
     <tr
       key={user.id}
@@ -47,15 +48,17 @@ function ListCard({ user }: { user: UserProps }) {
       <td className="  px-4 py-2 text-sm hidden md:table-cell">{user.phone}</td>
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
-          <button className=" flex justify-center text-center  items-center w-7 h-7 p-1 bg-lime-950 rounded-full ">
-            <Image
-              src="/view.png"
-              alt=""
-              width={16}
-              height={16}
-              className="rounded-full bg-lime-500 object-cover"
-            />
-          </button>
+          <Link href={`/dashboard/teachers/${user.id}`}>
+            <button className=" flex justify-center text-center  items-center w-7 h-7 p-1 bg-lime-950 rounded-full ">
+              <Image
+                src="/view.png"
+                alt=""
+                width={16}
+                height={16}
+                className="rounded-full bg-lime-500 object-cover"
+              />
+            </button>
+          </Link>
           <button className="flex justify-center items-center w-7 h-7 p-1  bg-red-200 rounded-full">
             <Image
               src="/delete.png"
@@ -71,4 +74,4 @@ function ListCard({ user }: { user: UserProps }) {
   );
 }
 
-export default ListCard;
+export default TeachersList;

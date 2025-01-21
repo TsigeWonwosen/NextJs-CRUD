@@ -19,7 +19,7 @@ export default UsersDefault;
 
 // This function runs on the server before the page is rendered.
 export async function getData() {
-  const res = await fetch("http://localhost:3000/users/api", {
+  const res = await fetch("http://localhost:3000/api/users", {
     cache: "no-store",
   });
   if (!res.ok) {

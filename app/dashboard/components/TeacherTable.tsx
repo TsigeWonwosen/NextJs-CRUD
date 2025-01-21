@@ -1,10 +1,10 @@
 import React from "react";
 
 import { teachersData } from "@/app/utils/data";
-import ListCard from "./ListCard";
 import SearchAndHeader from "./SearchAndHeader";
 import Table from "./Table";
 import Pagination from "./Pagination";
+import TeachersList from "./TeachersList";
 
 function TeacherTable() {
   const HeaderClass = [
@@ -39,7 +39,11 @@ function TeacherTable() {
   return (
     <div className="mx-auto p-4 flex flex-col">
       <SearchAndHeader title="All Teachers" />
-      <Table data={teachersData} tableHeader={HeaderClass} />
+      <Table
+        data={teachersData}
+        tableHeader={HeaderClass}
+        Lists={TeachersList}
+      />
       <Pagination />
     </div>
   );

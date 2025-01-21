@@ -3,6 +3,7 @@ import { studentsData } from "@/app/utils/data";
 import SearchAndHeader from "../components/SearchAndHeader";
 import Pagination from "../components/Pagination";
 import StudentsList from "../components/StudentsList";
+import Table from "../components/Table";
 
 function Students() {
   const HeaderClass = [
@@ -37,25 +38,13 @@ function Students() {
   return (
     <div className="mx-auto p-4 flex flex-col">
       <SearchAndHeader title="All Students" />
-      <table className="min-w-full border-collapse border-0 border-b-slate-700 rounded-full">
-        <thead className="rounded-full border-0 w-full">
-          <tr className="bg-slate-700 text-sm  border-0 border-slate-800 w-full">
-            {HeaderClass.map((header, index) => (
-              <th
-                key={index}
-                className={`border-b border-gray-500 px-4 py-2 text-left  ${header.class}`}
-              >
-                {header.header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="border-b border-y-gray-900">
-          {studentsData.map((student) => (
-            <StudentsList key={student.id} user={student} />
-          ))}
-        </tbody>
-      </table>
+
+      <Table
+        Lists={StudentsList}
+        tableHeader={HeaderClass}
+        data={studentsData}
+      />
+
       <Pagination />
     </div>
   );
