@@ -14,16 +14,13 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { PieChart, Pie, Sector, Cell } from "recharts";
-
-const data2 = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 },
-];
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+import dynamic from "next/dynamic";
+const BigCalander = dynamic(() => import("./components/BigCalander"), {
+  ssr: false,
+  loading: () => <h1>Loading...</h1>,
+});
+import StatusChart from "./components/StatusChart";
+import Annauncement from "./components/Annauncement";
 
 export default function DashboardPage() {
   type ValuePiece = Date | null;
@@ -76,61 +73,11 @@ export default function DashboardPage() {
     },
   ];
 
-  const RADIAN = Math.PI / 180;
-  const renderCustomizedLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-    index,
-  }: any) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-      >
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
-
   return (
-    <div className="flex justify-between flex-row w-full h-full  gap-2">
-      <div className="flex flex-col h-full w-full">
-        <div className="w-[400px] h-[400px]">
-          <h1> Dashboard.</h1>
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart width={400} height={400}>
-              <Pie
-                data={data2}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={renderCustomizedLabel}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="w-full h-[400px]">
+    <div className="flex justify-between flex-row w-full h-full  gap-2  relative">
+      <div className="flex flex-col justify-between h-full w-full gap-5">
+        <BigCalander />
+        <div className="w-full h-[400px] ">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               width={500}
@@ -155,9 +102,11 @@ export default function DashboardPage() {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="flex w-[300px] h-full">
+      <div className="flex w-[350px] h-full mt-3">
         <Card>
           <Calendar onChange={onChange} value={value} />
+          <Annauncement />
+          <StatusChart />
         </Card>
       </div>
     </div>

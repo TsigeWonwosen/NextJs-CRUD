@@ -34,15 +34,22 @@ export const sighOut = async () => {
   await signOut();
 };
 
+type UserType = {
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+};
 // ADD staff to the database
 export const addUser = async (
   prevState: { error?: string | null; success?: boolean | null } | null,
-  formData: FormData
+  formData: UserType
 ): Promise<{ error: string | null; success: boolean | null } | null> => {
   try {
     await connectToDatabase();
 
-    let { username, email, password, role } = Object.fromEntries(formData);
+    // let { username, email, password, role } = Object.fromEntries(formData);
+    let { username, email, password, role } = formData;
     const user = await Staff.findOne({ email });
     if (user) {
       return { error: "User already exists", success: false };

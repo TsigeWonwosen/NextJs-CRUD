@@ -20,7 +20,7 @@ const listofParent = (user: ParentProps) => {
   return (
     <tr
       key={user.id}
-      className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
+      className="w-full h-full flex-grow-1 border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
     >
       <td className=" flex justify-start flex-col items-start ml-[6px] sm:ml-2 md:ml-3 ">
         <p className="text-sm">{user.name}</p>
@@ -85,7 +85,7 @@ function Parents() {
   ];
 
   return (
-    <div className="mx-auto p-4 flex flex-col">
+    <div className="mx-auto p-4 flex flex-col w-full h-full">
       <SearchAndHeader title="All Parents" />
       <Table
         data={parentsData}

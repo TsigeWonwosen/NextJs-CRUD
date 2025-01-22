@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
 import React from "react";
+import FormModel from "./FormModel";
 
 function SearchAndHeader({ title }: { title: string }) {
   return (
@@ -24,7 +26,7 @@ function SearchAndHeader({ title }: { title: string }) {
         </div>
 
         <div className="flex justify-center items-center gap-1 w-1/4">
-          <button className=" flex justify-center text-center text-yellow-400  items-center h-[16] w-[16] p-2 bg-slate-600 rounded-full">
+          {/* <button className=" flex justify-center text-center text-yellow-400  items-center h-[16] w-[16] p-2 bg-slate-600 rounded-full">
             +
           </button>
           <button className="flex justify-center text-center text-pink-400 h-[16] w-[16] p-2 items-center bg-orange-900 rounded-full">
@@ -32,7 +34,8 @@ function SearchAndHeader({ title }: { title: string }) {
           </button>
           <button className="flex justify-center text-center text-blue-400 h-[16] w-[16] p-2 items-center bg-teal-600 rounded-full">
             +
-          </button>
+          </button> */}
+          {FormModel("Employe", "Add")}
         </div>
       </section>
     </div>
