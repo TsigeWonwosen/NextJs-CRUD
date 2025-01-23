@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React, { useState } from "react";
 import TeacherForm from "./TeacherForm";
@@ -17,21 +18,17 @@ function FormModel(
       </button>
     </form>
   );
+  const handleToggle = () => {
+    console.log(show);
+    setShow(!show);
+  };
 
   return (
     <div>
       <>
         {show && (
-          <div className="w-screen h-screen bg-black opacity-85 absolute top-0 left-0  ">
-            <div className="bg-black p-4 rounded-md relative w-[60%] h-[80%] flex justify-center items-center">
-              <TeacherForm />
-              <div
-                className="absolute top-4 right-4 cursor-pointer"
-                onClick={() => setShow(false)}
-              >
-                <Image src="/close.png" alt="" width={14} height={14} />
-              </div>
-            </div>
+          <div className="w-screen h-screen bg-black opacity-85 absolute top-0 left-0  flex justify-center items-center overflow-hidden">
+            <TeacherForm handleToggle={handleToggle} />
           </div>
         )}
       </>

@@ -30,4 +30,5 @@ a {
 .container {
   display: flex;
   gap: 100px;
+  padding: 3px 20px;
 }

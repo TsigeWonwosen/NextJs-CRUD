@@ -6,6 +6,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 // import "@fullcalendar/common/main.css";
 // import "@fullcalendar/daygrid/main.css";
 
+import { calendarEvents } from "@/app/utils/data";
 function BigCalander() {
   const events = [
     { title: "Meeting", date: "2025-01-22" },
@@ -19,7 +20,7 @@ function BigCalander() {
       <FullCalendar
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
-        events={events}
+        events={calendarEvents}
       />
     </div>
   );
