@@ -3,9 +3,9 @@ import React from "react";
 
 function InfoCard({ name, total }: { name: string; total: number }) {
   return (
-    <div className="min-w-[180px]  h-[120px] flex justify-between flex-col odd:bg-slate-800 even:bg-gray-600 rounded-xl gap-2 px-5 py-3 flex-1">
+    <div className="min-w-[180px]   w-full max-w-[300px] shadow-md shadow-slate-100/10 h-[120px] flex justify-between flex-col odd:bg-wondebgHardColo even:bg-wondeblackColor/20 rounded-xl gap-2 px-5 py-3 flex-1">
       <div className="flex justify-between items-center w-full">
-        <h1 className=" text-[10px] text-left  bg-slate-700 text-slate-300 px-[4px] py-[1px] rounded-full">
+        <h1 className=" text-[10px] text-left  bg-slate-700 text-cyan-600 px-[4px] py-[1px] rounded-full">
           <p>{new Date().getFullYear()}</p>
         </h1>
         <button>

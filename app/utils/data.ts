@@ -920,8 +920,8 @@ export const calendarEvents = [
   {
     title: "Math",
     allDay: false,
-    start: new Date(2025, 1, 21, 8, 0),
-    end: new Date(2025, 1, 26, 8, 45),
+    start: new Date(2025, 0, 21, 8, 0),
+    end: new Date(2025, 0, 26, 8, 45),
   },
   {
     title: "English",
@@ -944,8 +944,8 @@ export const calendarEvents = [
   {
     title: "Chemistry",
     allDay: false,
-    start: new Date(2025, 1, 12, 13, 0),
-    end: new Date(2024, 4, 12, 13, 45),
+    start: new Date(2025, 0, 12, 13, 0),
+    end: new Date(2024, 0, 12, 13, 45),
   },
   {
     title: "History",
@@ -962,14 +962,14 @@ export const calendarEvents = [
   {
     title: "Biology",
     allDay: false,
-    start: new Date(2025, 1, 1, 10, 0),
-    end: new Date(2024, 1, 1, 10, 45),
+    start: new Date(2025, 0, 1, 10, 0),
+    end: new Date(2024, 0, 1, 10, 45),
   },
   {
     title: "Physics",
     allDay: false,
-    start: new Date(2025, 23, 9, 11, 0),
-    end: new Date(2025, 25, 13, 11, 45),
+    start: new Date(2025, 0, 9, 11, 0),
+    end: new Date(2025, 1, 13, 11, 45),
   },
 
   {

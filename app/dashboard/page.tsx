@@ -3,6 +3,7 @@
 import React from "react";
 import { useState } from "react";
 import Card from "../components/Card";
+import "react-calendar/dist/Calendar.css"; // Import default styles
 
 import dynamic from "next/dynamic";
 const BigCalander = dynamic(() => import("./components/BigCalander"), {
@@ -31,20 +32,19 @@ export default function DashboardPage() {
   const [value, onChange] = useState<Value>(new Date());
 
   return (
-    <div className="flex justify-between flex-row w-full h-full  gap-2  relative">
+    <div className="flex justify-between flex-col  md:flex-row  md:gap-4 w-full h-full   gap-2  relative ">
       <div className="flex flex-col justify-between h-full w-full gap-5">
-        <div className="flex justify-between flex-col items-center md:flex-row mb-3 gap-3 md:flex-wrap">
-          <InfoCard name="Teachers" total={35} />
+        <div className="flex justify-between transition-all flex-col items-center md:flex-row gap-3 flex-wrap w-full h-full ">
+          <InfoCard name="Teachers" total={+35} />
           <InfoCard name="Students" total={2400} />
           <InfoCard name="Parents" total={1399} />
           <InfoCard name="Staffs" total={22} />
         </div>
         <BigCalander />
-        <div className="w-full h-[400px] ">
-          <SchoolChart />
-        </div>
+
+        <SchoolChart />
       </div>
-      <div className="flex w-[350px] h-full mt-3">
+      <div className="flex w-[350px] h-full">
         <Card>
           <Calendar onChange={onChange} value={value} />
           <Annauncement />

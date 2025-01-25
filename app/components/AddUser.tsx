@@ -21,12 +21,8 @@ const schema = z.object({
   }),
 });
 
-type UserType = {
-  username: string;
-  email: string;
-  password: string;
-  role: string;
-};
+type UserProps = z.infer<typeof schema>;
+
 function AddUser() {
   const [state, action, isPanding] = useActionState(addUser, null);
 
@@ -34,26 +30,40 @@ function AddUser() {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
-  } = useForm<UserType>({
+  } = useForm<UserProps>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<UserType> = async (data: UserType) => {
-    startTransition(async () => {
-      await action(data);
-    });
+  const onSubmit: SubmitHandler<UserProps> = async (data: UserProps) => {
+    try {
+      startTransition(async () => {
+        await action(data);
+      });
 
-    if (state?.success) {
+      if (!state?.success) {
+        throw new Error("Server is Not Responding.");
+      }
       reset();
       alert("Form submitted successfully!");
+    } catch (error) {
+      if (error instanceof Error) {
+        setError("root", { type: "server", message: error.message });
+      } else if (typeof error === "string") {
+        setError("root", { type: "server", message: error });
+      } else {
+        setError("root", {
+          type: "server",
+          message: "An unexpected error occurred.",
+        });
+      }
     }
   };
 
   return (
     <div className="w-1/2 bg-slate-900 p-10 rounded-lg shadow-md flex flex-col items-center ">
       <h2 className="text-2xl font-bold mb-4 text-center text--">Add User</h2>
-      {/* <form action={action} className="p-5 w-4/5"> */}
       <form onSubmit={handleSubmit(onSubmit)} className="p-5 w-4/5">
         <div className="mb-4">
           <label
@@ -65,7 +75,6 @@ function AddUser() {
           <input
             type="text"
             id="username"
-            // name="username"
             {...register("username")}
             className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your username"
@@ -86,7 +95,6 @@ function AddUser() {
           <input
             type="email"
             id="email"
-            // name="email"
             {...register("email")}
             className=" p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your email"
@@ -107,7 +115,6 @@ function AddUser() {
           <input
             type="password"
             id="password"
-            // name="password"
             {...register("password")}
             className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your password"

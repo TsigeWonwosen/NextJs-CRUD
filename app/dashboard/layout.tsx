@@ -1,5 +1,4 @@
 import SideMenu from "./components/SideMenu";
-import Card from "../components/Card";
 
 export default function DashBoardLayout({
   children,
@@ -8,13 +7,11 @@ export default function DashBoardLayout({
 }>) {
   return (
     <section className="h-full w-full ">
-      <div className="flex justify-between items-start m-3  w-full p-4 gap-2">
-        <div className=" basis-1/5  h-full">
-          <Card>
-            <SideMenu />
-          </Card>
+      <div className="flex justify-between items-start w-full p-4 gap-4 md:gap-2">
+        <div className=" flex-1/5  h-screen">
+          <SideMenu />
         </div>
-        <div className="flex h-full w-full ">{children}</div>
+        <div className="flex-4/5 h-full w-full ">{children}</div>
       </div>
     </section>
   );

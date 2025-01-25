@@ -1,0 +1,46 @@
+.fc .fc-scrollgrid {
+  border-color: #342f49 !important;
+  border-bottom-width: 0.1px !important;
+  border-collapse: separate;
+  border-right-width: 0.1px !important;
+  border-width: 0.1px !important;
+  border-radius: 2px;
+}
+
+* :before,
+:after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: none;
+  border-color: #342f49 !important;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border: 0.4px solid var(--color-light-blue) !important;
+}
+
+/* FullCalendar.css */
+.fc .fc-toolbar-title {
+  font-size: 1.5rem;
+  color: #4a90e2; /* Change toolbar title color */
+}
+
+.fc-event {
+  background-color: #26246b; /* Change event background */
+  border-color: #393737; /* Change event border */
+  color: white; /* Change event text color */
+}
+
+.fc .fc-daygrid-day-number {
+  color: #374151; /* Change day number color */
+}
+
+.fc .fc-button-primary {
+  background-color: #3b82f6;
+  border: none;
+  color: white;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: #2563eb;
+}

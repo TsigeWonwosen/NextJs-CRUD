@@ -1,10 +1,12 @@
+"use client";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 const data2 = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 },
+  { name: "Boys", value: 8400 },
+  { name: "Girls", value: 4500 },
+  { name: "Total", value: 12000 },
 ];
 
 const RADIAN = Math.PI / 180;
@@ -33,12 +35,24 @@ const renderCustomizedLabel = ({
     </text>
   );
 };
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#06093C", "#3788D8", "#141720", "#98A0AE"];
 
 export default function StatusChart() {
   return (
-    <div className="w-[300px] h-[300px] mt-4">
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="w-[90%] h-[350px] mt-4 bg-[#121832] rounded-md flex flex-col justify-between p-5">
+      <section className="h-[30px] flex justify-between items-center">
+        <h3 className="text-xl font-semibold">Students</h3>
+        <Link href={`/dashboard/students`}>
+          <Image
+            src="/more.png"
+            alt="More"
+            width={13}
+            height={13}
+            className="hover:cursor-pointer"
+          />
+        </Link>
+      </section>
+      <ResponsiveContainer width="100%" height="100%" className="h-full w-full">
         <PieChart width={400} height={400}>
           <Pie
             data={data2}
@@ -59,6 +73,16 @@ export default function StatusChart() {
           </Pie>
         </PieChart>
       </ResponsiveContainer>
+      <div className="w-full flex justify-center items-center gap-5">
+        <section className="flex  justify-center items-center gap-2">
+          <span className="w-[12px] h-[12px] rounded-full bg-[#3788D8]"></span>
+          <p className="font-semibold text-[13px] text-gray-200">Boys</p>
+        </section>
+        <section className="flex  justify-center items-center gap-2">
+          <span className="w-[12px] h-[12px] rounded-full bg-[#06093C]"></span>
+          <p className="font-semibold text-[13px] text-gray-200">Gilrs</p>
+        </section>
+      </div>
     </div>
   );
 }
