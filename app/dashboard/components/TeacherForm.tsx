@@ -1,5 +1,5 @@
 "use client";
-import React, { startTransition, useActionState } from "react";
+import React, { startTransition, useActionState, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addUser } from "@/app/libs/action";
@@ -13,19 +13,37 @@ function TeacherForm({
   handleToggle: () => void;
   title: string;
 }) {
+  const [preview, setPreview] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<TeacherSchemaType>({ resolver: zodResolver(TeacherSchema) });
 
   const onSubmit: SubmitHandler<TeacherSchemaType> = async (
     data: TeacherSchemaType
   ) => {
-    console.log("Selected File:");
-    console.log("Data:", data);
+    console.log("Before : ", data);
+    const formData = new FormData();
+    formData.append("address", data.address);
+    formData.append("email", data.email);
+    formData.append("name", data.name);
+    formData.append("phone", data.phone);
+    formData.append("subjects", data.subjects);
+    formData.append("photo", data.photo[0]); // Extract the uploaded file
+    // Log FormData entries to verify
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value); // Logs each key-value pair
+    }
     reset();
+  };
+
+  const handlePhotoPreview = (files: FileList) => {
+    if (files && files[0]) {
+      const url = URL.createObjectURL(files[0]);
+      setPreview(url);
+    }
   };
 
   return (
@@ -123,7 +141,7 @@ function TeacherForm({
             htmlFor="subjects"
             className=" text-left  block text-sm font-medium text-gray-700"
           >
-            Subject
+            Subjects
           </label>
           <select
             id="subjects"
@@ -139,7 +157,7 @@ function TeacherForm({
         {errors.subjects?.message && (
           <p className="text-red-400">{errors.subjects?.message}</p>
         )}
-        {/* <div className="mb-4">
+        <div className="mb-4">
           <label
             htmlFor="photo"
             className=" text-left   text-sm font-medium text-gray-700 flex justify-between items-center"
@@ -154,20 +172,28 @@ function TeacherForm({
           </label>
           <input
             id="photo"
-            // name="role"
             {...register("photo")}
-            className=" p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            onChange={(e) => handlePhotoPreview(e.target.files as FileList)}
+            className=" block p-2 mt-1  w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             type="file"
           />
         </div>
         {errors.photo?.message && (
           <p className="text-red-400">Photo Error: {errors.photo?.message}</p>
-        )} */}
+        )}
+        {preview && (
+          <img
+            src={preview}
+            alt="Preview"
+            className="mt-2 w-32 h-32 object-cover rounded"
+          />
+        )}
         <button
           type="submit"
+          disabled={isSubmitting}
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
-          Add user
+          {isSubmitting ? "Submitting..." : "Add User"}
         </button>
       </form>
     </div>

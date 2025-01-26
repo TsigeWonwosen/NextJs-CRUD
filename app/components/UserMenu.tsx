@@ -33,7 +33,7 @@ function UserMenu({
           </button>
         </section>
       </section>
-      <div className="flex flex-col justify-start items-center absolute top-11 right-0">
+      <div className="flex flex-col justify-start items-center absolute top-12 right-0  z-20">
         {show && <LogoutForm user={user} />}
       </div>
     </>

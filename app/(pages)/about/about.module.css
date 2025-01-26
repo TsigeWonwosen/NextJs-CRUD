@@ -59,4 +59,12 @@
     flex-direction: column;
     gap: 50px;
   }
+  .title {
+    font-size: 35px;
+  }
+
+  .desc {
+    font-size: 18px;
+    font-weight: 300;
+  }
 }

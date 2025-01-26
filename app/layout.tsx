@@ -18,18 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <main className="flex justify-between flex-col text-center h-full w-full">
-          <SessionProviderWrapper>
+    <html lang="en" suppressHydrationWarning className="h-full w-full">
+      <SessionProviderWrapper>
+        <body className="h-full w-full">
+          <main className="flex justify-between flex-col text-center items-center h-full w-full">
             <Header />
-            <section className="flex-grow-1 h-full px-8 mb-2">
-              {children}
-            </section>
+            <section className="w-full  px-8  flex-grow ">{children}</section>
             <Footer />
-          </SessionProviderWrapper>
-        </main>
-      </body>
+          </main>
+        </body>
+      </SessionProviderWrapper>
     </html>
   );
 }

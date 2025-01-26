@@ -17,7 +17,7 @@ function SideMenu() {
                   alt={item.label}
                   width={15}
                   height={15}
-                  className="bg-transparent object-cover overflow-hidden "
+                  className="bg-slate-400/25 object-cover overflow-hidden text-slate-300 max-w-fit rounded-sm"
                 />
                 <div className="hidden lg:block">{item.label}</div>
               </li>

@@ -4,9 +4,12 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+  box-sizing: border-box;
+  min-height: calc(100% - (50px + 70px));
   height: 100%;
 }
 .textContainer {
+  height: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;

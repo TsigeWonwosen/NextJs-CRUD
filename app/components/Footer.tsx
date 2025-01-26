@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-slate-200 py-6 px-8">
+    <footer className="bg-[#0D0D0D] text-slate-200 py-6 px-8  w-full max-h-[100px] h-auto">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <div className="text-center md:text-left mb-4 md:mb-0">
           <h1 className="text-lg font-normal">The Ethiopian</h1>

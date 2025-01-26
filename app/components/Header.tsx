@@ -5,14 +5,13 @@ import Link from "next/link";
 import { navLists } from "./navBar/navLists";
 import Links from "./navBar/Links";
 import { useSession } from "next-auth/react";
-import LogoutForm from "./LogoutForm";
 import Image from "next/image";
-import { StaffType } from "../libs/types";
 import UserMenu from "./UserMenu";
+
+import HombergerMenu from "./HombergerMenu";
 
 const Header = () => {
   const { data: session } = useSession();
-
   const { user } = session || {};
 
   return (
@@ -28,31 +27,36 @@ const Header = () => {
           />
         </Link>
       </div>
-      <ul className="flex justify-center w-auto text-center space-x-2 relative">
-        {navLists?.map((list) => (
-          <Links {...list} key={list.name} />
-        ))}
-        {user ? (
-          <>
-            {user?.role === "Admin" || user?.role === "admin" ? (
+      {
+        <>
+          <HombergerMenu />
+          <ul className="hidden sm:flex justify-center w-auto text-center space-x-2 relative">
+            {navLists?.map((list) => (
+              <Links {...list} key={list.name} />
+            ))}
+            {user ? (
               <>
-                <Links name="Admin" path="/admin" />
-                <span className="px-2">|</span>
-                <UserMenu user={user} />
+                {user?.role === "Admin" || user?.role === "admin" ? (
+                  <>
+                    <Links name="Admin" path="/admin" />
+                    <span className="px-2">|</span>
+                    <UserMenu user={user} />
+                  </>
+                ) : (
+                  <>
+                    <span className="px-2">|</span>
+                    <UserMenu user={user} />
+                  </>
+                )}
               </>
             ) : (
               <>
-                <span className="px-2">|</span>
-                <UserMenu user={user} />
+                <Links name="Login" path="/login" />
               </>
             )}
-          </>
-        ) : (
-          <>
-            <Links name="Login" path="/login" />
-          </>
-        )}
-      </ul>
+          </ul>
+        </>
+      }
     </div>
   );
 };
