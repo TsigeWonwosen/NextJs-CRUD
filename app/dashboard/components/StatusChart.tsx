@@ -39,7 +39,7 @@ const COLORS = ["#06093C", "#3788D8", "#141720", "#98A0AE"];
 
 export default function StatusChart() {
   return (
-    <div className="w-[90%] h-[350px] mt-4 bg-[#121832] rounded-md flex flex-col justify-between p-5">
+    <div className=" w-full md:w-[95%] h-[400px]  bg-[#0C162E] rounded-md flex flex-col justify-between px-2 py-4 md:px-5">
       <section className="h-[30px] flex justify-between items-center">
         <h3 className="text-xl font-semibold">Students</h3>
         <Link href={`/dashboard/students`}>

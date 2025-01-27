@@ -25,17 +25,10 @@ function SearchAndHeader({ title }: { title: string }) {
           />
         </div>
 
-        <div className="flex justify-center items-center gap-1 w-1/4">
-          {/* <button className=" flex justify-center text-center text-yellow-400  items-center h-[16] w-[16] p-2 bg-slate-600 rounded-full">
-            +
-          </button>
-          <button className="flex justify-center text-center text-pink-400 h-[16] w-[16] p-2 items-center bg-orange-900 rounded-full">
-            +
-          </button>
-          <button className="flex justify-center text-center text-blue-400 h-[16] w-[16] p-2 items-center bg-teal-600 rounded-full">
-            +
-          </button> */}
-          {FormModel("Employe", "Add")}
+        <div className="flex justify-center items-center ml-2 gap-1 w-1/4">
+          <FormModel table="Teachers" type="add" />
+          <FormModel table="Teachers" type="delete" />
+          <FormModel table="Teachers" type="edit" />
         </div>
       </section>
     </div>

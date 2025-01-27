@@ -23,7 +23,9 @@ export default function RootLayout({
         <body className="h-full w-full">
           <main className="flex justify-between flex-col text-center items-center h-full w-full">
             <Header />
-            <section className="w-full  px-8  flex-grow ">{children}</section>
+            <section className="w-full  px-3 md:px-5  flex-grow ">
+              {children}
+            </section>
             <Footer />
           </main>
         </body>

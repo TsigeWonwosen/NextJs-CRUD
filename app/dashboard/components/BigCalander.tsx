@@ -4,9 +4,7 @@ import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction"; // Enables drag and drop
-// import "@fullcalendar/common/main.css";
-// import "@fullcalendar/daygrid/main.css";
+import interactionPlugin from "@fullcalendar/interaction"; // Enables
 import "@/app/dashboard/styles/Fullcalander.css";
 
 import { calendarEvents } from "@/app/utils/data";
@@ -26,11 +24,19 @@ function BigCalander() {
         editable={true}
         selectable={true}
         events={calendarEvents}
+        weekends={false}
+        slotMinTime="08:00:00" // Calendar start time
+        slotMaxTime="18:00:00" // Calendar end time
+        height="auto" // Make the calendar responsive
+        eventColor="##1f1d5e" // Default event background color
         headerToolbar={{
           left: "prev,next today", // Add navigation buttons
           center: "title", // Show the calendar title
           right: "dayGridMonth,timeGridWeek,timeGridDay", // Add view buttons
         }}
+        initialEvents={[
+          { title: "nice event", start: new Date(), resourceId: "a" },
+        ]}
       />
     </div>
   );

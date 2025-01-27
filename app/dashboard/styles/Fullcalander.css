@@ -25,22 +25,182 @@
   color: #4a90e2; /* Change toolbar title color */
 }
 
+.fc thead {
+  background: #0d0e27;
+  border: none;
+}
 .fc-event {
-  background-color: #26246b; /* Change event background */
+  background-color: #1f1d5e; /* Change event background */
   border-color: #393737; /* Change event border */
-  color: white; /* Change event text color */
+  color: rgb(126, 106, 106); /* Change event text color */
 }
 
 .fc .fc-daygrid-day-number {
-  color: #374151; /* Change day number color */
+  color: #4b5a72; /* Change day number color */
 }
 
 .fc .fc-button-primary {
-  background-color: #3b82f6;
+  background-color: #162f58;
   border: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.499);
 }
 
 .fc .fc-button-primary:hover {
-  background-color: #2563eb;
+  background-color: #0f2452;
+}
+
+/* Example FullCalendar Styles */
+
+/* Change background of the time slots */
+.fc-timegrid-slot {
+  /* background-color: #0c162e; */
+}
+
+/* Customize event appearance */
+.fc-event {
+  background-color: #06093c !important; /* Blue */
+  color: #ffffff !important; /* White text */
+  border: none !important; /* Remove border */
+  border-radius: 5px !important; /* Rounded corners */
+  padding: 2px 5px !important;
+}
+
+/* Change header toolbar styles */
+.fc-toolbar {
+  /* background-color: #0c162e; Indigo background */
+  color: #cfcdcd;
+  width: 100%;
+  padding: 3px;
+}
+
+.fc-toolbar-title {
+  font-weight: bold;
+  color: #cfcdcd;
+  font-size: medium;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 1.5em;
+}
+
+.fc .fc-toolbar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fc-toolbar {
+  color: #cfcdcd;
+  width: 100%;
+  padding: 3px;
+}
+
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+  margin-left: 0.75em;
+}
+
+.fc .fc-button-group {
+  display: inline-flex;
+  position: relative;
+  vertical-align: middle;
+}
+
+.fc .fc-scrollgrid th {
+  border: 0.3px solid rgba(36, 28, 78, 0.863) !important; /* Remove all borders */
+  background: #15145fe1;
+}
+.fc .fc-scrollgrid,
+.fc .fc-scrollgrid td {
+  border: 0.3px solid rgba(36, 28, 78, 0.805) !important; /* Remove all borders */
+}
+
+/* FullCalendar Responsive Styles */
+
+/* Default calendar styles */
+.fc {
+  font-family: Arial, sans-serif;
+}
+
+/* Optional: Add rounded corners to table cells */
+/* .fc .fc-scrollgrid td {
+  border-radius: 4px !important;
+} */
+
+/* Calendar container responsiveness *
+
+/* Header toolbar adjustments for small screens */
+.fc-toolbar {
+  display: flex;
+  flex-wrap: wrap; /* Allow toolbar items to wrap on smaller screens */
+  justify-content: space-between;
+}
+
+.fc-toolbar-title {
+  font-size: 1.25rem; /* Adjust title font size */
+  margin-bottom: 0.5rem; /* Add spacing for small screens */
+}
+
+.fc-toolbar-chunk {
+  margin: 0.5rem 0; /* Add spacing between toolbar chunks */
+}
+
+/* Event appearance */
+.fc-event {
+  font-size: 0.875rem; /* Make text smaller on events for better readability */
+  border-radius: 4px;
+  padding: 2px 4px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Time slot adjustments */
+.fc-timegrid-slot {
+  height: 2rem; /* Reduce slot height for smaller devices */
+}
+
+.fc-timegrid-axis {
+  font-size: 0.75rem; /* Smaller time labels */
+}
+
+/* Responsive adjustments using media queries */
+@media (max-width: 768px) {
+  /* Small screens (e.g., tablets) */
+  .fc-toolbar-title {
+    font-size: 1rem; /* Smaller title font size */
+  }
+
+  .fc-event {
+    font-size: 0.75rem; /* Make events text smaller */
+    padding: 2px 2px; /* Reduce padding for compact layout */
+  }
+
+  .fc-timegrid-slot {
+    height: 1.5rem; /* Further reduce time slot height */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens (e.g., phones) */
+  .fc-toolbar {
+    flex-direction: column; /* Stack toolbar vertically */
+    align-items: flex-start;
+  }
+
+  .fc-toolbar-title {
+    font-size: 0.875rem; /* Make title even smaller */
+  }
+
+  .fc {
+    font-size: 0.75rem; /* Reduce overall font size for better fit */
+  }
+
+  .fc-event {
+    font-size: 0.65rem; /* Event text even smaller */
+    padding: 1px 2px; /* Minimal padding */
+  }
+
+  .fc-timegrid-slot {
+    height: 1rem; /* Compact time slots */
+  }
 }

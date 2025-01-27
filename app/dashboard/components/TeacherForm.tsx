@@ -2,16 +2,18 @@
 import React, { startTransition, useActionState, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addUser } from "@/app/libs/action";
 import { TeacherSchema, TeacherSchemaType } from "@/app/libs/types";
 import Image from "next/image";
+import { capitalizeTitle } from "@/app/utils/capitalize";
 
 function TeacherForm({
   handleToggle,
   title,
+  table,
 }: {
   handleToggle: () => void;
   title: string;
+  table: string;
 }) {
   const [preview, setPreview] = useState<string | null>(null);
   const {
@@ -54,7 +56,9 @@ function TeacherForm({
       >
         <Image src="/close.png" alt="" width={14} height={14} />
       </div>
-      <h2 className="text-2xl font-bold mb-4 text-center text--">{title}</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center text--">
+        {table + " " + capitalizeTitle(title)}
+      </h2>
       {/* <form action={action} className="p-5 w-4/5"> */}
       <form
         onSubmit={handleSubmit(onSubmit)}

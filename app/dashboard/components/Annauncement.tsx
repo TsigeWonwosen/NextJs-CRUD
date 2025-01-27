@@ -2,7 +2,7 @@ import React from "react";
 
 function Annauncement() {
   return (
-    <div className="p-4 rounded-md w-full h-full text-left">
+    <div className="p-4 rounded-md w-full h-auto text-left bg-[#0C162E]">
       <div className="w-full flex items-center justify-between">
         <h1 className="text-xl font-semibold">Announcements</h1>
         <span className="text-xs text-gray-400">View All</span>

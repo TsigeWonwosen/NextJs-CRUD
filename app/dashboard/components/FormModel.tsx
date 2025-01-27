@@ -3,18 +3,22 @@ import Image from "next/image";
 import React, { useState } from "react";
 import TeacherForm from "./TeacherForm";
 
-function FormModel(
-  teble: string,
-  type: "Delete" | "Edit" | "Update" | "Add",
-  id?: number
-) {
+function FormModel({
+  table,
+  type,
+  id,
+}: {
+  table: "Students" | "Teachers" | "Parents";
+  type: "delete" | "edit" | "update" | "add";
+  id?: number;
+}) {
   const [show, setShow] = useState(false);
   const [deleteUser, setDeleteUser] = useState(false);
 
   const Form = () => (
     <form
       action=""
-      className="w-[300px] h-[200px] bg-blue-500/10 rounded-md flex justify-center flex-col items-center gap-4"
+      className="w-[300px] h-[200px] bg-blue-500/10 rounded-md flex justify-center flex-col items-center gap-4 z-10"
     >
       <div>
         <label htmlFor="">
@@ -29,47 +33,58 @@ function FormModel(
       </button>
     </form>
   );
-  const handleToggle = () => {
-    setShow(!show);
+
+  const handleAdd = () => {
+    setShow((prvState) => !prvState);
   };
+
+  const handleDelete = () => {
+    setDeleteUser((prvStat) => !prvStat);
+  };
+
+  const handleEdit = () => {
+    setShow((prvState) => !prvState);
+  };
+  const BgColor =
+    type === "add"
+      ? "bg-[#FFF]"
+      : type === "update"
+      ? "bg-[#ff7aa8]"
+      : "bg-[#bf1650]";
 
   return (
     <div className="w-auto h-auto">
       <>
         {show && (
           <div className="w-screen h-screen bg-black opacity-85 absolute top-0 left-0  flex justify-center items-center overflow-hidden">
-            <TeacherForm handleToggle={handleToggle} title="Add Teacher" />
+            <TeacherForm handleToggle={handleAdd} title={type} table={table} />
           </div>
         )}
         {deleteUser && (
-          <div className="w-screen h-screen bg-black opacity-85 absolute top-0 left-0  flex justify-center items-center overflow-hidden">
+          <div
+            className={`w-screen h-screen bg-black opacity-85 absolute top-0 left-0  flex justify-center items-center overflow-hidden `}
+          >
             <Form />
           </div>
         )}
       </>
       <div className="flex justify-center flex-row items-center gap-2">
         <button
-          className=" flex justify-center text-center  items-center w-7 h-7 p-1 bg-lime-950 rounded-full "
-          onClick={() => setShow(true)}
+          className={` flex justify-center   items-center w-8 h-8 ${BgColor} rounded-full `}
+          onClick={
+            type === "add"
+              ? handleAdd
+              : type === "delete"
+              ? handleDelete
+              : handleEdit
+          }
         >
           <Image
-            src="/view.png"
+            src={`/${type}.png`}
             alt=""
             width={16}
             height={16}
-            className="rounded-full bg-lime-500 object-cover"
-          />
-        </button>
-        <button
-          className="flex justify-center items-center w-7 h-7 p-1  bg-red-200 rounded-full"
-          onClick={() => setDeleteUser(true)}
-        >
-          <Image
-            src="/delete.png"
-            alt=""
-            width={16}
-            height={16}
-            className=" rounded-full bg-red-700/10 object-cover"
+            className="rounded-full  object-cover"
           />
         </button>
       </div>

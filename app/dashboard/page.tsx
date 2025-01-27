@@ -1,9 +1,7 @@
 "use client";
 
 import React from "react";
-import { useState } from "react";
 import Card from "../components/Card";
-import "react-calendar/dist/Calendar.css"; // Import default styles
 
 import dynamic from "next/dynamic";
 const BigCalander = dynamic(() => import("./components/BigCalander"), {
@@ -24,17 +22,13 @@ const SchoolChart = dynamic(() => import("./components/SchoolChart"), {
 import StatusChart from "./components/StatusChart";
 import Annauncement from "./components/Annauncement";
 import InfoCard from "./components/InfoCard";
-type ValuePiece = Date | null;
-
-type Value = ValuePiece | [ValuePiece, ValuePiece];
+import ReactCalandor from "./components/ReactCalandor";
 
 export default function DashboardPage() {
-  const [value, onChange] = useState<Value>(new Date());
-
   return (
     <div className="flex justify-between flex-col  md:flex-row  md:gap-4 w-full h-full   gap-2  relative ">
       <div className="flex flex-col justify-between h-full w-full gap-5">
-        <div className="flex justify-between transition-all flex-col items-center md:flex-row gap-3 flex-wrap w-full h-full ">
+        <div className="flex justify-between transition-all flex-col items-center md:flex-row gap-4 flex-wrap w-full h-full mb-5 md:mb-2">
           <InfoCard name="Teachers" total={+35} />
           <InfoCard name="Students" total={2400} />
           <InfoCard name="Parents" total={1399} />
@@ -44,9 +38,9 @@ export default function DashboardPage() {
 
         <SchoolChart />
       </div>
-      <div className="flex w-[350px] h-full">
+      <div className="flex mt-4 md:w-[350px] md:mt-0 h-full">
         <Card>
-          <Calendar onChange={onChange} value={value} />
+          <ReactCalandor />
           <Annauncement />
           <StatusChart />
         </Card>

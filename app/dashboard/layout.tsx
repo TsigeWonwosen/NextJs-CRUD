@@ -6,13 +6,11 @@ export default function DashBoardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="h-full w-full mb-3">
-      <div className="flex justify-between items-start w-full h-full p-4 gap-4 md:gap-2">
-        <div className=" w-[10%] sm:flex-1/5  h-full">
-          <SideMenu />
-        </div>
-        <div className="w-[90%] sm:flex-4/5 h-full  ">{children}</div>
+    <div className="flex justify-between items-start w-full h-full py-4 px-2  md:p-4 gap-2 md:gap-4">
+      <div className="w-[18%] md:flex-1/5  h-full">
+        <SideMenu />
       </div>
-    </section>
+      <div className="w-[82%] md:flex-4/5 h-full  ">{children}</div>
+    </div>
   );
 }
