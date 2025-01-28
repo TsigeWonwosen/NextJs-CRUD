@@ -6,6 +6,7 @@ import Table from "../components/Table";
 import Pagination from "../components/Pagination";
 import Image from "next/image";
 import Link from "next/link";
+import FormModel from "../components/FormModel";
 
 type ParentProps = {
   id: number;
@@ -48,13 +49,7 @@ const listofParent = (user: ParentProps) => {
             </button>
           </Link>
           <button className="flex justify-center items-center w-7 h-7 p-1  bg-red-200 rounded-full">
-            <Image
-              src="/delete.png"
-              alt=""
-              width={16}
-              height={16}
-              className=" rounded-full bg-red-700 object-cover"
-            />
+            <FormModel table="Parents" type="delete" />
           </button>
         </div>
       </td>

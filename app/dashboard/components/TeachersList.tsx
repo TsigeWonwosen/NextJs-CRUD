@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import FormModel from "./FormModel";
 
 type UserProps = {
   id: number;
@@ -59,15 +60,7 @@ function TeachersList(user: UserProps) {
               />
             </button>
           </Link>
-          <button className="flex justify-center items-center w-7 h-7 p-1  bg-red-200 rounded-full">
-            <Image
-              src="/delete.png"
-              alt=""
-              width={16}
-              height={16}
-              className=" rounded-full bg-red-700 object-cover"
-            />
-          </button>
+          <FormModel table="Teachers" type="delete" />
         </div>
       </td>
     </tr>

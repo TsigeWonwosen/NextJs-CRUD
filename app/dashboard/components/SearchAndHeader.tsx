@@ -26,9 +26,9 @@ function SearchAndHeader({ title }: { title: string }) {
         </div>
 
         <div className="flex justify-center items-center ml-2 gap-1 w-1/4">
-          <FormModel table="Teachers" type="add" />
+          <FormModel table="Teachers" type="create" />
           <FormModel table="Teachers" type="delete" />
-          <FormModel table="Teachers" type="edit" />
+          <FormModel table="Teachers" type="update" />
         </div>
       </section>
     </div>

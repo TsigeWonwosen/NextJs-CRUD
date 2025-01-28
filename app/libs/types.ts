@@ -25,8 +25,8 @@ export const TeacherSchema = z.object({
     .email({ message: "Invalid email addresss" })
     .min(4, { message: "User email should atleast 4 charactor.." }),
   photo: z
-    .instanceof(FileList)
-    .refine((files) => files.length === 1, "Please upload a single file"),
+    .instanceof(File, { message: "Please upload a single file" })
+    .optional(),
   phone: z
     .string()
     .min(8, { message: "Phone number should atleast 8 digits." }),
