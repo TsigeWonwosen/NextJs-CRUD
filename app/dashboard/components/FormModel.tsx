@@ -27,6 +27,8 @@ function FormModel({
     subjects: "English",
   };
 
+  const styleType = type === "create" ? "w-8 h-8" : "w-7 h-7";
+
   const Form = () => {
     return type === "delete" ? (
       <form
@@ -73,14 +75,14 @@ function FormModel({
       </>
       <div className="flex justify-center flex-row items-center gap-2">
         <button
-          className={` flex justify-center   items-center w-8 h-8 ${BgColor} rounded-full `}
+          className={` ${styleType} flex justify-center   items-center  ${BgColor} rounded-full `}
           onClick={handleToggle}
         >
           <Image
             src={`/${type}.png`}
             alt=""
-            width={16}
-            height={16}
+            width={14}
+            height={14}
             className="rounded-full  object-cover"
           />
         </button>
