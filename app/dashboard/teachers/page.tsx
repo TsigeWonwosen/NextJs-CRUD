@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import { teachersData } from "@/app/utils/data";
@@ -7,6 +8,14 @@ import TeachersList from "../components/TeachersList";
 import Pagination from "../components/Pagination";
 
 function Teachers() {
+  const [felteredData, setFelteredData] = React.useState(teachersData);
+
+  const handleSearch = (search: string) => {
+    const filtered = teachersData.filter((data) => {
+      return data.name.toLowerCase().includes(search.toLowerCase());
+    });
+    setFelteredData(filtered);
+  };
   const HeaderClass = [
     {
       header: "Info",
@@ -38,9 +47,9 @@ function Teachers() {
 
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
-      <SearchAndHeader title="All Teachers" />
+      <SearchAndHeader title="All Teachers" handleSearch={handleSearch} />
       <Table
-        data={teachersData}
+        data={felteredData}
         tableHeader={HeaderClass}
         Lists={TeachersList}
       />

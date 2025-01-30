@@ -21,6 +21,7 @@ function TeacherForm({
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<TeacherSchemaType>({ resolver: zodResolver(TeacherSchema) });
@@ -35,16 +36,18 @@ function TeacherForm({
     formData.append("phone", data.phone);
     formData.append("subjects", data.subjects);
     formData.append("photo", data.photo as File);
+
     for (let [key, value] of formData.entries()) {
       console.log(`${key}:`, value); // Logs each key-value pair
     }
-    reset();
+    // reset();
   };
 
-  const handlePhotoPreview = (files: FileList) => {
-    if (files && files[0]) {
-      const url = URL.createObjectURL(files[0]);
-      setPreview(url);
+  const handlePhotoPreview = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0]; // Get the first file
+    if (selectedFile) {
+      setValue("photo", selectedFile); // Set the file to the form
+      setPreview(URL.createObjectURL(selectedFile)); // Generate preview
     }
   };
 
@@ -181,10 +184,10 @@ function TeacherForm({
           </label>
           <input
             id="photo"
-            {...register("photo")}
-            onChange={(e) => handlePhotoPreview(e.target.files as FileList)}
-            className=" block p-2 mt-1  w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             type="file"
+            {...register("photo")}
+            onChange={handlePhotoPreview}
+            className=" block p-2 mt-1  w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
           />
         </div>
         {errors.photo?.message && (

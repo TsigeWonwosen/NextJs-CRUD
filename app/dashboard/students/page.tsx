@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { studentsData } from "@/app/utils/data";
 import SearchAndHeader from "../components/SearchAndHeader";
@@ -6,6 +7,13 @@ import StudentsList from "../components/StudentsList";
 import Table from "../components/Table";
 
 function Students() {
+  const [felteredData, setFelteredData] = React.useState(studentsData);
+  const handleSearch = (search: string) => {
+    const filtered = studentsData.filter((data) => {
+      return data.name.toLowerCase().includes(search.toLowerCase());
+    });
+    setFelteredData(filtered);
+  };
   const HeaderClass = [
     {
       header: "Info",
@@ -37,12 +45,12 @@ function Students() {
 
   return (
     <div className="w-full h-full mx-auto p-4 flex flex-col">
-      <SearchAndHeader title="All Students" />
+      <SearchAndHeader title="All Students" handleSearch={handleSearch} />
 
       <Table
         Lists={StudentsList}
         tableHeader={HeaderClass}
-        data={studentsData}
+        data={felteredData}
       />
 
       <Pagination />

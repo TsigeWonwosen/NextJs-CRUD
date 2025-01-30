@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import { parentsData } from "@/app/utils/data";
@@ -57,6 +58,17 @@ const listofParent = (user: ParentProps) => {
   );
 };
 function Parents() {
+  const [felteredData, setFelteredData] = React.useState(parentsData);
+
+  const handleSearch = (search: string) => {
+    if (search === "") {
+      setFelteredData(parentsData);
+    }
+    const filtered = parentsData.filter((data) => {
+      return data.name.toLowerCase().includes(search.toLowerCase());
+    });
+    setFelteredData(filtered);
+  };
   const HeaderClass = [
     {
       header: "Info",
@@ -81,9 +93,9 @@ function Parents() {
 
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
-      <SearchAndHeader title="All Parents" />
+      <SearchAndHeader title="All Parents" handleSearch={handleSearch} />
       <Table
-        data={parentsData}
+        data={felteredData}
         tableHeader={HeaderClass}
         Lists={listofParent}
       />

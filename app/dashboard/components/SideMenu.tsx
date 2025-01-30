@@ -6,7 +6,7 @@ import { role } from "@/app/utils/data";
 
 function SideMenu() {
   return (
-    <div className="flex flex-col justify-start lg:justify-center text-sm gap-4 bg-[#353c56]/10 w-full p-3">
+    <div className="flex flex-col justify-start lg:justify-center text-sm gap-4 bg-[#353c56]/10 w-full p-3 rounded-md md:px-4">
       {menuItems.map((menu) => (
         <ul key={menu.title} className="text-left ">
           <h6 className=" hidden md:block text-slate-500 font-normal mb-3">

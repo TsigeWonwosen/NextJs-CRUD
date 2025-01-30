@@ -4,7 +4,28 @@ import React from "react";
 import FormModel from "./FormModel";
 import { role } from "@/app/utils/data";
 
-function SearchAndHeader({ title }: { title: string }) {
+function SearchAndHeader({
+  title,
+  handleSearch,
+}: {
+  title: string;
+  handleSearch: (search: string) => void;
+}) {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleSearchChange = () => {
+    if (inputRef.current) {
+      handleSearch(inputRef?.current?.value);
+    }
+  };
+
+  const handleClear = () => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.focus();
+    }
+    handleSearch("");
+  };
   return (
     <div className="flex flex-col justify-start items-start mb-3 md:flex-row md:justify-between md:items-start">
       <h4 className="text-left text-base text-slate-500  mb-2 w-auto md:flex-1 md:mb-0">
@@ -19,11 +40,23 @@ function SearchAndHeader({ title }: { title: string }) {
             height={12}
             className="bg-slate-900 rounded-l-full  w-[30px] h-[30px] object-cover opacity-20"
           />
-          <input
-            className="flex-1 outline-none mr-[2px] bg-transparent text-md py-1 px-2"
-            type="text"
-            placeholder=" Search ..."
-          />
+          <section className="flex items-center justify-between flex-1 h-full bg-slate-900 rounded-r-full mr-[2px]  px-2 relative">
+            <input
+              className="outline-none  bg-transparent text-md px-3 py-1 w-full h-full text-slate-200 rounded-md"
+              type="text"
+              placeholder=" Search ..."
+              ref={inputRef}
+              onChange={handleSearchChange}
+            />
+            {inputRef?.current?.value !== "" && (
+              <button
+                className="w-6 h-full flex items-center justify-center  text-gray-200/10 absolute top-[-50%] right-2 transform translate-y-[50%]"
+                onClick={handleClear}
+              >
+                x
+              </button>
+            )}
+          </section>
         </div>
 
         <div className="flex justify-center items-center ml-2 gap-1 w-[150px] ">
