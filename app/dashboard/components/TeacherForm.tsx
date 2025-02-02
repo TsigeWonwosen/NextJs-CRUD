@@ -194,7 +194,7 @@ function TeacherForm({
           <p className="text-red-400">Photo Error: {errors.photo?.message}</p>
         )}
         {preview && (
-          <img
+          <Image
             src={preview}
             alt="Preview"
             className="mt-2 w-32 h-32 object-cover rounded"

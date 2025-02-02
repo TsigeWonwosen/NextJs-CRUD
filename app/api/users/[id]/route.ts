@@ -1,15 +1,46 @@
-import userModel from '@/app/models/userModel';
-import connectToDatabase from '@/app/utils/mongoose';
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import { isValidObjectId } from "mongoose";
 
-export async function GET(request, { params }) {
-  const { id } = params;
-  await connectToDatabase();
+import connectToDatabase from "@/app/utils/mongoose";
+import { User } from "@/app/models/userModel";
+
+export async function GET(
+  request: Request,
+  {
+    params: { id },
+  }: {
+    params: { id: string };
+  }
+) {
+  const userId = id;
+
+  // Validate the user ID format
+  if (!isValidObjectId(userId)) {
+    return NextResponse.json(
+      { error: "Invalid user ID format" },
+      { status: 400 }
+    );
+  }
+
   try {
-    const users = await userModel.findById(id);
+    // Connect to the database
+    await connectToDatabase();
 
-    return NextResponse.json({ users });
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    // Check if the user exists
+    if (!user) {
+      return NextResponse.json({ error: "User not found." }, { status: 404 });
+    }
+
+    // Return the user
+    return NextResponse.json(user);
   } catch (error) {
-    return NextResponse.json({ error: 'Error Connect DB.' });
+    console.error("Error fetching user:", error);
+    return NextResponse.json(
+      { error: "Error connecting to the database." },
+      { status: 500 }
+    );
   }
 }

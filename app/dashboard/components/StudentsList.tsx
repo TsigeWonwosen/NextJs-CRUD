@@ -1,20 +1,22 @@
 import Image from "next/image";
 import React from "react";
 import FormModel from "./FormModel";
+import { Class, Student } from "@prisma/client";
 
-type StudentProps = {
-  id: number;
-  studentId: string;
-  name: string;
-  email: string;
-  photo: string;
-  phone: string;
-  grade: number;
-  class: string;
-  address: string;
-};
+// type StudentProps = {
+//   id: number;
+//   studentId: string;
+//   name: string;
+//   email: string;
+//   photo: string;
+//   phone: string;
+//   grade: number;
+//   class: string;
+//   address: string;
+// };
+type StudentType = Student & { class: Class };
 
-function StudentsList(user: StudentProps) {
+function StudentsList(user: StudentType) {
   return (
     <tr
       key={user.id}
@@ -22,7 +24,7 @@ function StudentsList(user: StudentProps) {
     >
       <td className=" flex flex-row justify-around  px-1 py-2 ">
         <Image
-          src={user.photo}
+          src={user?.img || `/avatar.png`}
           width={35}
           height={35}
           alt="Profile Photo"
@@ -34,10 +36,14 @@ function StudentsList(user: StudentProps) {
         </section>
       </td>
       <td className=" px-4 py-2 text-sm hidden md:table-cell">
-        {user.studentId}
+        {user.classId}
       </td>
-      <td className=" px-4 py-2 text-sm hidden sm:table-cell">{user.class}</td>
-      <td className="  px-4 py-2 text-sm hidden md:table-cell">{user.grade}</td>
+      <td className=" px-4 py-2 text-sm hidden sm:table-cell">
+        {user.class.name}
+      </td>
+      <td className="  px-4 py-2 text-sm hidden md:table-cell">
+        {user.gradeId}
+      </td>
       <td className="  px-4 py-2 text-sm hidden md:table-cell">
         {user.address}
       </td>
