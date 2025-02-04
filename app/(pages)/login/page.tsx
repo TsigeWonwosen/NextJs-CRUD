@@ -42,7 +42,14 @@ const LoginForm = () => {
     <section className={styles.container}>
       <GithubSignIn />
       <div className={styles.imgContainer}>
-        <Image src="/login.svg" alt="Login Image" fill className={styles.img} />
+        <Image
+          src="/login.svg"
+          width={30}
+          height={30}
+          alt="Login Image"
+          fill
+          className={styles.img}
+        />
       </div>
       <form className={styles.form} onSubmit={handleSubmit}>
         <input

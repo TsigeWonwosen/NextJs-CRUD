@@ -5,11 +5,11 @@
 :root {
   --bg: #081229;
   --bgSoft: #191d3a;
-  --text: #ffffff;
+  --text: #9b9191;
   --textSoft: #afb1b6;
   --btn: #516391;
   --btnPink: #516391;
-  --textActive: #ece4e4;
+  --textActive: #f3eeee;
   --color-secondary: #bf1650;
   --color-light-pink: #ec5990;
   --color-primary: #0e101c;
@@ -30,14 +30,47 @@
   box-sizing: border-box;
 }
 
-body {
-  background-color: var(--bg);
+.bodyStyle {
+  background-image: linear-gradient(to bottom right, #08081ffb, #000006);
   color: var(--text);
+  min-height: 100vh;
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.btnGradient {
+  background-color: rgba(95, 80, 229, 0.86);
+  color: var(--textActive);
+  border: none;
+  padding: 0.5rem 2rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnGradient::after {
+  content: "";
+  position: absolute;
+  height: 108%;
+  width: 104%;
+  border-radius: 0.25rem;
+  padding: 5px 3px;
+  background-image: linear-gradient(to bottom right, #1811eb, #a313c4);
+  z-index: -1;
+}
+
+.btnGradient:hover {
+  z-index: 0;
+  box-shadow: 20px 0 30px #1811ebb1, -10px 0 30px #a413c4bc;
 }

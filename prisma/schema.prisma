@@ -25,11 +25,11 @@ model Student {
   sex         UserSex
   createdAt   DateTime     @default(now())
   parentId    String
-  parent      Parent       @relation(fields: [parentId], references: [id])
+  parent      Parent       @relation(fields: [parentId], references: [id], onDelete: Cascade)
   classId     Int
-  class       Class        @relation(fields: [classId], references: [id])
+  class       Class        @relation(fields: [classId], references: [id] ,onDelete: Cascade)
   gradeId     Int
-  grade       Grade        @relation(fields: [gradeId], references: [id])
+  grade       Grade        @relation(fields: [gradeId], references: [id], onDelete: Cascade)
   attendances Attendance[]
   results     Result[]
   birthday    DateTime
@@ -144,7 +144,7 @@ model Result {
   assignmentId Int?
   assignment   Assignment? @relation(fields: [assignmentId], references: [id])
   studentId    String
-  student      Student     @relation(fields: [studentId], references: [id])
+  student      Student     @relation(fields: [studentId], references: [id],onDelete: Cascade)
 }
 
 model Attendance {
@@ -153,7 +153,7 @@ model Attendance {
   present Boolean
 
   studentId String
-  student   Student @relation(fields: [studentId], references: [id])
+  student   Student @relation(fields: [studentId], references: [id],onDelete: Cascade)
   lessonId  Int
   lesson    Lesson  @relation(fields: [lessonId], references: [id])
 }

@@ -12,7 +12,7 @@ function TeacherForm({
   table,
   data,
 }: {
-  handleToggle: () => void;
+  handleToggle: (id: string) => void;
   title: string;
   table: string;
   data?: TeacherSchemaType;
@@ -37,9 +37,9 @@ function TeacherForm({
     formData.append("subjects", data.subjects);
     formData.append("photo", data.photo as File);
 
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value); // Logs each key-value pair
-    }
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(`${key}:`, value); // Logs each key-value pair
+    // }
     // reset();
   };
 
@@ -55,7 +55,7 @@ function TeacherForm({
     <div className="w-[450px] h-max bg-slate-950 p-10 rounded-lg shadow-md flex flex-col items-center  relative z-10 ">
       <div
         className="absolute top-4 right-4 cursor-pointer z-70 w-3 h-3"
-        onClick={handleToggle}
+        onClick={() => handleToggle}
       >
         <Image src="/close.png" alt="" width={14} height={14} />
       </div>

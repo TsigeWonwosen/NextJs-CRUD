@@ -5,6 +5,7 @@ import Table from "./Table";
 import StudentsList from "./StudentsList";
 import { Class, Student } from "@prisma/client";
 import Pagination from "./Pagination";
+import { createStudent, deleteStudent, updatePost } from "../actions/actions";
 
 const PER_PAGE = 10;
 type StudentType = Student & { class: Class };
@@ -20,6 +21,11 @@ function StudentClient({
     students.slice(0, PER_PAGE)
   );
   const [felteredData, setFelteredData] = useState<StudentType[]>(studentData);
+
+  useEffect(() => {
+    const fetchStudents = async () => {};
+    fetchStudents();
+  }, []);
 
   const handleSearch = (search: string) => {
     const filtered = studentData.filter((data) => {
@@ -62,10 +68,21 @@ function StudentClient({
     },
   ];
 
+  const handleClick = async (id: string) => {
+    await deleteStudent(id);
+  };
+
+  const handleClickUpdate = async () => {
+    await updatePost();
+  };
+
+  const handleAdd = async () => {
+    await createStudent();
+  };
+
   return (
     <div className="w-full h-full mx-auto p-4 flex flex-col">
       <SearchAndHeader title="All Students" handleSearch={handleSearch} />
-
       <Table
         Lists={StudentsList}
         tableHeader={HeaderClass}

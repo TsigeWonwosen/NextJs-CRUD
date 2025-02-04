@@ -30,7 +30,7 @@ const Header = () => {
       {
         <>
           <HombergerMenu />
-          <ul className="hidden sm:flex justify-center w-auto text-center space-x-2 relative">
+          <ul className="hidden sm:flex justify-center w-auto  h-[300px]text-center space-x-2 relative">
             {navLists?.map((list) => (
               <Links {...list} key={list.name} />
             ))}

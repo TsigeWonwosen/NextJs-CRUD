@@ -1,4 +1,4 @@
-import { Class, Grade, Student } from "@prisma/client";
+import { Class, Student } from "@prisma/client";
 import { getStudents } from "../actions/actions";
 import StudentClient from "../components/StudentClient";
 

@@ -3,17 +3,6 @@ import React from "react";
 import FormModel from "./FormModel";
 import { Class, Student } from "@prisma/client";
 
-// type StudentProps = {
-//   id: number;
-//   studentId: string;
-//   name: string;
-//   email: string;
-//   photo: string;
-//   phone: string;
-//   grade: number;
-//   class: string;
-//   address: string;
-// };
 type StudentType = Student & { class: Class };
 
 function StudentsList(user: StudentType) {
@@ -59,7 +48,7 @@ function StudentsList(user: StudentType) {
               className="rounded-full bg-lime-500 object-cover"
             />
           </button>
-          <FormModel table="Students" type="delete" />
+          <FormModel table="Students" type="delete" studentId={user.id} />
         </div>
       </td>
     </tr>
