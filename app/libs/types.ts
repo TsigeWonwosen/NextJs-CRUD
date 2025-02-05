@@ -52,3 +52,8 @@ export type UserProps = {
   classes?: string[];
   address?: string;
 };
+
+export type pageProps = {
+  params: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
+};

@@ -5,7 +5,7 @@ import Image from "next/image";
 export default async function Home() {
   const session = await getServerSession(Options);
   return (
-    <div className=" h-full flex-3 flex  flex-col md:flex-row justify-between  items-center  px-3 py-5 w-full gap-2 md:gap-4 ">
+    <div className="flex-3 flex  flex-col md:flex-row justify-between  items-center  px-3 py-5 w-full gap-2 md:gap-4 ">
       <div className="flex flex-col items-center justify-center h-full w-full  text-left md:w-1/2 py-6 px-3 ">
         <section className="w-full mb-10 md:mb-7">
           <h1 className="font-semibold text-2xl md:text-4xl  text-gray-300">

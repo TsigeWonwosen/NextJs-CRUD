@@ -2,20 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import FormModel from "./FormModel";
+import { Class, Subject, Teacher } from "@prisma/client";
 
-type UserProps = {
-  id: number;
-  teacherId: string;
-  name: string;
-  email: string;
-  photo: string;
-  phone: string;
-  subjects: string[];
-  classes: string[];
-  address: string;
+type TeachersListProps = Teacher & { classes: Class[] } & {
+  subjects: Subject[];
 };
 
-function TeachersList(user: UserProps) {
+function TeachersList(user: TeachersListProps) {
   return (
     <tr
       key={user.id}
@@ -23,7 +16,7 @@ function TeachersList(user: UserProps) {
     >
       <td className=" flex flex-row justify-around  px-1 py-2 ">
         <Image
-          src={user.photo}
+          src={user.img || "/profile.png"}
           width={35}
           height={35}
           alt="Profile Photo"
@@ -34,14 +27,12 @@ function TeachersList(user: UserProps) {
           <span className="text-xs text-slate-700">{user.email}</span>
         </section>
       </td>
-      <td className=" px-4 py-2 text-sm hidden md:table-cell">
-        {user.teacherId}
-      </td>
+      <td className=" px-4 py-2 text-sm hidden md:table-cell">{user.id}</td>
       <td className=" px-4 py-2 text-sm hidden sm:table-cell">
-        {user.subjects.join(", ")}
+        {user.subjects.map((sub) => sub.name).join(", ")}
       </td>
       <td className="  px-4 py-2 text-sm hidden md:table-cell">
-        {user.classes.join(", ")}
+        {user.classes.map((cla) => cla.name).join(", ")}
       </td>
       <td className="  px-4 py-2 text-sm hidden md:table-cell">
         {user.address}
@@ -60,7 +51,7 @@ function TeachersList(user: UserProps) {
               />
             </button>
           </Link>
-          <FormModel table="Teachers" type="delete" />
+          <FormModel table="Teachers" type="delete" studentId={user.id} />
         </div>
       </td>
     </tr>

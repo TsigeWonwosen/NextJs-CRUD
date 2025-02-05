@@ -12,7 +12,7 @@ function TeacherForm({
   table,
   data,
 }: {
-  handleToggle: (id: string) => void;
+  handleToggle: () => void;
   title: string;
   table: string;
   data?: TeacherSchemaType;
@@ -55,7 +55,7 @@ function TeacherForm({
     <div className="w-[450px] h-max bg-slate-950 p-10 rounded-lg shadow-md flex flex-col items-center  relative z-10 ">
       <div
         className="absolute top-4 right-4 cursor-pointer z-70 w-3 h-3"
-        onClick={() => handleToggle}
+        onClick={() => handleToggle()}
       >
         <Image src="/close.png" alt="" width={14} height={14} />
       </div>

@@ -10,7 +10,7 @@ function Table({
   Lists: (item: any) => React.ReactNode;
 }) {
   return (
-    <table className="min-w-full border-collapse border-0 border-b-slate-700 rounded-full">
+    <table className="min-w-full border-collapse border-0 border-b-slate-700 rounded-md overflow-hidden">
       <thead className="rounded-full border-0 w-full">
         <tr className="bg-slate-700 text-sm  border-0 border-slate-800 w-full">
           {tableHeader.map((header, index) => (
