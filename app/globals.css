@@ -5,7 +5,7 @@
 :root {
   --bg: #081229;
   --bgSoft: #191d3a;
-  --text: #9b9191;
+  --text: hwb(252 38% 50%);
   --textSoft: #afb1b6;
   --btn: #516391;
   --btnPink: #516391;

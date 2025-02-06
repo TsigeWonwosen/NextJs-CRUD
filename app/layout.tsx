@@ -23,7 +23,7 @@ export default function RootLayout({
         <body className="bodyStyle">
           <main className="flex justify-between flex-col items-center h-full w-full min-h-screen">
             <Header />
-            <section className="w-full px-3 md:px-5  flex-10">
+            <section className="flex w-full px-3 md:px-5 flex-1">
               {children}
             </section>
             <Footer />

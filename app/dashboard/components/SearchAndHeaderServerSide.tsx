@@ -1,39 +1,26 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import FormModel from "./FormModel";
 import { role } from "@/app/utils/data";
 import { useRouter } from "next/navigation";
 
-function SearchAndHeaderServerSide({
-  title,
-}: {
-  title: string;
-  searchText?: string;
-}) {
-  const inputRef = React.useRef<HTMLInputElement>(null);
+function SearchAndHeaderServerSide({ title }: { title: string }) {
+  const [search, setSearch] = useState("");
   const router = useRouter();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    const value = (e.currentTarget[0] as HTMLInputElement).value;
+
     const params = new URLSearchParams(window.location.search);
-    params.set("search", value);
+    const encodedSearch = encodeURI(search);
+    params.set("search", encodedSearch);
     router.push(`${window.location.pathname}?${params}`);
-
-    // if (inputRef.current) {
-    //   inputRef.current.value = "";
-    // }
+    setSearch("");
   };
 
-  const handleClear = () => {
-    if (inputRef.current) {
-      inputRef.current.value = "";
-      inputRef.current.focus();
-    }
-  };
   return (
     <div className="flex flex-col justify-start items-start mb-3 md:flex-row md:justify-between md:items-start">
       <h4 className="text-left text-base text-slate-500  mb-2 w-auto md:flex-1 md:mb-0">
@@ -56,16 +43,9 @@ function SearchAndHeaderServerSide({
               className="outline-none  bg-transparent text-md px-3 py-1 w-full h-full text-slate-200 rounded-md"
               type="text"
               placeholder=" Search ..."
-              ref={inputRef}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
-            {inputRef?.current?.value !== "" && (
-              <button
-                className="w-6 h-full flex items-center justify-center  text-gray-200/10 absolute top-[-50%] right-2 transform translate-y-[50%]"
-                onClick={handleClear}
-              >
-                x
-              </button>
-            )}
           </section>
         </form>
 

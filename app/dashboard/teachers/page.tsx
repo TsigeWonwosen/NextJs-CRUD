@@ -43,7 +43,7 @@ async function Teachers({
     },
   ];
 
-  const { page, ...queryParams } = searchParams;
+  const { page, ...queryParams } = await searchParams;
 
   const p = page ? parseInt(page) : 1;
 
@@ -64,6 +64,7 @@ async function Teachers({
             break;
           case "search":
             query.name = { contains: value, mode: "insensitive" };
+
             break;
           default:
             break;
@@ -88,7 +89,7 @@ async function Teachers({
     <div className="mx-auto p-4 flex flex-col w-full h-full">
       <SearchAndHeaderServerSide title="All Teachers" />
       <Table data={teachers} tableHeader={HeaderClass} Lists={TeachersList} />
-      <PaginationServerSide total={totalPosts} totalPages={numberofPage} />
+      <PaginationServerSide totalPages={numberofPage} />
     </div>
   );
 }
