@@ -10,7 +10,6 @@ async function Services() {
     take: 5,
     orderBy: { capacity: "desc" },
   });
-  console.log("first 5 teachers", teachers);
 
   return (
     <>

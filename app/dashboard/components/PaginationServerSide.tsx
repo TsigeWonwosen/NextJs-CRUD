@@ -7,6 +7,7 @@ function PaginationServerSide({ totalPages }: { totalPages: number }) {
 
   const path = usePathname();
   const router = useRouter();
+  console.log("Total Pages: ", totalPages);
 
   const handleNext = () => {
     setCurrentPage((prev) => prev + 1);
@@ -28,6 +29,8 @@ function PaginationServerSide({ totalPages }: { totalPages: number }) {
     router.push(`${path}?page=${page}`);
     setCurrentPage(page);
   };
+
+  if (totalPages <= 1) return;
   return (
     <div className="flex justify-between items-center px-4 py-2 mt-1 w-[98%] border border-slate-700 rounded-md">
       <button

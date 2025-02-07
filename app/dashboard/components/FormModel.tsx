@@ -14,7 +14,7 @@ function FormModel({
 }: {
   table: "Students" | "Teachers" | "Parents";
   type: "delete" | "update" | "create";
-  studentId: string;
+  studentId: string | number;
 }) {
   const [show, setShow] = useState(false);
   const router = useRouter();

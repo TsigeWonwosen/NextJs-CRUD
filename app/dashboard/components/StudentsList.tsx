@@ -11,7 +11,7 @@ function StudentsList(user: StudentType) {
       key={user.id}
       className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
     >
-      <td className=" flex flex-row justify-around  px-1 py-2 ">
+      <td className=" flex flex-row justify-start  px-1 py-2 ">
         <Image
           src={user?.img || `/avatar.png`}
           width={35}

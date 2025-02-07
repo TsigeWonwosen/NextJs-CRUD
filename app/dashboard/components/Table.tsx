@@ -16,7 +16,7 @@ function Table({
           {tableHeader.map((header, index) => (
             <th
               key={index}
-              className={`border-b border-gray-500 px-4 py-2 text-left  ${header.class}`}
+              className={`border-b border-gray-500 px-4 py-2 text-left last:text-center  ${header.class}`}
             >
               {header.header}
             </th>

@@ -6,7 +6,6 @@ import { prisma } from "@/app/libs/prisma";
 import { Class, Lesson, Subject, Teacher } from "@prisma/client";
 import Annauncement from "../../components/Annauncement";
 
-import SchoolChart from "../../components/SchoolChart";
 import StatusChart from "../../components/StatusChart";
 
 type teacherType = Teacher & {
@@ -14,14 +13,15 @@ type teacherType = Teacher & {
 } & { subjects: Subject[] } & { lessons: Lesson[] };
 
 async function SingleTeacher({ params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = await params;
+
   const teacher: teacherType | null = await prisma.teacher.findUnique({
     where: { id },
     include: { classes: true, subjects: true, lessons: true },
   });
 
   if (!teacher) {
-    return "No user with this Id ";
+    return "No Teacher with this Id ";
   }
 
   return (
@@ -72,31 +72,31 @@ async function SingleTeacher({ params }: { params: { id: string } }) {
           <div className="mt-4 flex gap-4 flex-wrap text-xs text-gray-500">
             <Link
               className="p-3 rounded-md  bg-gray-700"
-              href={`/list/classes?supervisorId=${teacher.id}`}
+              href={`/classes?supervisorId=${teacher.id}`}
             >
               Teacher&apos;s Classes
             </Link>
             <Link
               className="p-3 rounded-md bg-gray-700"
-              href={`/list/students?teacherId=${teacher.id}`}
+              href={`/students?teacherId=${teacher.id}`}
             >
               Teacher&apos;s Students
             </Link>
             <Link
               className="p-3 rounded-md  bg-gray-700"
-              href={`/list/lessons?teacherId=${teacher.id}`}
+              href={`/lessons?teacherId=${teacher.id}`}
             >
               Teacher&apos;s Lessons
             </Link>
             <Link
               className="p-3 rounded-md  bg-gray-700"
-              href={`/list/exams?teacherId=${teacher.id}`}
+              href={`/exams?teacherId=${teacher.id}`}
             >
               Teacher&apos;s Exams
             </Link>
             <Link
               className="p-3 rounded-md  bg-gray-700"
-              href={`/list/assignments?teacherId=${teacher.id}`}
+              href={`/assignments?teacherId=${teacher.id}`}
             >
               Teacher&apos;s Assignments
             </Link>

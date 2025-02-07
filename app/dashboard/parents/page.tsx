@@ -1,13 +1,14 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { parentsData } from "@/app/utils/data";
-import SearchAndHeader from "../components/SearchAndHeader";
 import Table from "../components/Table";
-import Pagination from "../components/Pagination";
 import Image from "next/image";
 import Link from "next/link";
 import FormModel from "../components/FormModel";
+import PaginationServerSide from "../components/PaginationServerSide";
+import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
+import { useSearchParams } from "next/navigation";
 
 type ParentProps = {
   id: number;
@@ -50,7 +51,7 @@ const listofParent = (user: ParentProps) => {
             </button>
           </Link>
           <button className="flex justify-center items-center w-7 h-7 p-1  bg-red-200 rounded-full">
-            <FormModel table="Parents" type="delete" />
+            <FormModel table="Parents" type="delete" studentId={user.id + ""} />
           </button>
         </div>
       </td>
@@ -58,17 +59,25 @@ const listofParent = (user: ParentProps) => {
   );
 };
 function Parents() {
-  const [felteredData, setFelteredData] = React.useState(parentsData);
+  const [felteredData, setFelteredData] = useState(parentsData);
+  const [updated, setUpdated] = useState(felteredData);
 
-  const handleSearch = (search: string) => {
-    if (search === "") {
-      setFelteredData(parentsData);
-    }
-    const filtered = parentsData.filter((data) => {
-      return data.name.toLowerCase().includes(search.toLowerCase());
-    });
-    setFelteredData(filtered);
-  };
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search") || "";
+
+  useEffect(() => {
+    const newresult =
+      search.length > 0
+        ? felteredData.filter(
+            (data) =>
+              data.name.toLowerCase().includes(search.toLowerCase()) ||
+              data.id == parseInt(search)
+          )
+        : parentsData;
+
+    setUpdated(newresult);
+  }, [search]);
+
   const HeaderClass = [
     {
       header: "Info",
@@ -93,13 +102,9 @@ function Parents() {
 
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
-      <SearchAndHeader title="All Parents" handleSearch={handleSearch} />
-      <Table
-        data={felteredData}
-        tableHeader={HeaderClass}
-        Lists={listofParent}
-      />
-      <Pagination />
+      <SearchAndHeaderServerSide title="All Parents" />
+      <Table data={updated} tableHeader={HeaderClass} Lists={listofParent} />
+      <PaginationServerSide totalPages={felteredData.length / 10} />
     </div>
   );
 }
