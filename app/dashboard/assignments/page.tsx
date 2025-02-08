@@ -57,7 +57,7 @@ const renderRow = (item: AnnouncementList) => (
     </td>
   </tr>
 );
-export default async function Classes({
+export default async function Assignments({
   searchParams,
 }: {
   searchParams: { [value: string]: string | undefined };
@@ -74,8 +74,8 @@ export default async function Classes({
 
   const numberofPage = Math.ceil(announcement.length / PER_PAGE);
   return (
-    <div className="mx-auto p-4 flex flex-col w-full h-full">
-      <SearchAndHeaderServerSide title="All Classes" />
+    <div className="mx-auto p-4 flex flex-col w-full h-ful">
+      <SearchAndHeaderServerSide title="All Assignments" />
       <Table Lists={renderRow} data={announcement} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>

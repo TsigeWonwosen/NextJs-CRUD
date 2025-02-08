@@ -74,10 +74,10 @@ export default async function Announcements({
 
   const numberofPage = Math.ceil(announcement.length / PER_PAGE);
   return (
-    <>
+    <div className="mx-auto p-4 flex flex-col w-full h-ful">
       <SearchAndHeaderServerSide title="All Announcements" />
       <Table Lists={renderRow} data={announcement} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
-    </>
+    </div>
   );
 }

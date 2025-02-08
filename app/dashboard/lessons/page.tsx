@@ -55,11 +55,11 @@ async function Lesson({
   const totalPage = Math.ceil(totalLesson / PER_PAGE);
 
   return (
-    <>
+    <div className="mx-auto p-4 flex flex-col w-full h-full">
       <SearchAndHeaderServerSide title="All Lessons" />
       <Table Lists={LessonsList} data={lessons} tableHeader={HeaderClass} />
       <PaginationServerSide totalPages={totalPage} />
-    </>
+    </div>
   );
 }
 

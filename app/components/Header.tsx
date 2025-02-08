@@ -15,22 +15,11 @@ const Header = () => {
   const { user } = session || {};
 
   return (
-    <div className="px-10 py-8 flex justify-between items-center h-25 w-full">
-      <div className="shrink-0 ">
-        <Link href="/dashboard" className="hover:text-white">
-          <Image
-            src="/Logo.jpg"
-            width={50}
-            height={50}
-            alt="The Ethiopian Logo"
-            className="rounded-full"
-          />
-        </Link>
-      </div>
+    <div className="px-10 py-8 flex justify-end items-center h-25 w-full">
       {
         <>
           <HombergerMenu />
-          <ul className="hidden sm:flex justify-center w-auto  h-[300px]text-center space-x-2 relative">
+          <ul className="hidden sm:flex justify-center w-auto  h-[300px]text-center space-x-2 relative ml-auto">
             {navLists?.map((list) => (
               <Links {...list} key={list.name} />
             ))}

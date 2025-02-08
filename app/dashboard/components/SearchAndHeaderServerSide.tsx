@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import FormModel from "./FormModel";
 import { role } from "@/app/utils/data";
 import { useRouter } from "next/navigation";
+import { Search } from "lucide-react";
 
 function SearchAndHeaderServerSide({ title }: { title: string }) {
   const [search, setSearch] = useState("");
@@ -29,20 +30,14 @@ function SearchAndHeaderServerSide({ title }: { title: string }) {
       <section className="flex justify-between items-center gap-2 w-full h-full md:w-auto md:gap-0">
         <form
           onSubmit={handleSubmit}
-          className="flex justify-between  items-center bg-slate-800 text-slate-200 rounded-full  py-[1px] gap-2 max-w-[250px] sm:w-full"
+          className="flex justify-between  items-center text-slate-200 rounded-full  py-[1px] gap-2 max-w-[250px] sm:w-full "
         >
-          <Image
-            src="/search-icon.jpg"
-            alt="Search Icone"
-            width={12}
-            height={12}
-            className="bg-slate-900 rounded-l-full  w-[30px] h-[30px] object-cover opacity-20"
-          />
-          <section className="flex items-center justify-between flex-1 h-full bg-slate-900 rounded-r-full mr-[2px]  px-2 relative">
+          <section className="flex items-center justify-between flex-1 h-full bg-slate-900 rounded-full mr-[2px]  px-2 relative">
+            <Search className=" rounded-l-full  w-5 h-5 mr-3 object-cover opacity-60 absolute top-1/2 left-[6px] -translate-y-1/2 translate cursor-pointer strokeWidth={0}" />
             <input
-              className="outline-none  bg-transparent text-md px-3 py-1 w-full h-full text-slate-200 rounded-md"
-              type="text"
-              placeholder=" Search ..."
+              className="outline-none  bg-transparent text-sm ml-2 px-5 py-1.5 w-full h-full text-slate-200/50 rounded-md  [&::-webkit-search-cancel-button]:bg-red-500"
+              type="search"
+              placeholder=" Search . . ."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />

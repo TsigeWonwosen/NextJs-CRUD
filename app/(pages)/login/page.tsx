@@ -47,7 +47,6 @@ const LoginForm = () => {
           width={30}
           height={30}
           alt="Login Image"
-          fill
           className={styles.img}
         />
       </div>
