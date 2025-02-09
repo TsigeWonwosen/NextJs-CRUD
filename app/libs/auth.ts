@@ -4,7 +4,6 @@ import GoogleProviders from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectToDatabase from "../utils/mongoose";
 import { Staff } from "../models/userModel";
-import { use } from "react";
 
 export const Options: NextAuthOptions = {
   providers: [
@@ -65,6 +64,12 @@ export const Options: NextAuthOptions = {
     async signIn({ user, account, profile }) {
       return true;
     },
+    async redirect({ url, baseUrl }) {
+      // if (url.startsWith("/")) return `${baseUrl}/dashboard`;
+      if (new URL(url).origin === baseUrl) return url;
+      return `${baseUrl}/dashboard`;
+    },
+
     async jwt({ token, user }) {
       if (user) {
         token.id = user._id;
@@ -100,4 +105,7 @@ export const Options: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   debug: true,
+  pages: {
+    signIn: "/login", // Custom sign-in page
+  },
 };

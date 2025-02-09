@@ -1,13 +1,9 @@
 "use client";
 
-import React, { use, useState } from "react";
-import Link from "next/link";
 import { navLists } from "./navBar/navLists";
 import Links from "./navBar/Links";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import UserMenu from "./UserMenu";
-
 import HombergerMenu from "./HombergerMenu";
 
 const Header = () => {
@@ -15,7 +11,7 @@ const Header = () => {
   const { user } = session || {};
 
   return (
-    <div className="px-10 py-8 flex justify-end items-center h-25 w-full">
+    <div className="px-10 py-8 flex justify-end items-center h-[50px] w-full">
       {
         <>
           <HombergerMenu />

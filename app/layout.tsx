@@ -5,6 +5,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SessionProviderWrapper from "./components/sessionProvider";
 import SideMenu from "./dashboard/components/SideMenu";
+import { getSession } from "next-auth/react";
+import Border from "./dashboard/components/border";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +31,7 @@ export default function RootLayout({
               </div>
               <div className="flex flex-col flex-1 h-full min-h-screen ">
                 <Header />
+                <Border direction="b" />
                 <section className="flex w-full  flex-1">{children}</section>
                 <Footer />
               </div>

@@ -10,21 +10,20 @@ export default function GithubSignIn() {
   const handleSignIn = async () => {
     try {
       await signIn("github");
-      navigate.push("/"); // Triggers GitHub authentication
     } catch (error) {
       console.error("GitHub Sign-In Failed:", error);
     }
   };
 
   return (
-    <form>
+    <>
       <button
         type="button"
-        className="p-3 bg-lime-500 text-white rounded hover:bg-lime-600"
         onClick={handleSignIn}
+        className=" w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
       >
         Login With GitHub
       </button>
-    </form>
+    </>
   );
 }

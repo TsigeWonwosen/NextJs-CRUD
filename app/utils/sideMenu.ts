@@ -1,6 +1,6 @@
 export const menuItems = [
   {
-    title: "MENU",
+    title: "MAIN MENU",
     items: [
       {
         icon: "/home.png",
@@ -89,7 +89,7 @@ export const menuItems = [
     ],
   },
   {
-    title: "OTHER",
+    title: "SETTINGS",
     items: [
       {
         icon: "/profile.png",

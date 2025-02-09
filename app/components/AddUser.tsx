@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addUser } from "@/app/libs/action";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   username: z
@@ -23,8 +24,9 @@ const schema = z.object({
 
 type UserProps = z.infer<typeof schema>;
 
-function AddUser() {
+function AddUser({ handleLogin }: { handleLogin: () => void }) {
   const [state, action, isPanding] = useActionState(addUser, null);
+  const router = useRouter();
 
   const {
     register,
@@ -45,8 +47,7 @@ function AddUser() {
       if (!state?.success) {
         throw new Error("Server is Not Responding.");
       }
-      reset();
-      alert("Form submitted successfully!");
+      router.push("/login");
     } catch (error) {
       if (error instanceof Error) {
         setError("root", { type: "server", message: error.message });
@@ -62,9 +63,8 @@ function AddUser() {
   };
 
   return (
-    <div className="w-1/2 bg-slate-900 p-10 rounded-lg shadow-md flex flex-col items-center ">
-      <h2 className="text-2xl font-bold mb-4 text-center text--">Add User</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="p-5 w-4/5">
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="w-[300px]">
         <div className="mb-4">
           <label
             htmlFor="username"
@@ -157,7 +157,13 @@ function AddUser() {
         </button>
         {state?.error && <p className="text-red-500 mt-2">{state.error}</p>}
       </form>
-    </div>
+      <p>
+        have you already account?{" "}
+        <span onClick={handleLogin} className="cursor-pointer">
+          LogIn{" "}
+        </span>
+      </p>
+    </>
   );
 }
 

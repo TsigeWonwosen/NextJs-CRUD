@@ -28,8 +28,9 @@ async function Lesson({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) {
-  const search = (await searchParams?.search) || "";
-  const page = (await searchParams?.page) || 1;
+  const searchResult = await searchParams;
+  const search = searchResult.search || "";
+  const page = searchResult?.page || 1;
   const searchAsNumber = Number.isNaN(Number(search))
     ? undefined
     : Number(search);

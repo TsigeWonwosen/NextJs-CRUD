@@ -1,25 +1,18 @@
-.container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 30px 50px;
-}
-
 .form {
   display: flex;
   flex-direction: column;
   text-align: center;
   gap: 30px;
-  flex: 2;
-  max-width: fit-content;
+  color: rgb(223, 220, 215);
   border: 0.5px solid rgb(77, 107, 134);
   border-radius: 5px;
   padding: 30px;
+  height: auto;
+  width: 350px;
 }
 
-.form input {
-  padding: 15px;
+.input {
+  padding: 10px 12px;
   background-color: var(--bg);
   color: var(--textColor);
   border: none;
@@ -40,8 +33,4 @@
   height: 400px;
   width: 400px;
   position: relative;
-}
-
-.img {
-  object-fit: cover;
 }

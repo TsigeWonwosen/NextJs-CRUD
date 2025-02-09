@@ -19,7 +19,7 @@ function Admin() {
   }, []);
 
   return (
-    <div className="flex gap-x-4">
+    <div className="flex gap-x-4 w-full p-7">
       <div className="w-1/2 bg-slate-900 rounded-lg p-7 items-center">
         <h2 className="text-2xl font-bold mb-4 text-center text--">
           List of Staffs
