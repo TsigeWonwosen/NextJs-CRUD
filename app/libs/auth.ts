@@ -54,11 +54,6 @@ export const Options: NextAuthOptions = {
     }),
   ],
 
-  // Custom session behavior
-  session: {
-    strategy: "jwt",
-  },
-
   // Optional: Include custom logic on sign in
   callbacks: {
     async signIn({ user, account, profile }) {
@@ -91,10 +86,15 @@ export const Options: NextAuthOptions = {
       return session;
     },
   },
+  // Custom session behavior
+  session: {
+    strategy: "jwt",
+  },
 
   cookies: {
     sessionToken: {
       name: `next-auth.session-token`,
+
       options: {
         httpOnly: true,
         sameSite: "lax",

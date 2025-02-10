@@ -11,7 +11,7 @@ const Header = () => {
   const { user } = session || {};
 
   return (
-    <div className="px-10 py-8 flex justify-end items-center h-[50px] w-full">
+    <div className="sticky top-0 right-0 px-10 py-8 flex justify-end items-center h-[50px] w-full z-50 border-b border-gray-700 border-opacity-50 mb-4 bg-[#08081A]  shadow-md">
       {
         <>
           <HombergerMenu />

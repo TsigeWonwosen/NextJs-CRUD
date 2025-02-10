@@ -28,7 +28,8 @@ function Admin() {
           return <StaffCard key={staff.email} staff={staff} />;
         })}
       </div>
-      <AddUser />
+
+      <AddUser handleLogin={() => {}} />
     </div>
   );
 }

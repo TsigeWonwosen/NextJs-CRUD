@@ -11,8 +11,9 @@ async function Subjects({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) {
-  const search = (await searchParams?.search) || "";
-  const page = (await searchParams?.page) || 1;
+  const searchRes = await searchParams;
+  const search = searchRes?.search || "";
+  const page = searchRes?.page || 1;
 
   const searchAsNumber = Number.isNaN(Number(search))
     ? undefined

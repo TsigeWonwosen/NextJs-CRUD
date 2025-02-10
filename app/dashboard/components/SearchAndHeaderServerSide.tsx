@@ -1,14 +1,16 @@
 "use client";
-import Image from "next/image";
 import React, { useState } from "react";
 import FormModel from "./FormModel";
-import { role } from "@/app/utils/data";
 import { useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { Filter, Search, SortAsc } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 function SearchAndHeaderServerSide({ title }: { title: string }) {
   const [search, setSearch] = useState("");
   const router = useRouter();
+  const session = useSession();
+
+  const role = session && session.data?.user.role;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (
     e: React.FormEvent<HTMLFormElement>
@@ -45,26 +47,14 @@ function SearchAndHeaderServerSide({ title }: { title: string }) {
         </form>
 
         <div className="flex justify-center items-center ml-2 gap-1 w-[150px] ">
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-orange-200">
-            <Image
-              src="/filter.png"
-              alt=""
-              width={14}
-              height={14}
-              className="object-cover "
-            />
+          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200/80">
+            <Filter size={"15px"} />
           </button>
           <button className="w-8 h-8 flex justify-center items-center  rounded-full bg-[#7dd37b]">
-            <Image
-              src="/sort.png"
-              alt=""
-              width={14}
-              height={14}
-              className="rounded-full object-cover"
-            />
+            <SortAsc size={"15px"} />
           </button>
           {role === "admin" && (
-            <FormModel table="Teachers" type="create" studentId="" />
+            <FormModel table="Teachers" type="create" studentId="" data={[]} />
           )}
         </div>
       </section>

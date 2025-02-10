@@ -31,7 +31,6 @@ export default function RootLayout({
               </div>
               <div className="flex flex-col flex-1 h-full min-h-screen ">
                 <Header />
-                <Border direction="b" />
                 <section className="flex w-full  flex-1">{children}</section>
                 <Footer />
               </div>

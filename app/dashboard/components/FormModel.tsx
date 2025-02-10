@@ -1,20 +1,30 @@
 "use client";
-import Image from "next/image";
 import React, { useState } from "react";
 import TeacherForm from "./TeacherForm";
 import { TeacherSchemaType } from "@/app/libs/types";
 import { deleteStudent } from "../actions/actions";
 import { useRouter } from "next/navigation";
 import Error from "next/error";
+import { CirclePlus, Pencil, Trash } from "lucide-react";
+import {
+  Announcement,
+  Event,
+  Parent,
+  Student,
+  Subject,
+  Teacher,
+} from "@prisma/client";
 
 function FormModel({
   table,
   type,
   studentId,
+  data,
 }: {
   table: "Students" | "Teachers" | "Parents";
   type: "delete" | "update" | "create";
-  studentId: string | number;
+  studentId?: string;
+  data?: Student | Teacher | Parent | Subject | Announcement | Event;
 }) {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -32,13 +42,6 @@ function FormModel({
     } catch (error: Error | any) {
       console.error(error?.message || "Failed to delete student");
     }
-  };
-  const data: TeacherSchemaType = {
-    name: "John Doe",
-    email: "john@gmail.com",
-    phone: "1234567890",
-    address: "New York",
-    subjects: "English",
   };
 
   const styleType = type === "create" ? "w-8 h-8" : "w-7 h-7";
@@ -77,10 +80,19 @@ function FormModel({
 
   const BgColor =
     type === "create"
-      ? "bg-[#007182]"
+      ? "bg-[#4493F8]"
       : type === "update"
-      ? "bg-[#7dd37b]"
-      : "bg-[#bf1650]";
+      ? "bg-green-900/80"
+      : "bg-red-600/65";
+
+  const Icon =
+    type === "create" ? (
+      <CirclePlus size={"16px"} className="text-white" />
+    ) : type === "update" ? (
+      <Pencil size={"14px"} className="text-white" />
+    ) : (
+      <Trash size={"14px"} className="text-white" />
+    );
 
   return (
     <div className="w-auto h-auto">
@@ -96,13 +108,7 @@ function FormModel({
           onClick={handleToggle}
           className={` ${styleType} flex justify-center   items-center  ${BgColor} rounded-full `}
         >
-          <Image
-            src={`/${type}.png`}
-            alt=""
-            width={14}
-            height={14}
-            className="rounded-full  object-cover"
-          />
+          {Icon}
         </button>
       </div>
     </div>

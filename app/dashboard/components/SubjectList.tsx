@@ -30,17 +30,18 @@ function SubjectsList(subject: SubjectType) {
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
           <Link href={`/dashboard/teachers/${subject.id}`}>
-            <button className=" flex justify-center text-center  items-center w-7 h-7 p-1 bg-lime-950 rounded-full ">
-              <Image
-                src="/view.png"
-                alt=""
-                width={16}
-                height={16}
-                className="rounded-full bg-lime-500 object-cover"
-              />
-            </button>
+            <FormModel
+              table="Teachers"
+              type="update"
+              studentId={subject.id + ""}
+              data={subject}
+            />
           </Link>
-          <FormModel table="Teachers" type="delete" studentId={subject.id} />
+          <FormModel
+            table="Teachers"
+            type="delete"
+            studentId={subject.id + ""}
+          />
         </div>
       </td>
     </tr>

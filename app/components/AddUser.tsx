@@ -17,7 +17,7 @@ const schema = z.object({
   password: z
     .string()
     .min(4, { message: "Password should atleast 4 charactor." }),
-  role: z.enum(["admin", "staff", "geust"], {
+  role: z.enum(["admin", "teacher", "student"], {
     message: "Role is requiered.",
   }),
 });
@@ -47,6 +47,7 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
       if (!state?.success) {
         throw new Error("Server is Not Responding.");
       }
+      handleLogin();
       router.push("/login");
     } catch (error) {
       if (error instanceof Error) {
@@ -140,8 +141,8 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
             required
           >
             <option value="admin">Admin</option>
-            <option value="staff">Staff</option>
-            <option value="guest">Guest</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
           </select>
         </div>
         {errors.role?.message && (
@@ -156,13 +157,13 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
           {isPanding ? "adding..." : "Add user"}
         </button>
         {state?.error && <p className="text-red-500 mt-2">{state.error}</p>}
+        <p>
+          have you already account?{" "}
+          <span onClick={handleLogin} className="cursor-pointer">
+            LogIn{" "}
+          </span>
+        </p>
       </form>
-      <p>
-        have you already account?{" "}
-        <span onClick={handleLogin} className="cursor-pointer">
-          LogIn{" "}
-        </span>
-      </p>
     </>
   );
 }

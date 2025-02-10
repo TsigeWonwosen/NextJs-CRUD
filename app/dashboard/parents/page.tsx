@@ -3,23 +3,14 @@ import React, { useEffect, useState } from "react";
 
 import { parentsData } from "@/app/utils/data";
 import Table from "../components/Table";
-import Image from "next/image";
 import Link from "next/link";
 import FormModel from "../components/FormModel";
 import PaginationServerSide from "../components/PaginationServerSide";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
 import { useSearchParams } from "next/navigation";
+import { Parent } from "@prisma/client";
 
-type ParentProps = {
-  id: number;
-  name: string;
-  email: string;
-  students: string[];
-  phone: string;
-  address: string;
-};
-
-const listofParent = (user: ParentProps) => {
+const listofParent = (user: Parent) => {
   return (
     <tr
       key={user.id}
@@ -30,9 +21,7 @@ const listofParent = (user: ParentProps) => {
         <span className="text-xs text-slate-700">{user.email}</span>
       </td>
 
-      <td className=" px-4 py-2 text-sm hidden sm:table-cell">
-        {user.students.length && user.students.join(", ")}
-      </td>
+      <td className=" px-4 py-2 text-sm hidden sm:table-cell">{user.name}</td>
       <td className="  px-4 py-2 text-sm hidden md:table-cell">{user.phone}</td>
       <td className="  px-4 py-2 text-sm hidden md:table-cell">
         {user.address}
@@ -40,18 +29,20 @@ const listofParent = (user: ParentProps) => {
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
           <Link href={`/dashboard/teachers/${user.id}`}>
-            <button className=" flex justify-center text-center  items-center w-7 h-7 p-1 bg-lime-950 rounded-full ">
-              <Image
-                src="/view.png"
-                alt=""
-                width={16}
-                height={16}
-                className="rounded-full bg-lime-500 object-cover"
-              />
-            </button>
+            <FormModel
+              table="Teachers"
+              type="update"
+              studentId={user.id + ""}
+              data={user}
+            />
           </Link>
           <button className="flex justify-center items-center w-7 h-7 p-1  bg-red-200 rounded-full">
-            <FormModel table="Parents" type="delete" studentId={user.id + ""} />
+            <FormModel
+              table="Parents"
+              type="delete"
+              studentId={user.id + ""}
+              data={user}
+            />
           </button>
         </div>
       </td>

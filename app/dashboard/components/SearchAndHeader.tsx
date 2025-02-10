@@ -2,8 +2,8 @@
 import Image from "next/image";
 import React from "react";
 import FormModel from "./FormModel";
-import { role } from "@/app/utils/data";
 import { Search } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 function SearchAndHeader({
   title,
@@ -14,6 +14,8 @@ function SearchAndHeader({
 }) {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
+  const session = useSession();
+  const role = session?.data?.user?.role;
   const handleSearchChange = () => {
     if (inputRef.current) {
       handleSearch(inputRef?.current?.value);
