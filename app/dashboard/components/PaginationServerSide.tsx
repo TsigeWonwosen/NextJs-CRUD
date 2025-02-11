@@ -7,7 +7,6 @@ function PaginationServerSide({ totalPages }: { totalPages: number }) {
 
   const path = usePathname();
   const router = useRouter();
-  console.log("Total Pages: ", totalPages);
 
   const handleNext = () => {
     setCurrentPage((prev) => prev + 1);

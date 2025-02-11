@@ -1,5 +1,5 @@
 import { Class, Student } from "@prisma/client";
-import { getStudents } from "../actions/actions";
+import { getStudents } from "../../actions/studentActions";
 import StudentClient from "../components/StudentClient";
 
 type StudentType = Student & { class: Class };

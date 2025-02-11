@@ -43,7 +43,6 @@ async function Teachers({
   ];
 
   const { page, ...queryParams } = await searchParams;
-  console.log("teacherId", queryParams);
 
   const { classId = "", search = "" } = queryParams;
 

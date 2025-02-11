@@ -5,17 +5,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TeacherSchema, TeacherSchemaType } from "@/app/libs/types";
 import Image from "next/image";
 import { capitalizeTitle } from "@/app/utils/capitalize";
+import {
+  createUpdateDelete,
+  METHOD_TYPE,
+} from "@/app/actions/creatUpdateDelete";
+import { UserSex } from "@prisma/client";
 
 function TeacherForm({
   handleToggle,
   title,
   table,
   data,
+  id,
 }: {
   handleToggle: () => void;
   title: string;
   table: string;
-  data?: TeacherSchemaType;
+  data?: any;
+  id?: string;
 }) {
   const [preview, setPreview] = useState<string | null>(null);
   const {
@@ -26,16 +33,32 @@ function TeacherForm({
     formState: { errors, isSubmitting },
   } = useForm<TeacherSchemaType>({ resolver: zodResolver(TeacherSchema) });
 
-  const onSubmit: SubmitHandler<TeacherSchemaType> = async (
-    data: TeacherSchemaType
-  ) => {
+  const onSubmit = async (data: any) => {
     const formData = new FormData();
     formData.append("address", data.address);
     formData.append("email", data.email);
     formData.append("name", data.name);
     formData.append("phone", data.phone);
     formData.append("subjects", data.subjects);
-    formData.append("photo", data.photo as File);
+
+    const newTeacher = {
+      id: id,
+      username: data.name,
+      name: "wonde",
+      surname: "shi",
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+    };
+
+    await createUpdateDelete({
+      model: "parent",
+      action: METHOD_TYPE.UPDATE,
+      data: newTeacher,
+      id,
+    });
+    handleToggle();
+    // formData.append("photo", data.photo as File);
 
     // for (let [key, value] of formData.entries()) {
     //   console.log(`${key}:`, value); // Logs each key-value pair
@@ -43,13 +66,13 @@ function TeacherForm({
     // reset();
   };
 
-  const handlePhotoPreview = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0]; // Get the first file
-    if (selectedFile) {
-      setValue("photo", selectedFile); // Set the file to the form
-      setPreview(URL.createObjectURL(selectedFile)); // Generate preview
-    }
-  };
+  // const handlePhotoPreview = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const selectedFile = event.target.files?.[0]; // Get the first file
+  //   if (selectedFile) {
+  //     setValue("photo", selectedFile); // Set the file to the form
+  //     setPreview(URL.createObjectURL(selectedFile)); // Generate preview
+  //   }
+  // };
 
   return (
     <div className="w-[450px] h-max bg-slate-950 p-10 rounded-lg shadow-md flex flex-col items-center  relative z-10 ">
@@ -169,7 +192,7 @@ function TeacherForm({
         {errors.subjects?.message && (
           <p className="text-red-400">{errors.subjects?.message}</p>
         )}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label
             htmlFor="photo"
             className=" text-left   text-sm font-medium text-gray-700 flex justify-between items-center"
@@ -181,25 +204,25 @@ function TeacherForm({
               height={29}
             />
             <span>Upload Photo</span>
-          </label>
-          <input
+          </label> */}
+        {/* <input
             id="photo"
             type="file"
             {...register("photo")}
-            onChange={handlePhotoPreview}
+            // onChange={handlePhotoPreview}
             className=" block p-2 mt-1  w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
           />
-        </div>
-        {errors.photo?.message && (
+        </div> */}
+        {/* {errors.photo?.message && (
           <p className="text-red-400">Photo Error: {errors.photo?.message}</p>
-        )}
-        {preview && (
+        )} */}
+        {/* {preview && (
           <Image
             src={preview}
             alt="Preview"
             className="mt-2 w-32 h-32 object-cover rounded"
           />
-        )}
+        )} */}
         <button
           type="submit"
           disabled={isSubmitting}

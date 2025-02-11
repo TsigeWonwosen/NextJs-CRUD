@@ -1,19 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import TeacherForm from "./TeacherForm";
-import { TeacherSchemaType } from "@/app/libs/types";
-import { deleteStudent } from "../actions/actions";
+import { deleteStudent } from "../../actions/studentActions";
 import { useRouter } from "next/navigation";
 import Error from "next/error";
 import { CirclePlus, Pencil, Trash } from "lucide-react";
+
 import {
-  Announcement,
-  Event,
-  Parent,
-  Student,
-  Subject,
-  Teacher,
-} from "@prisma/client";
+  createUpdateDelete,
+  METHOD_TYPE,
+} from "@/app/actions/creatUpdateDelete";
 
 function FormModel({
   table,
@@ -21,10 +17,10 @@ function FormModel({
   studentId,
   data,
 }: {
-  table: "Students" | "Teachers" | "Parents";
+  table: "student" | "teacher" | "parent";
   type: "delete" | "update" | "create";
   studentId?: string;
-  data?: Student | Teacher | Parent | Subject | Announcement | Event;
+  data?: any;
 }) {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -33,12 +29,18 @@ function FormModel({
     setShow((prvState) => !prvState);
   };
 
+  const action =
+    type == "create"
+      ? METHOD_TYPE.CREATE
+      : type == "update"
+      ? METHOD_TYPE.UPDATE
+      : METHOD_TYPE.DELETE;
+
   const handleSubmit = async (id: string) => {
     try {
       setShow(false);
-      await deleteStudent(id);
-      router.refresh();
-      router.push("/dashboard/students");
+      await createUpdateDelete({ model: table, action, id, data });
+      router.push(`/dashboard/${table}s`);
     } catch (error: Error | any) {
       console.error(error?.message || "Failed to delete student");
     }
@@ -68,12 +70,21 @@ function FormModel({
           x
         </button>
       </form>
+    ) : type === "update" ? (
+      <TeacherForm
+        handleToggle={handleToggle}
+        title={type}
+        table={table}
+        data={data}
+        id={studentId}
+      />
     ) : (
       <TeacherForm
         handleToggle={handleToggle}
         title={type}
         table={table}
         data={data}
+        id={studentId}
       />
     );
   };
@@ -99,7 +110,7 @@ function FormModel({
       <>
         {show && (
           <div className="w-screen h-screen bg-black bg-opacity-60 absolute top-0 left-0  flex justify-center items-center overflow-hidden z-50">
-            <Form id={studentId} />
+            {studentId && <Form id={studentId} />}
           </div>
         )}
       </>

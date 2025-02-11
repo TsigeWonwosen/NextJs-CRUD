@@ -39,9 +39,9 @@ function StudentsList(user: StudentType) {
       <td className="  px-4 py-2 text-sm hidden md:table-cell">{user.phone}</td>
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
-          <FormModel table="Teachers" type="update" studentId={user.id} />
+          <FormModel table="student" type="update" studentId={user.id} />
 
-          <FormModel table="Students" type="delete" studentId={user.id} />
+          <FormModel table="student" type="delete" studentId={user.id} />
         </div>
       </td>
     </tr>

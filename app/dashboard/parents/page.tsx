@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { parentsData } from "@/app/utils/data";
 import Table from "../components/Table";
 import Link from "next/link";
 import FormModel from "../components/FormModel";
@@ -9,6 +8,8 @@ import PaginationServerSide from "../components/PaginationServerSide";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
 import { useSearchParams } from "next/navigation";
 import { Parent } from "@prisma/client";
+import { getParents } from "@/app/actions/parentAction";
+import { ParentProps } from "@/app/libs/types";
 
 const listofParent = (user: Parent) => {
   return (
@@ -28,19 +29,18 @@ const listofParent = (user: Parent) => {
       </td>
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
-          <Link href={`/dashboard/teachers/${user.id}`}>
-            <FormModel
-              table="Teachers"
-              type="update"
-              studentId={user.id + ""}
-              data={user}
-            />
-          </Link>
+          <Link href={`/dashboard/teachers/${user.id}`}></Link>
+          <FormModel
+            table="parent"
+            type="update"
+            studentId={user.id + ""}
+            data={user}
+          />
           <button className="flex justify-center items-center w-7 h-7 p-1  bg-red-200 rounded-full">
             <FormModel
-              table="Parents"
+              table="parent"
               type="delete"
-              studentId={user.id + ""}
+              studentId={user.id}
               data={user}
             />
           </button>
@@ -50,23 +50,17 @@ const listofParent = (user: Parent) => {
   );
 };
 function Parents() {
-  const [felteredData, setFelteredData] = useState(parentsData);
-  const [updated, setUpdated] = useState(felteredData);
+  const [updated, setUpdated] = useState<ParentProps[]>([]);
 
   const searchParams = useSearchParams();
   const search = searchParams.get("search") || "";
 
   useEffect(() => {
-    const newresult =
-      search.length > 0
-        ? felteredData.filter(
-            (data) =>
-              data.name.toLowerCase().includes(search.toLowerCase()) ||
-              data.id == parseInt(search)
-          )
-        : parentsData;
-
-    setUpdated(newresult);
+    const getFullParents = async () => {
+      const { parents, totalparent } = await getParents();
+      setUpdated(parents);
+    };
+    getFullParents();
   }, [search]);
 
   const HeaderClass = [
@@ -95,7 +89,7 @@ function Parents() {
     <div className="mx-auto p-4 flex flex-col w-full h-full">
       <SearchAndHeaderServerSide title="All Parents" />
       <Table data={updated} tableHeader={HeaderClass} Lists={listofParent} />
-      <PaginationServerSide totalPages={felteredData.length / 10} />
+      <PaginationServerSide totalPages={updated.length / 10} />
     </div>
   );
 }

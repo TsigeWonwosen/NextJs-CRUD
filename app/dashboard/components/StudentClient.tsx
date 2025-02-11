@@ -5,7 +5,12 @@ import Table from "./Table";
 import StudentsList from "./StudentsList";
 import { Class, Student } from "@prisma/client";
 import Pagination from "./Pagination";
-import { createStudent, deleteStudent, updatePost } from "../actions/actions";
+import {
+  createStudent,
+  getStudents,
+  updateStudent,
+  deleteStudent,
+} from "../../actions/studentActions";
 
 const PER_PAGE = 10;
 type StudentType = Student & { class: Class };
@@ -24,7 +29,7 @@ function StudentClient({
 
   useEffect(() => {
     const fetchStudents = async () => {};
-    fetchStudents();
+    getStudents();
   }, []);
 
   const handleSearch = (search: string) => {
@@ -72,8 +77,8 @@ function StudentClient({
     await deleteStudent(id);
   };
 
-  const handleClickUpdate = async () => {
-    await updatePost();
+  const handleClickUpdate = async (id: string, data: Student) => {
+    await updateStudent(id, data);
   };
 
   const handleAdd = async () => {

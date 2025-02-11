@@ -53,9 +53,7 @@ function SearchAndHeaderServerSide({ title }: { title: string }) {
           <button className="w-8 h-8 flex justify-center items-center  rounded-full bg-[#7dd37b]">
             <SortAsc size={"15px"} />
           </button>
-          {role === "admin" && (
-            <FormModel table="Teachers" type="create" studentId="" data={[]} />
-          )}
+          {role === "admin" && <FormModel table="teacher" type="create" />}
         </div>
       </section>
     </div>

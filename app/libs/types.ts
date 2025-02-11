@@ -1,3 +1,14 @@
+import {
+  Announcement,
+  Class,
+  Event,
+  Grade,
+  Lesson,
+  Parent,
+  Student,
+  Subject,
+  Teacher,
+} from "@prisma/client";
 import { ObjectId } from "mongoose";
 import { z } from "zod";
 
@@ -57,3 +68,17 @@ export type pageProps = {
   params: { [key: string]: string | string[] | undefined };
   searchParams?: { [key: string]: string | string[] | undefined };
 };
+
+export type StudentType = Student & { class: Class };
+
+export type TeacherProps = Teacher & { classes: Class[] } & {
+  subjects: Subject[];
+};
+
+export type ParentProps = Parent & { students: Student[] };
+
+export type SubjectProps = Subject & { teachers: Teacher[]; lessons: Lesson[] };
+
+export type ClassProps = Class & { superviser?: Teacher } & {
+  lessons: Lesson[];
+} & { students: Student[] } & { grade: Grade } & { events: Event[] } & {};

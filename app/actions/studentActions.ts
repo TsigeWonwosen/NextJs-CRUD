@@ -24,43 +24,17 @@ export async function getUsersWithPosts() {
 }
 
 // Create a new user
-export async function createStudent() {
-  let i = 200;
-  const newData: Student = {
-    id: `student${i}`,
-    username: `wonde${i}`,
-    name: `shi${i}`,
-    surname: `SSurname ${i}`,
-    email: `student${i}@example.com`,
-    phone: `987-654-321${i}`,
-    address: `Address${i}`,
-    bloodType: "O-",
-    sex: i % 2 === 0 ? "MALE" : "FEMALE",
-    parentId: `parentId${Math.ceil(i / 2) % 25 || 25}`,
-    gradeId: (i % 6) + 1,
-    classId: (i % 6) + 1,
-    birthday: new Date(new Date().setFullYear(new Date().getFullYear() - 10)),
-    img: null,
-    createdAt: new Date(),
-  };
-
-  return await prisma.student.create({
-    data: newData,
-  });
-}
+export async function createStudent() {}
 
 // Update a post
-export async function updatePost() {
-  const email = "student200@example.com" as string;
-
+export async function updateStudent(id: string, data: Student) {
   const selectedStudent = await prisma.student.findUnique({
-    where: { email },
+    where: { id },
   });
-  console.log("Student to delete:", selectedStudent);
 
   return await prisma.student.update({
     where: { id: selectedStudent?.id },
-    data: { name: "Abel", surname: "Wonde", address: "Jimma Ethiopia" },
+    data,
   });
 }
 

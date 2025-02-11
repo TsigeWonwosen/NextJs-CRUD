@@ -2,13 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import FormModel from "./FormModel";
-import { Class, Subject, Teacher } from "@prisma/client";
+import { TeacherProps } from "@/app/libs/types";
 
-type TeachersListProps = Teacher & { classes: Class[] } & {
-  subjects: Subject[];
-};
-
-function TeachersList(user: TeachersListProps) {
+function TeachersList(user: TeacherProps) {
   return (
     <tr
       key={user.id}
@@ -40,10 +36,9 @@ function TeachersList(user: TeachersListProps) {
       <td className="  px-4 py-2 text-sm hidden md:table-cell">{user.phone}</td>
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
-          <Link href={`/dashboard/teachers/${user.id}`}>
-            <FormModel table="Teachers" type="update" studentId={user.id} />
-          </Link>
-          <FormModel table="Teachers" type="delete" studentId={user.id} />
+          <Link href={`/dashboard/teachers/${user.id}`}></Link>
+          <FormModel table="teacher" type="update" studentId={user.id} />
+          <FormModel table="teacher" type="delete" studentId={user.id} />
         </div>
       </td>
     </tr>

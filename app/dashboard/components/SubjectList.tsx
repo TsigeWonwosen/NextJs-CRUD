@@ -1,12 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import FormModel from "./FormModel";
-import { Lesson, Subject, Teacher } from "@prisma/client";
+import { SubjectProps } from "@/app/libs/types";
 
-type SubjectType = Subject & { teachers: Teacher[] } & { lessons: Lesson[] };
-
-function SubjectsList(subject: SubjectType) {
+function SubjectsList(subject: SubjectProps) {
   return (
     <tr
       key={subject.id}
@@ -18,11 +15,11 @@ function SubjectsList(subject: SubjectType) {
         </section>
       </td>
       <td className=" px-4 py-2 text-sm hidden sm:table-cell">
-        {subject.lessons.map((sub) => sub.name).join(", ")}
+        {subject.lessons.map((teacher) => teacher.name).join(",")}
       </td>
 
       <td className="  px-4 py-2 text-sm hidden md:table-cell">
-        {subject.lessons.map((sub) => sub.day).join(", ")}
+        {subject.lessons.map((teacher) => teacher.day).join(",")}
       </td>
       <td className="  px-4 py-2 text-sm hidden md:table-cell">
         {subject.teachers.map((teacher) => teacher.name).join(",")}
