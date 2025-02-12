@@ -24,7 +24,12 @@ export async function getUsersWithPosts() {
 }
 
 // Create a new user
-export async function createStudent() {}
+export async function createStudent(data: Student) {
+  const student = await prisma.student.create({ data });
+
+  revalidatePath("/dashboard/students");
+  return student;
+}
 
 // Update a post
 export async function updateStudent(id: string, data: Student) {
@@ -32,10 +37,12 @@ export async function updateStudent(id: string, data: Student) {
     where: { id },
   });
 
-  return await prisma.student.update({
+  const response = await prisma.student.update({
     where: { id: selectedStudent?.id },
     data,
   });
+  revalidatePath("/dashboard/students");
+  return response;
 }
 
 //  Delete a post

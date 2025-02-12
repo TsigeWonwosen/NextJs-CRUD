@@ -16,7 +16,12 @@ export const getSubjects = async () => {
 };
 
 // Create a new user
-export async function createSubject() {}
+export async function createSubject(data: Subject) {
+  const response = await prisma.subject.create({ data });
+
+  revalidatePath("/dashboard/subjects");
+  return response;
+}
 
 // Update a post
 export async function updateSubject(id: number, data: Subject) {

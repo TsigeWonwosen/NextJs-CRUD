@@ -62,7 +62,7 @@ function SearchAndHeader({
             />
           </button>
           {role === "admin" && (
-            <FormModel table="Teachers" type="create" studentId={10} />
+            <FormModel table="student" type="create" studentId="200" />
           )}
         </div>
       </section>

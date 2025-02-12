@@ -1,15 +1,47 @@
 "use client";
 import React, { useState } from "react";
-import TeacherForm from "./TeacherForm";
-import { deleteStudent } from "../../actions/studentActions";
+
 import { useRouter } from "next/navigation";
 import Error from "next/error";
 import { CirclePlus, Pencil, Trash } from "lucide-react";
-
 import {
   createUpdateDelete,
   METHOD_TYPE,
 } from "@/app/actions/creatUpdateDelete";
+import RenderForm from "./forms/RenderForm";
+
+const DeleteForm = ({
+  id,
+  handleSubmit,
+  handleToggle,
+}: {
+  id: string | number;
+  handleSubmit: (id: string | number) => void;
+  handleToggle: () => void;
+}) => {
+  return (
+    <form
+      onSubmit={() => handleSubmit(id)}
+      className="w-[350px] h-[250px] bg-black/90 text-white/80 opacity-1 rounded-md flex justify-center flex-col items-center gap-4 z-52 relative"
+    >
+      <div>
+        <label htmlFor="">
+          <h4>Are you sure, you went to delete?</h4>
+        </label>
+      </div>
+
+      <button className="w-max px-2 py-1 rounded-md  text-gray-400 btnGradient">
+        Delete
+      </button>
+      <button
+        onClick={handleToggle}
+        className="absolute top-3 right-5 w-4 h-4 text-xl font-semibold text-gray-500/50"
+      >
+        x
+      </button>
+    </form>
+  );
+};
 
 function FormModel({
   table,
@@ -17,9 +49,10 @@ function FormModel({
   studentId,
   data,
 }: {
-  table: "student" | "teacher" | "parent";
+  // table: "student" | "teacher" | "parent" | "class" | "subject";
+  table: string;
   type: "delete" | "update" | "create";
-  studentId?: string;
+  studentId?: string | number;
   data?: any;
 }) {
   const [show, setShow] = useState(false);
@@ -36,58 +69,21 @@ function FormModel({
       ? METHOD_TYPE.UPDATE
       : METHOD_TYPE.DELETE;
 
-  const handleSubmit = async (id: string) => {
+  const handleSubmit = async (id: string | number) => {
     try {
       setShow(false);
       await createUpdateDelete({ model: table, action, id, data });
-      router.push(`/dashboard/${table}s`);
+      if (table == "class") {
+        router.push(`/dashboard/${table}es`);
+      } else {
+        router.push(`/dashboard/${table}s`);
+      }
     } catch (error: Error | any) {
       console.error(error?.message || "Failed to delete student");
     }
   };
 
   const styleType = type === "create" ? "w-8 h-8" : "w-7 h-7";
-
-  const Form = ({ id }: { id: string }) => {
-    return type === "delete" ? (
-      <form
-        onSubmit={() => handleSubmit(id)}
-        className="w-[350px] h-[250px] bg-black/90 text-white/80 opacity-1 rounded-md flex justify-center flex-col items-center gap-4 z-52 relative"
-      >
-        <div>
-          <label htmlFor="">
-            <h4>Are you sure, you went to delete?</h4>
-          </label>
-        </div>
-
-        <button className="w-max px-2 py-1 rounded-md  text-gray-400 btnGradient">
-          Delete
-        </button>
-        <button
-          onClick={handleToggle}
-          className="absolute top-3 right-5 w-4 h-4 text-xl font-semibold text-gray-500/50"
-        >
-          x
-        </button>
-      </form>
-    ) : type === "update" ? (
-      <TeacherForm
-        handleToggle={handleToggle}
-        title={type}
-        table={table}
-        data={data}
-        id={studentId}
-      />
-    ) : (
-      <TeacherForm
-        handleToggle={handleToggle}
-        title={type}
-        table={table}
-        data={data}
-        id={studentId}
-      />
-    );
-  };
 
   const BgColor =
     type === "create"
@@ -110,7 +106,21 @@ function FormModel({
       <>
         {show && (
           <div className="w-screen h-screen bg-black bg-opacity-60 absolute top-0 left-0  flex justify-center items-center overflow-hidden z-50">
-            {studentId && <Form id={studentId} />}
+            {studentId && type == "delete" ? (
+              <DeleteForm
+                id={studentId}
+                handleSubmit={handleSubmit}
+                handleToggle={handleToggle}
+              />
+            ) : (
+              <RenderForm
+                table={table}
+                id={studentId}
+                title={type}
+                handleToggle={handleToggle}
+                data={data}
+              />
+            )}
           </div>
         )}
       </>

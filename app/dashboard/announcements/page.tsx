@@ -1,14 +1,12 @@
 import React from "react";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
-import { Announcement, Class } from "@prisma/client";
 import { role } from "@/app/utils/data";
 import PaginationServerSide from "../components/PaginationServerSide";
 import Table from "../components/Table";
 import { prisma } from "@/app/libs/prisma";
 import FormModel from "../components/FormModel";
 import { PER_PAGE } from "@/app/libs/constants";
-
-type AnnouncementList = Announcement & { class: Class };
+import { AnnouncementList } from "@/app/libs/types";
 
 const columns = [
   {
@@ -47,10 +45,13 @@ const renderRow = (item: AnnouncementList) => (
       <div className="flex items-center justify-center gap-2">
         {role === "admin" && (
           <>
-            {/* <FormContainer table="announcement" type="update" data={item} />
-            <FormContainer table="announcement" type="delete" id={item.id} /> */}
-            <FormModel studentId={item.id} table="Parents" type="update" />
-            <FormModel studentId={item.id} table="Parents" type="delete" />
+            <FormModel
+              studentId={item.id}
+              table="announcement"
+              type="update"
+              data={item}
+            />
+            <FormModel studentId={item.id} table="announcement" type="delete" />
           </>
         )}
       </div>

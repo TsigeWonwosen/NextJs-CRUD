@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import FormModel from "./FormModel";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Filter, Search, SortAsc } from "lucide-react";
 import { useSession } from "next-auth/react";
 
@@ -11,6 +11,8 @@ function SearchAndHeaderServerSide({ title }: { title: string }) {
   const session = useSession();
 
   const role = session && session.data?.user.role;
+  const path = usePathname();
+  let newPath: string = path.split("/")[2].slice(0, -1);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (
     e: React.FormEvent<HTMLFormElement>
@@ -53,7 +55,7 @@ function SearchAndHeaderServerSide({ title }: { title: string }) {
           <button className="w-8 h-8 flex justify-center items-center  rounded-full bg-[#7dd37b]">
             <SortAsc size={"15px"} />
           </button>
-          {role === "admin" && <FormModel table="teacher" type="create" />}
+          {role === "admin" && <FormModel table={newPath} type="create" />}
         </div>
       </section>
     </div>

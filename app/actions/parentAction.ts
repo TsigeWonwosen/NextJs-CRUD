@@ -23,12 +23,12 @@ export async function updateParent(id: string, data: Parent) {
   const selectedParent = await prisma.parent.findUnique({
     where: { id },
   });
-  console.log("selectedParent" + selectedParent);
-  console.log("Data" + data);
+
   return await prisma.parent.update({
     where: { id: selectedParent?.id },
     data,
   });
+  revalidatePath("/dashboard/parents");
 }
 
 //  Delete a post

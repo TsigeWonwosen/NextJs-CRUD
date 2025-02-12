@@ -1,14 +1,12 @@
 import React from "react";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
-import { Announcement, Class } from "@prisma/client";
 import { role } from "@/app/utils/data";
 import PaginationServerSide from "../components/PaginationServerSide";
 import Table from "../components/Table";
 import { prisma } from "@/app/libs/prisma";
 import FormModel from "../components/FormModel";
 import { PER_PAGE } from "@/app/libs/constants";
-
-type AnnouncementList = Announcement & { class: Class };
+import { ClassProps } from "@/app/libs/types";
 
 const columns = [
   {
@@ -16,12 +14,17 @@ const columns = [
     accessor: "title",
   },
   {
-    header: "Class",
-    accessor: "class",
+    header: "Capacity",
+    accessor: "capacity",
   },
   {
-    header: "Date",
-    accessor: "date",
+    header: "Lessons",
+    accessor: "lessons",
+    className: "hidden md:table-cell",
+  },
+  {
+    header: "Supervisor",
+    accessor: "supervisor",
     className: "hidden md:table-cell",
   },
   ...(role === "admin"
@@ -33,24 +36,28 @@ const columns = [
       ]
     : []),
 ];
-const renderRow = (item: AnnouncementList) => (
+const renderRow = (item: ClassProps) => (
   <tr
     key={item.id}
     className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
   >
-    <td className="flex items-center gap-4 p-4">{item.title}</td>
-    <td>{item.class?.name || "-"}</td>
+    <td className="flex items-center gap-4 p-4">{item.name}</td>
+    <td className="hidden md:table-cell">{item.capacity}</td>
     <td className="hidden md:table-cell">
-      {new Intl.DateTimeFormat("en-US").format(item.date)}
+      {item.lessons.map((lesson) => lesson.name).join(", ")}
     </td>
+    <td>{item.supervisorId || "-"}</td>
     <td>
       <div className="flex items-center justify-center gap-2">
         {role === "admin" && (
           <>
-            {/* <FormContainer table="announcement" type="update" data={item} />
-            <FormContainer table="announcement" type="delete" id={item.id} /> */}
-            <FormModel studentId={item.id} table="Parents" type="update" />
-            <FormModel studentId={item.id} table="Parents" type="delete" />
+            <FormModel
+              studentId={item.id}
+              table="class"
+              type="update"
+              data={item}
+            />
+            <FormModel studentId={item.id} table="class" type="delete" />
           </>
         )}
       </div>
@@ -63,20 +70,28 @@ export default async function Classes({
   searchParams: { [value: string]: string | undefined };
 }) {
   const { search = "" } = await searchParams;
-  const announcement = await prisma.announcement.findMany({
+  const classes: ClassProps[] = await prisma.class.findMany({
     where: {
       OR: [
-        { title: { contains: search, mode: "insensitive" } },
-        { class: { name: { contains: search, mode: "insensitive" } } },
+        { name: { contains: search, mode: "insensitive" } },
+        { supervisor: { name: { contains: search, mode: "insensitive" } } },
       ],
+    },
+    include: {
+      supervisor: true,
+      lessons: true,
+      students: true,
+      grade: true,
+      events: true,
+      announcements: true,
     },
   });
 
-  const numberofPage = Math.ceil(announcement.length / PER_PAGE);
+  const numberofPage = Math.ceil(classes.length / PER_PAGE);
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
       <SearchAndHeaderServerSide title="All Classes" />
-      <Table Lists={renderRow} data={announcement} tableHeader={columns} />
+      <Table Lists={renderRow} data={classes} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>
   );

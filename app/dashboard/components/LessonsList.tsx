@@ -28,9 +28,14 @@ function LessonsList(lesson: LessonType) {
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
           <Link href={`/dashboard/teachers/${lesson.id}`}>
-            <FormModel table="Teachers" type="update" studentId={user.id} />
+            <FormModel
+              table="lesson"
+              type="update"
+              studentId={lesson.id}
+              data={lesson}
+            />
           </Link>
-          <FormModel table="Teachers" type="delete" studentId={lesson.id} />
+          <FormModel table="lesson" type="delete" studentId={lesson.id} />
         </div>
       </td>
     </tr>

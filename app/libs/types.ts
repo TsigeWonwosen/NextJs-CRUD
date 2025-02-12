@@ -1,5 +1,6 @@
 import {
   Announcement,
+  Assignment,
   Class,
   Event,
   Grade,
@@ -8,6 +9,7 @@ import {
   Student,
   Subject,
   Teacher,
+  Result,
 } from "@prisma/client";
 import { ObjectId } from "mongoose";
 import { z } from "zod";
@@ -52,6 +54,30 @@ export const TeacherSchema = z.object({
 
 export type TeacherSchemaType = z.infer<typeof TeacherSchema>;
 
+export const StudntSchema = z.object({
+  name: z.string().min(4, { message: "User Name should atleast 4 charactor." }),
+  email: z
+    .string()
+    .email({ message: "Invalid email addresss" })
+    .min(4, { message: "User email should atleast 4 charactor.." }),
+  photo: z
+    .instanceof(File, { message: "Please upload a single file" })
+    .optional(),
+  phone: z
+    .string()
+    .min(8, { message: "Phone number should atleast 8 digits." }),
+  subjects: z.enum(["Maths", "English", "Biology"], {
+    message: "Subject is requiered.",
+  }),
+  classes: z.optional(z.string().min(4, { message: "Class requierd" })),
+  address: z
+    .string()
+    .min(4, { message: "Address should atleast 4 charactor." }),
+  birthday: z.date(),
+});
+
+export type StudentSchemaType = z.infer<typeof StudntSchema>;
+
 export type UserProps = {
   id?: number;
   teacherId?: string;
@@ -79,6 +105,18 @@ export type ParentProps = Parent & { students: Student[] };
 
 export type SubjectProps = Subject & { teachers: Teacher[]; lessons: Lesson[] };
 
-export type ClassProps = Class & { superviser?: Teacher } & {
+export type ClassProps = Class & {
+  superviser?: Teacher;
+  grade: Grade;
   lessons: Lesson[];
-} & { students: Student[] } & { grade: Grade } & { events: Event[] } & {};
+  announcements: Announcement[];
+  students: Student[];
+  events: Event[];
+};
+
+export type AssignmentProps = Assignment & {
+  lesson: Lesson;
+  results: Result[];
+};
+
+export type AnnouncementList = Announcement & { class?: Class | null };

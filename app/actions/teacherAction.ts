@@ -18,6 +18,7 @@ export const getTeachers = async () => {
 // Create a new user
 export async function createTeacher(data: Teacher) {
   await prisma.teacher.create({ data });
+  revalidatePath("/dashboard/teachers");
 }
 
 // Update a post

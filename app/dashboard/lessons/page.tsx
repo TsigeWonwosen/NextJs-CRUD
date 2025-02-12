@@ -23,7 +23,7 @@ const HeaderClass = [
     header: "Action",
   },
 ];
-async function Lesson({
+async function Lessons({
   searchParams,
 }: {
   searchParams: { [key: string]: string | undefined };
@@ -64,4 +64,4 @@ async function Lesson({
   );
 }
 
-export default Lesson;
+export default Lessons;

@@ -26,19 +26,14 @@ function SubjectsList(subject: SubjectProps) {
       </td>
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
-          <Link href={`/dashboard/teachers/${subject.id}`}>
-            <FormModel
-              table="Teachers"
-              type="update"
-              studentId={subject.id + ""}
-              data={subject}
-            />
-          </Link>
+          <Link href={`/dashboard/subjects/${subject.id}`}></Link>
           <FormModel
-            table="Teachers"
-            type="delete"
-            studentId={subject.id + ""}
+            table="subject"
+            type="update"
+            studentId={subject.id}
+            data={subject}
           />
+          <FormModel table="subject" type="delete" studentId={subject.id} />
         </div>
       </td>
     </tr>

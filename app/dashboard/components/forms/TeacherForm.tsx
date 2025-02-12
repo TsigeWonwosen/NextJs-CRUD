@@ -1,6 +1,6 @@
 "use client";
-import React, { startTransition, useActionState, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TeacherSchema, TeacherSchemaType } from "@/app/libs/types";
 import Image from "next/image";
@@ -83,12 +83,11 @@ function TeacherForm({
         <Image src="/close.png" alt="" width={14} height={14} />
       </div>
       <h2 className="text-2xl font-bold mb-4 text-center ">
-        {table + " " + capitalizeTitle(title)}
+        {capitalizeTitle(table) + " " + capitalizeTitle(title)}
       </h2>
-      {/* <form action={action} className="p-5 w-4/5"> */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="p-5 w-full bg-slate-950"
+        className="p-5 w-full bg-slate-950 h-auto z-50"
       >
         <div className="mb-4">
           <label
@@ -187,6 +186,12 @@ function TeacherForm({
             <option value="Maths">Maths</option>
             <option value="Biology">Bilology</option>
             <option value="English">English</option>
+            <option value="physics">Physics</option>
+            <option value="art">Art</option>
+            <option value="chemistry">Chemistry</option>
+            <option value="computer science">Computer Science</option>
+            <option value="history">History</option>
+            <option value="geography">Giography</option>
           </select>
         </div>
         {errors.subjects?.message && (

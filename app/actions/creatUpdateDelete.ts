@@ -1,9 +1,8 @@
-// "use server";
-// import { prisma } from "@/app/libs/prisma";
 import { deleteStudent, updateStudent, createStudent } from "./studentActions";
 import { deleteParent, updateParent, createParent } from "./parentAction";
 import { deleteTeacher, createTeacher, updateTeacher } from "./teacherAction";
 import { createSubject, deleteSubject, updateSubject } from "./subjectAction";
+import { createClass, deleteClass, updateClass } from "./classAction";
 
 export enum METHOD_TYPE {
   DELETE = "DELETE",
@@ -15,6 +14,7 @@ const methods: any = {
   student: [createStudent, deleteStudent, updateStudent],
   parent: [createParent, deleteParent, updateParent],
   subject: [createSubject, deleteSubject, updateSubject],
+  class: [createClass, deleteClass, updateClass],
 };
 type ModelName =
   | "teacher"
@@ -30,10 +30,10 @@ export const createUpdateDelete = async ({
   data,
   id,
 }: {
-  model: ModelName;
+  model: string;
   action: METHOD_TYPE;
   data?: any;
-  id?: string;
+  id?: string | number;
 }) => {
   try {
     if (!model) throw new Error("Model name is required");

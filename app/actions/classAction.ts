@@ -13,6 +13,7 @@ export const getClass = async () => {
       students: true,
       grade: true,
       events: true,
+      announcements: true,
     },
   });
 
@@ -22,10 +23,15 @@ export const getClass = async () => {
 };
 
 // Create a new user
-export async function createStudent() {}
+export async function createClass(data: Class) {
+  const response = await prisma.class.create({ data });
+
+  revalidatePath("/dashboard/classes");
+  return response;
+}
 
 // Update a post
-export async function updateTeacher(id: number, data: Class) {
+export async function updateClass(id: number, data: Class) {
   return await prisma.class.update({
     where: { id },
     data,

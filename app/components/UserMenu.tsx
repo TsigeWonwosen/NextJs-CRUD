@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import LogoutForm from "./LogoutForm";
 import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 
 function UserMenu({
   user,
@@ -29,7 +30,7 @@ function UserMenu({
             className="absolute flex justify-center items-center bottom-1 right-0 w-[18px] h-[18px] font-bold rounded-full bg-gray-600 caret-lime-300"
             onClick={handleChange}
           >
-            {"V"}
+            <ChevronDown className="text-gray-300" />
           </button>
         </section>
       </section>
