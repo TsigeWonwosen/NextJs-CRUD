@@ -7,6 +7,7 @@ import PaginationServerSide from "../components/PaginationServerSide";
 import { prisma } from "@/app/libs/prisma";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
 import { PER_PAGE } from "@/app/libs/constants";
+import { Prisma } from "@prisma/client";
 
 async function Teachers({
   searchParams,
@@ -44,7 +45,31 @@ async function Teachers({
 
   const { page, ...queryParams } = await searchParams;
 
-  const { classId = "", search = "" } = queryParams;
+  const query: Prisma.TeacherWhereInput = {};
+
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) {
+        switch (key) {
+          case "search":
+            query.OR = [
+              { name: { contains: value, mode: "insensitive" } },
+              {
+                subjects: {
+                  some: { name: { contains: value, mode: "insensitive" } },
+                },
+              },
+            ];
+            break;
+          case "classId":
+            query.classes = { some: { id: parseInt(value) } };
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
 
   const p = page ? parseInt(page) : 1;
 
@@ -52,16 +77,7 @@ async function Teachers({
 
   const [teachers, totalPosts] = await prisma.$transaction([
     prisma.teacher.findMany({
-      where: search
-        ? {
-            OR: [
-              { name: { contains: search, mode: "insensitive" } },
-
-              { surname: { contains: search, mode: "insensitive" } },
-              classId ? { classes: { some: { id: parseInt(classId) } } } : {},
-            ],
-          }
-        : {},
+      where: query,
       include: {
         classes: { select: { name: true, students: true } },
         subjects: true,
@@ -70,17 +86,7 @@ async function Teachers({
       take: PER_PAGE,
     }),
     prisma.teacher.count({
-      where: search
-        ? {
-            OR: [
-              search ? { name: { contains: search, mode: "insensitive" } } : {},
-              search
-                ? { surname: { contains: search, mode: "insensitive" } }
-                : {},
-              classId ? { classes: { some: { id: parseInt(classId) } } } : {},
-            ],
-          }
-        : {},
+      where: query,
     }),
   ]);
 

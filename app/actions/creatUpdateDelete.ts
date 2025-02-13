@@ -3,18 +3,21 @@ import { deleteParent, updateParent, createParent } from "./parentAction";
 import { deleteTeacher, createTeacher, updateTeacher } from "./teacherAction";
 import { createSubject, deleteSubject, updateSubject } from "./subjectAction";
 import { createClass, deleteClass, updateClass } from "./classAction";
+import { createExam, deleteExam, updateExam } from "./examAction";
 
 export enum METHOD_TYPE {
   DELETE = "DELETE",
   CREATE = "CREATE",
   UPDATE = "UPDATE",
 }
+
 const methods: any = {
   teacher: [createTeacher, deleteTeacher, updateTeacher],
   student: [createStudent, deleteStudent, updateStudent],
   parent: [createParent, deleteParent, updateParent],
   subject: [createSubject, deleteSubject, updateSubject],
   class: [createClass, deleteClass, updateClass],
+  exam: [createExam, deleteExam, updateExam],
 };
 type ModelName =
   | "teacher"

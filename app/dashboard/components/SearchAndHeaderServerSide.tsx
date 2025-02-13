@@ -10,7 +10,7 @@ function SearchAndHeaderServerSide({ title }: { title: string }) {
   const router = useRouter();
   const session = useSession();
 
-  const role = session && session.data?.user.role;
+  const role = session && session.data?.user.role.toLocaleLowerCase();
   const path = usePathname();
   let newPath: string = path.split("/")[2].slice(0, -1);
 

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import FormModel from "./FormModel";
-import { Search } from "lucide-react";
+import { Filter, Search, SortAsc } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 function SearchAndHeader({
@@ -15,7 +15,8 @@ function SearchAndHeader({
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const session = useSession();
-  const role = session?.data?.user?.role;
+  const role = session?.data?.user?.role.toLocaleLowerCase();
+
   const handleSearchChange = () => {
     if (inputRef.current) {
       handleSearch(inputRef?.current?.value);
@@ -43,27 +44,13 @@ function SearchAndHeader({
         </div>
 
         <div className="flex justify-center items-center ml-2 gap-1 w-[150px] ">
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-orange-200 appearance-none">
-            <Image
-              src="/filter.png"
-              alt=""
-              width={14}
-              height={14}
-              className="object-cover "
-            />
+          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200/80">
+            <Filter size={"15px"} />
           </button>
           <button className="w-8 h-8 flex justify-center items-center  rounded-full bg-[#7dd37b]">
-            <Image
-              src="/sort.png"
-              alt=""
-              width={14}
-              height={14}
-              className="rounded-full object-cover"
-            />
+            <SortAsc size={"15px"} />
           </button>
-          {role === "admin" && (
-            <FormModel table="student" type="create" studentId="200" />
-          )}
+          {role === "admin" && <FormModel table="student" type="create" />}
         </div>
       </section>
     </div>

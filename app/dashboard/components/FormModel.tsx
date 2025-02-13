@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
 
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Error from "next/error";
-import { CirclePlus, Pencil, Trash } from "lucide-react";
+import { CirclePlus, Pencil, Trash, X } from "lucide-react";
 import {
   createUpdateDelete,
   METHOD_TYPE,
@@ -35,9 +35,9 @@ const DeleteForm = ({
       </button>
       <button
         onClick={handleToggle}
-        className="absolute top-3 right-5 w-4 h-4 text-xl font-semibold text-gray-500/50"
+        className="absolute top-5 right-5 w-4 h-4 text-xl font-semibold text-gray-500/50"
       >
-        x
+        <X size={17} className="text-gray-300" />
       </button>
     </form>
   );
@@ -76,7 +76,7 @@ function FormModel({
       if (table == "class") {
         router.push(`/dashboard/${table}es`);
       } else {
-        router.push(`/dashboard/${table}s`);
+        router.refresh();
       }
     } catch (error: Error | any) {
       console.error(error?.message || "Failed to delete student");

@@ -27,11 +27,6 @@ function StudentClient({
   );
   const [felteredData, setFelteredData] = useState<StudentType[]>(studentData);
 
-  useEffect(() => {
-    const fetchStudents = async () => {};
-    getStudents();
-  }, []);
-
   const handleSearch = (search: string) => {
     const filtered = studentData.filter((data) => {
       return data.name.toLowerCase().includes(search.toLowerCase());
@@ -81,8 +76,8 @@ function StudentClient({
     await updateStudent(id, data);
   };
 
-  const handleAdd = async () => {
-    await createStudent();
+  const handleAdd = async (data: Student) => {
+    await createStudent(data);
   };
 
   return (

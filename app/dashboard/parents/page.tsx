@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import Table from "../components/Table";
 import Link from "next/link";
 import FormModel from "../components/FormModel";
-import PaginationServerSide from "../components/PaginationServerSide";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
 import { useSearchParams } from "next/navigation";
 import { Parent } from "@prisma/client";
 import { getParents } from "@/app/actions/parentAction";
 import { ParentProps } from "@/app/libs/types";
+import { PER_PAGE } from "@/app/libs/constants";
+import PaginationServerSide from "../components/PaginationServerSide";
 
 const listofParent = (user: Parent) => {
   return (
@@ -36,32 +37,57 @@ const listofParent = (user: Parent) => {
             studentId={user.id + ""}
             data={user}
           />
-          <button className="flex justify-center items-center w-7 h-7 p-1  bg-red-200 rounded-full">
-            <FormModel
-              table="parent"
-              type="delete"
-              studentId={user.id}
-              data={user}
-            />
-          </button>
+
+          <FormModel
+            table="parent"
+            type="delete"
+            studentId={user.id}
+            data={user}
+          />
         </div>
       </td>
     </tr>
   );
 };
+type parentType = {
+  parent: ParentProps[];
+  totalNumber: number;
+};
 function Parents() {
-  const [updated, setUpdated] = useState<ParentProps[]>([]);
+  const [updated, setUpdated] = useState<parentType>({
+    parent: [],
+    totalNumber: 0,
+  });
 
+  const [filtered, setFiltered] = useState<ParentProps[]>(updated.parent);
   const searchParams = useSearchParams();
+
   const search = searchParams.get("search") || "";
+  const page = Number(searchParams.get("page")) || 1;
+
+  const p = (page - 1) * PER_PAGE;
 
   useEffect(() => {
     const getFullParents = async () => {
       const { parents, totalparent } = await getParents();
-      setUpdated(parents);
+      const filterdParent = parents.slice(p, p + PER_PAGE);
+      setUpdated((prvState) => ({
+        ...prvState,
+        parent: filterdParent,
+        totalNumber: totalparent,
+      }));
     };
     getFullParents();
-  }, [search]);
+  }, []);
+
+  useEffect(() => {
+    const getFull = async () => {
+      const { parents } = await getParents();
+      const filterdParent = parents.slice(p, PER_PAGE + p);
+      setFiltered(filterdParent);
+    };
+    getFull();
+  }, [search, page]);
 
   const HeaderClass = [
     {
@@ -84,12 +110,12 @@ function Parents() {
       header: "Action",
     },
   ];
-
+  const totalPages = Math.ceil(updated.totalNumber / PER_PAGE);
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
       <SearchAndHeaderServerSide title="All Parents" />
-      <Table data={updated} tableHeader={HeaderClass} Lists={listofParent} />
-      <PaginationServerSide totalPages={updated.length / 10} />
+      <Table data={filtered} tableHeader={HeaderClass} Lists={listofParent} />
+      <PaginationServerSide totalPages={totalPages} />
     </div>
   );
 }

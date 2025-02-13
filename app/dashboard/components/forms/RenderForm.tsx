@@ -62,6 +62,16 @@ export default function RenderForm({
           handleToggle={handleToggle}
         />
       );
+    case "exam":
+      return (
+        <ParentForm
+          table={table}
+          id={id}
+          data={data}
+          title={title}
+          handleToggle={handleToggle}
+        />
+      );
     default:
       return <div>Select a table to render its form</div>;
   }

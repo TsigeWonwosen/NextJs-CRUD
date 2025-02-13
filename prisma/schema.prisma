@@ -47,7 +47,7 @@ model Teacher {
   bloodType String
   sex       UserSex
   createdAt DateTime  @default(now())
-  subjects  Subject[]
+  subjects  Subject[] 
   lessons   Lesson[]
   classes   Class[]
   birthday  DateTime
@@ -91,7 +91,7 @@ model Class {
 model Subject {
   id       Int       @id @default(autoincrement())
   name     String    @unique
-  teachers Teacher[]
+  teachers Teacher[] 
   lessons  Lesson[]
 }
 

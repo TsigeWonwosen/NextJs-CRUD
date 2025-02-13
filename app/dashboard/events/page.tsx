@@ -1,82 +1,97 @@
 import React from "react";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
-import { Announcement, Class } from "@prisma/client";
-import { role } from "@/app/utils/data";
 import PaginationServerSide from "../components/PaginationServerSide";
 import Table from "../components/Table";
 import { prisma } from "@/app/libs/prisma";
 import FormModel from "../components/FormModel";
 import { PER_PAGE } from "@/app/libs/constants";
+import { EventList } from "@/app/libs/types";
+import { getServerSession } from "next-auth";
+import { Options } from "@/app/libs/auth";
 
-type AnnouncementList = Announcement & { class: Class };
-
-const columns = [
-  {
-    header: "Title",
-    accessor: "title",
-  },
-  {
-    header: "Class",
-    accessor: "class",
-  },
-  {
-    header: "Date",
-    accessor: "date",
-    className: "hidden md:table-cell",
-  },
-  ...(role === "admin"
-    ? [
-        {
-          header: "Actions",
-          accessor: "action",
-        },
-      ]
-    : []),
-];
-const renderRow = (item: AnnouncementList) => (
-  <tr
-    key={item.id}
-    className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
-  >
-    <td className="flex items-center gap-4 p-4">{item.title}</td>
-    <td>{item.class?.name || "-"}</td>
-    <td className="hidden md:table-cell">
-      {new Intl.DateTimeFormat("en-US").format(item.date)}
-    </td>
-    <td>
-      <div className="flex items-center justify-center gap-2">
-        {role === "admin" && (
-          <>
-            {/* <FormContainer table="announcement" type="update" data={item} />
-            <FormContainer table="announcement" type="delete" id={item.id} /> */}
-            <FormModel studentId={item.id} table="Parents" type="update" />
-            <FormModel studentId={item.id} table="Parents" type="delete" />
-          </>
-        )}
-      </div>
-    </td>
-  </tr>
-);
 export default async function Events({
   searchParams,
 }: {
   searchParams: { [value: string]: string | undefined };
 }) {
   const { search = "" } = await searchParams;
-  const announcement = await prisma.announcement.findMany({
+  const session = await getServerSession(Options);
+  const role = session?.user?.role.toLocaleLowerCase();
+
+  const columns = [
+    {
+      header: "Title",
+      accessor: "title",
+    },
+    {
+      header: "Description",
+      accessor: "discription",
+    },
+    {
+      header: "Start Date",
+      accessor: "date",
+      className: "hidden md:table-cell",
+    },
+    {
+      header: "End Date",
+      accessor: "date",
+      className: "hidden md:table-cell",
+    },
+    ...(role === "admin"
+      ? [
+          {
+            header: "Actions",
+            accessor: "action",
+          },
+        ]
+      : []),
+  ];
+
+  const renderRow = (item: EventList) => (
+    <tr
+      key={item.id}
+      className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
+    >
+      <td className="flex items-center gap-4 p-4">{item.title}</td>
+      <td>{item.description || "-"}</td>
+      <td className="hidden md:table-cell">
+        {new Intl.DateTimeFormat("en-US").format(item.startTime)}
+      </td>
+      <td className="hidden md:table-cell">
+        {new Intl.DateTimeFormat("en-US").format(item.endTime)}
+      </td>
+      <td>
+        <div className="flex items-center justify-center gap-2">
+          {role === "admin" && (
+            <>
+              <FormModel
+                studentId={item.id}
+                table="event"
+                type="update"
+                data={item}
+              />
+              <FormModel studentId={item.id} table="event" type="delete" />
+            </>
+          )}
+        </div>
+      </td>
+    </tr>
+  );
+
+  const events = await prisma.event.findMany({
     where: {
       OR: [
         { title: { contains: search, mode: "insensitive" } },
-        { class: { name: { contains: search, mode: "insensitive" } } },
+        { description: { contains: search, mode: "insensitive" } },
       ],
     },
   });
 
-  const numberofPage = Math.ceil(announcement.length / PER_PAGE);
+  const numberofPage = Math.ceil(events.length / PER_PAGE);
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
       <SearchAndHeaderServerSide title="All Events" />
-      <Table Lists={renderRow} data={announcement} tableHeader={columns} />
+      <Table Lists={renderRow} data={events} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>
   );

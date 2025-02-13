@@ -2,7 +2,7 @@
 
 import { prisma } from "@/app/libs/prisma";
 import { TeacherProps } from "@/app/libs/types";
-import { Prisma, Teacher } from "@prisma/client";
+import { Teacher } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export const getTeachers = async () => {
@@ -42,22 +42,16 @@ export async function deleteTeacher(id: string) {
   if (!selectedTeacher || !selectedTeacher.id) {
     throw new Error("Teacher is invalid or missing an ID");
   }
+  console.log("Teacher Id: ", selectedTeacher.id);
   try {
     await prisma.teacher.delete({
       where: {
-        id: selectedTeacher.id,
+        id,
       },
     });
 
     revalidatePath("/dashboard/teachers");
   } catch (error: any) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2025"
-    ) {
-      console.log("Student not found:", id);
-    } else {
-      console.log("Error deleting student:", error);
-    }
+    console.log("Error deleting teacher:", error);
   }
 }
