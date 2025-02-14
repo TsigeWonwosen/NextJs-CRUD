@@ -6,6 +6,39 @@ import { revalidatePath } from "next/cache";
 
 type StudentType = Student & { class: Class };
 
+export async function getStudentsWithQuery(searchParams: {
+  search?: string;
+  name?: string;
+  id?: string;
+}) {
+  const { search, name, id } = searchParams;
+
+  const where: any = {};
+
+  if (id) {
+    where.id = isNaN(Number(id)) ? id : Number(id); // Handle string & number IDs
+  }
+
+  if (name) {
+    where.name = { contains: name, mode: "insensitive" }; // Case-insensitive search
+  }
+
+  if (search) {
+    where.OR = [
+      { name: { contains: search, mode: "insensitive" } }, // Search by name
+      { id: isNaN(Number(search)) ? search : Number(search) }, // Search by ID
+    ];
+  }
+
+  const students = await prisma.student.findMany({
+    where,
+    include: {
+      results: true, // Example of including relations
+    },
+  });
+
+  return students;
+}
 export const getStudents = async () => {
   const students: StudentType[] = await prisma.student.findMany({
     include: { class: true },

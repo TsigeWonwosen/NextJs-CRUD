@@ -2,11 +2,12 @@
 import React, { useState } from "react";
 import FormModel from "./FormModel";
 import { usePathname, useRouter } from "next/navigation";
-import { Filter, Search, SortAsc } from "lucide-react";
+import { Filter, Search, SortAsc, SortDesc } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 function SearchAndHeaderServerSide({ title }: { title: string }) {
   const [search, setSearch] = useState("");
+  const [isAsc, setIsAsc] = useState(true);
   const router = useRouter();
   const session = useSession();
 
@@ -53,7 +54,17 @@ function SearchAndHeaderServerSide({ title }: { title: string }) {
             <Filter size={"15px"} />
           </button>
           <button className="w-8 h-8 flex justify-center items-center  rounded-full bg-[#7dd37b]">
-            <SortAsc size={"15px"} />
+            {isAsc ? (
+              <SortAsc
+                size={"15px"}
+                onClick={() => setIsAsc((prvState) => !prvState)}
+              />
+            ) : (
+              <SortDesc
+                size={"15px"}
+                onClick={() => setIsAsc((prvState) => !prvState)}
+              />
+            )}
           </button>
           {role === "admin" && <FormModel table={newPath} type="create" />}
         </div>

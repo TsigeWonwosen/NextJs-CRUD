@@ -4,6 +4,7 @@ import { prisma } from "@/app/libs/prisma";
 import { TeacherProps } from "@/app/libs/types";
 import { Teacher } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { PER_PAGE } from "../libs/constants";
 
 export const getTeachers = async () => {
   const teachers: TeacherProps[] = await prisma.teacher.findMany({
@@ -14,6 +15,57 @@ export const getTeachers = async () => {
 
   return { teachers, totalStudents };
 };
+
+//get Teacher with Query
+export async function getTeachersWithQuery(searchParams: {
+  search?: string;
+  name?: string;
+  classId?: string;
+  page?: string;
+}) {
+  const { page, search, name, classId } = searchParams;
+
+  const where: any = {};
+
+  if (classId) {
+    where.id = isNaN(Number(classId)) ? classId : Number(classId);
+  }
+
+  if (name) {
+    where.name = { contains: name, mode: "insensitive" };
+  }
+
+  if (search) {
+    where.OR = [
+      { name: { contains: search, mode: "insensitive" } },
+      { id: isNaN(Number(search)) ? search : Number(search) },
+      {
+        subjects: { some: { name: { contains: search, mode: "insensitive" } } },
+      },
+    ];
+  }
+  const p = page ? parseInt(page) : 1;
+
+  const skip = (p - 1) * PER_PAGE;
+
+  const [teachers, teacherCounts] = await prisma.$transaction([
+    prisma.teacher.findMany({
+      where,
+      include: {
+        classes: { select: { name: true, students: true } },
+        subjects: true,
+      },
+      skip,
+      take: PER_PAGE,
+      orderBy: { name: "asc" },
+    }),
+    prisma.teacher.count({
+      where,
+    }),
+  ]);
+
+  return { teachers, teacherCounts };
+}
 
 // Create a new user
 export async function createTeacher(data: Teacher) {

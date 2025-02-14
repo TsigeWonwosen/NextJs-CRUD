@@ -13,8 +13,8 @@ function TeachersList(user: TeacherProps) {
       <td className=" flex flex-row justify-start  px-1 py-2 ">
         <Image
           src={user.img || "/profile.png"}
-          width={35}
-          height={35}
+          width={30}
+          height={30}
           alt="Profile Photo"
           className=" object-cover object-center rounded-full w-8 h-8"
         />
@@ -25,10 +25,10 @@ function TeachersList(user: TeacherProps) {
       </td>
       <td className=" px-4 py-2 text-sm hidden md:table-cell">{user.id}</td>
       <td className=" px-4 py-2 text-sm hidden sm:table-cell">
-        {user.subjects.map((sub) => sub.name).join(", ")}
+        {user.subjects.map((sub) => sub?.name).join(", ")}
       </td>
       <td className="  px-4 py-2 text-sm hidden md:table-cell">
-        {user.classes.map((cla) => cla.name).join(", ")}
+        {user.classes.map((cla) => cla.name).join(", ") || "-"}
       </td>
       <td className="  px-4 py-2 text-sm hidden md:table-cell">
         {user.address}

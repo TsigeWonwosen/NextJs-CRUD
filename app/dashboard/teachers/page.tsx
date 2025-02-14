@@ -4,10 +4,9 @@ import React from "react";
 import Table from "../components/Table";
 import TeachersList from "../components/TeachersList";
 import PaginationServerSide from "../components/PaginationServerSide";
-import { prisma } from "@/app/libs/prisma";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
 import { PER_PAGE } from "@/app/libs/constants";
-import { Prisma } from "@prisma/client";
+import { getTeachersWithQuery } from "@/app/actions/teacherAction";
 
 async function Teachers({
   searchParams,
@@ -43,54 +42,10 @@ async function Teachers({
     },
   ];
 
-  const { page, ...queryParams } = await searchParams;
+  const searchParam = await searchParams;
 
-  const query: Prisma.TeacherWhereInput = {};
-
-  if (queryParams) {
-    for (const [key, value] of Object.entries(queryParams)) {
-      if (value !== undefined) {
-        switch (key) {
-          case "search":
-            query.OR = [
-              { name: { contains: value, mode: "insensitive" } },
-              {
-                subjects: {
-                  some: { name: { contains: value, mode: "insensitive" } },
-                },
-              },
-            ];
-            break;
-          case "classId":
-            query.classes = { some: { id: parseInt(value) } };
-            break;
-          default:
-            break;
-        }
-      }
-    }
-  }
-
-  const p = page ? parseInt(page) : 1;
-
-  const skip = (p - 1) * PER_PAGE;
-
-  const [teachers, totalPosts] = await prisma.$transaction([
-    prisma.teacher.findMany({
-      where: query,
-      include: {
-        classes: { select: { name: true, students: true } },
-        subjects: true,
-      },
-      skip,
-      take: PER_PAGE,
-    }),
-    prisma.teacher.count({
-      where: query,
-    }),
-  ]);
-
-  const numberofPage = Math.ceil(totalPosts / PER_PAGE);
+  const { teachers, teacherCounts } = await getTeachersWithQuery(searchParam);
+  const numberofPage = Math.ceil(teacherCounts / PER_PAGE);
 
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">

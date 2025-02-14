@@ -7,21 +7,30 @@ import Table from "../components/Table";
 import { prisma } from "@/app/libs/prisma";
 import FormModel from "../components/FormModel";
 import { PER_PAGE } from "@/app/libs/constants";
-
-type AnnouncementList = Announcement & { class: Class };
+import { ResultList } from "@/app/libs/types";
 
 const columns = [
   {
-    header: "Title",
-    accessor: "title",
+    header: "Student Name ",
+    accessor: "student name ",
   },
   {
-    header: "Class",
-    accessor: "class",
+    header: "Assignment",
+    accessor: "assignment",
   },
   {
-    header: "Date",
+    header: "Start Time",
     accessor: "date",
+    className: "hidden md:table-cell",
+  },
+  {
+    header: "Ende Time",
+    accessor: "date",
+    className: "hidden md:table-cell",
+  },
+  {
+    header: "Score",
+    accessor: "score",
     className: "hidden md:table-cell",
   },
   ...(role === "admin"
@@ -33,24 +42,31 @@ const columns = [
       ]
     : []),
 ];
-const renderRow = (item: AnnouncementList) => (
+const renderRow = (item: ResultList) => (
   <tr
     key={item.id}
     className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
   >
-    <td className="flex items-center gap-4 p-4">{item.title}</td>
-    <td>{item.class?.name || "-"}</td>
+    <td className="flex items-center gap-4 p-4">{item.student.name}</td>
+    <td>{item.assignment.title || "-"}</td>
     <td className="hidden md:table-cell">
-      {new Intl.DateTimeFormat("en-US").format(item.date)}
+      {new Intl.DateTimeFormat("en-US").format(item.assignment.startDate)}
     </td>
+    <td className="hidden md:table-cell">
+      {new Intl.DateTimeFormat("en-US").format(item.assignment.dueDate)}
+    </td>
+    <td className="hidden md:table-cell">{item.score.toFixed()}</td>
     <td>
       <div className="flex items-center justify-center gap-2">
         {role === "admin" && (
           <>
-            {/* <FormContainer table="announcement" type="update" data={item} />
-            <FormContainer table="announcement" type="delete" id={item.id} /> */}
-            <FormModel studentId={item.id} table="Parents" type="update" />
-            <FormModel studentId={item.id} table="Parents" type="delete" />
+            <FormModel
+              studentId={item.id}
+              table="result"
+              type="update"
+              data={item}
+            />
+            <FormModel studentId={item.id} table="result" type="delete" />
           </>
         )}
       </div>
@@ -63,20 +79,28 @@ export default async function Results({
   searchParams: { [value: string]: string | undefined };
 }) {
   const { search = "" } = await searchParams;
-  const announcement = await prisma.announcement.findMany({
+  const results = await prisma.result.findMany({
     where: {
       OR: [
-        { title: { contains: search, mode: "insensitive" } },
-        { class: { name: { contains: search, mode: "insensitive" } } },
+        { assignment: { title: { contains: search, mode: "insensitive" } } },
+        {
+          student: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
       ],
     },
+    include: { assignment: true, student: true, exam: true },
   });
 
-  const numberofPage = Math.ceil(announcement.length / PER_PAGE);
+  const numberofPage = Math.ceil(results.length / PER_PAGE);
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
       <SearchAndHeaderServerSide title="All Announcements" />
-      <Table Lists={renderRow} data={announcement} tableHeader={columns} />
+      <Table Lists={renderRow} data={results} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>
   );

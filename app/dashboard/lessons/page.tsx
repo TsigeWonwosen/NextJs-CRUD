@@ -35,24 +35,29 @@ async function Lessons({
     ? undefined
     : Number(search);
 
+  const query: any = {};
+
+  if (search !== undefined && search.length > 0) {
+    query.OR = [
+      { name: { contains: search, mode: "insensitive" } },
+      { class: { name: { contains: search, mode: "insensitive" } } },
+    ];
+  }
+
+  if (searchAsNumber !== undefined && searchAsNumber > 0) {
+    query.id = searchAsNumber;
+  }
+
   const [lessons, totalLesson] = await prisma.$transaction([
     prisma.lesson.findMany({
-      where: search
-        ? {
-            OR: [
-              { name: { contains: search, mode: "insensitive" } },
-              ...(searchAsNumber !== undefined ? [{ id: searchAsNumber }] : []),
-            ],
-          }
-        : {},
+      where: query,
 
       include: { teacher: true, class: { select: { name: true } } },
       skip: (+page - 1) * +PER_PAGE,
       take: PER_PAGE,
     }),
-    prisma.lesson.count(),
+    prisma.lesson.count({ where: query }),
   ]);
-
   const totalPage = Math.ceil(totalLesson / PER_PAGE);
 
   return (
