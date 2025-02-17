@@ -10,10 +10,10 @@ import "@/app/dashboard/styles/Fullcalander.css";
 import { calendarEvents } from "@/app/utils/data";
 function BigCalander() {
   const events = [
-    { title: "Meeting", date: "2025-01-22" },
-    { title: "Conference", date: "2025-01-23" },
-    { title: "Coffe Cermone", date: "2025-01-25" },
-    { title: "C.d.c Lab Checkup", date: "2025-01-24" },
+    { title: "Meeting", date: "2025-02-22" },
+    { title: "Conference", date: "2025-02-23" },
+    { title: "Coffe Cermone", date: "2025-02-25" },
+    { title: "C.d.c Lab Checkup", date: "2025-02-24" },
   ];
 
   return (
@@ -23,7 +23,7 @@ function BigCalander() {
         initialView="dayGridMonth"
         editable={true}
         selectable={true}
-        events={calendarEvents}
+        events={events}
         weekends={false}
         slotMinTime="08:00:00" // Calendar start time
         slotMaxTime="18:00:00" // Calendar end time

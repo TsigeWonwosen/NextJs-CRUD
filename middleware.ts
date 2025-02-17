@@ -17,17 +17,17 @@ export const middleware = async (req: NextRequest, res: NextResponse) => {
   const teacherUrl = new URL("/dashboard/teachers", req.url);
   const parenttUrl = new URL("/dashboard/students", req.url);
   // Redirect users to their allowed page
-  if (path.startsWith("/dashboard")) {
-    if (role === "student") {
-      return NextResponse.rewrite(studentUrl);
-    }
-    if (role === "teacher") {
-      return NextResponse.rewrite(teacherUrl);
-    }
-    if (role === "parent") {
-      return NextResponse.rewrite(parenttUrl);
-    }
-  }
+  // if (path.startsWith("/dashboard")) {
+  //   if (role === "student") {
+  //     return NextResponse.rewrite(studentUrl);
+  //   }
+  //   if (role === "teacher") {
+  //     return NextResponse.rewrite(teacherUrl);
+  //   }
+  //   if (role === "parent") {
+  //     return NextResponse.rewrite(parenttUrl);
+  //   }
+  // }
   return NextResponse.next();
 };
 

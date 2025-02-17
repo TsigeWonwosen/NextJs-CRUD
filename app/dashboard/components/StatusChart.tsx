@@ -1,13 +1,8 @@
 "use client";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
-const data2 = [
-  { name: "Boys", value: 8400 },
-  { name: "Girls", value: 4500 },
-  { name: "Total", value: 12000 },
-];
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -17,7 +12,6 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index,
 }: any) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -37,7 +31,12 @@ const renderCustomizedLabel = ({
 };
 const COLORS = ["#06093C", "#3788D8", "#141720", "#98A0AE"];
 
-export default function StatusChart() {
+type dataType = {
+  name: string;
+  value: number;
+};
+
+export default function StatusChart({ data }: { data: dataType[] }) {
   return (
     <div className=" w-full md:w-[95%] h-[400px]  bg-[#0C162E] rounded-md flex flex-col justify-between px-2 py-4 md:px-5">
       <section className="h-[30px] flex justify-between items-center">
@@ -55,7 +54,7 @@ export default function StatusChart() {
       <ResponsiveContainer width="100%" height="100%" className="h-full w-full">
         <PieChart width={400} height={400}>
           <Pie
-            data={data2}
+            data={data}
             cx="50%"
             cy="50%"
             labelLine={false}
@@ -64,7 +63,7 @@ export default function StatusChart() {
             fill="#8884d8"
             dataKey="value"
           >
-            {data2.map((entry, index) => (
+            {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={COLORS[index % COLORS.length]}

@@ -11,6 +11,7 @@ import {
   Teacher,
   Result,
   Exam,
+  Attendance,
 } from "@prisma/client";
 import { ObjectId } from "mongoose";
 import { z } from "zod";
@@ -125,3 +126,11 @@ export type AnnouncementList = Announcement & { class?: Class | null };
 export type EventList = Event & { class: Class };
 
 export type ExamList = Exam & { lesson: Lesson; results: Result[] };
+
+export type ResultList = Result & {
+  assignment: Assignment;
+  student: Student;
+  exam: Exam;
+};
+
+export type AttendanceList = Attendance & { student: Student; lesson: Lesson };

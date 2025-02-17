@@ -13,7 +13,7 @@ function SearchAndHeaderServerSide({ title }: { title: string }) {
 
   const role = session && session.data?.user.role.toLocaleLowerCase();
   const path = usePathname();
-  let newPath: string = path.split("/")[2].slice(0, -1);
+  let newPath: string = path.split("/")[2]?.slice(0, -1);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (
     e: React.FormEvent<HTMLFormElement>

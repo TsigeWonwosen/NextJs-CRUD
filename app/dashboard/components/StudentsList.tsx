@@ -24,9 +24,7 @@ function StudentsList(user: StudentType) {
           <span className="text-xs text-slate-700">{user.email}</span>
         </section>
       </td>
-      <td className=" px-4 py-2 text-sm hidden md:table-cell">
-        {user.classId}
-      </td>
+      <td className=" px-4 py-2 text-sm hidden md:table-cell">{user.id}</td>
       <td className=" px-4 py-2 text-sm hidden sm:table-cell">
         {user.class.name}
       </td>

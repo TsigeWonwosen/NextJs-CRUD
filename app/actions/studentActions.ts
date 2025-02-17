@@ -42,6 +42,7 @@ export async function getStudentsWithQuery(searchParams: {
 export const getStudents = async () => {
   const students: StudentType[] = await prisma.student.findMany({
     include: { class: true },
+    orderBy: { id: "asc" },
   });
 
   const totalStudents = await prisma.student.count();
