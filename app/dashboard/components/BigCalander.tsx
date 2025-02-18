@@ -7,15 +7,14 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction"; // Enables
 import "@/app/dashboard/styles/Fullcalander.css";
 
-import { calendarEvents } from "@/app/utils/data";
-function BigCalander() {
-  const events = [
-    { title: "Meeting", date: "2025-02-22" },
-    { title: "Conference", date: "2025-02-23" },
-    { title: "Coffe Cermone", date: "2025-02-25" },
-    { title: "C.d.c Lab Checkup", date: "2025-02-24" },
-  ];
+type lessonType = {
+  title: string;
+  allDay: boolean;
+  start: Date;
+  end: Date;
+};
 
+function BigCalander({ data }: { data: lessonType[] }) {
   return (
     <div className="px-6 py-2 w-full h-full mt-4 mb-4">
       <FullCalendar
@@ -23,7 +22,7 @@ function BigCalander() {
         initialView="dayGridMonth"
         editable={true}
         selectable={true}
-        events={events}
+        events={data}
         weekends={false}
         slotMinTime="08:00:00" // Calendar start time
         slotMaxTime="18:00:00" // Calendar end time

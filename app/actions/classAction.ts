@@ -24,10 +24,14 @@ export const getClass = async () => {
 
 // Create a new user
 export async function createClass(data: Class) {
-  const response = await prisma.class.create({ data });
+  try {
+    const response = await prisma.class.create({ data });
 
-  revalidatePath("/dashboard/classes");
-  return response;
+    revalidatePath("/dashboard/classes");
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // Update a post

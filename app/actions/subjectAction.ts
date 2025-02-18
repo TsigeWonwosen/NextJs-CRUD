@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/app/libs/prisma";
-import { SubjectProps } from "@/app/libs/types";
+import { SubjectchemaType, SubjectProps } from "@/app/libs/types";
 import { Prisma, Subject, Teacher } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -16,11 +16,15 @@ export const getSubjects = async () => {
 };
 
 // Create a new user
-export async function createSubject(data: Subject) {
-  const response = await prisma.subject.create({ data });
+export async function createSubject(data: SubjectchemaType) {
+  try {
+    const response = await prisma.subject.create({ data: { name: data.name } });
 
-  revalidatePath("/dashboard/subjects");
-  return response;
+    // revalidatePath("/dashboard/subjects");
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Update a post

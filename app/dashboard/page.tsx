@@ -15,6 +15,7 @@ import InfoCard from "./components/InfoCard";
 import ReactCalandor from "./components/ReactCalandor";
 import StatusChartwrapper from "./components/StatusChartwrapper";
 import EventList from "./components/EventList";
+import BigCalenderWraper from "./components/BigCalenderWraper";
 
 export default async function DashboardPage({
   searchParams,
@@ -31,7 +32,7 @@ export default async function DashboardPage({
           <InfoCard name="student" />
           <InfoCard name="parent" />
         </div>
-        <BigCalander />
+        <BigCalenderWraper />
 
         <SchoolChart />
       </div>

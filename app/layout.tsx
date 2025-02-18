@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SessionProviderWrapper from "./components/sessionProvider";
 import SideMenu from "./dashboard/components/SideMenu";
-import { getSession } from "next-auth/react";
-import Border from "./dashboard/components/border";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +31,7 @@ export default function RootLayout({
               </div>
               <div className="flex flex-col flex-1 h-full min-h-screen ">
                 <Header />
+                <ToastContainer position="bottom-right" theme="dark" />
                 <section className="flex w-full  flex-1">{children}</section>
                 <Footer />
               </div>

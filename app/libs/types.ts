@@ -80,6 +80,21 @@ export const StudntSchema = z.object({
 
 export type StudentSchemaType = z.infer<typeof StudntSchema>;
 
+export const ClassSchema = z.object({
+  name: z
+    .string()
+    .min(4, { message: "Class name should be at least 4 charactor." }),
+});
+export type ClassSchemaType = z.infer<typeof ClassSchema>;
+
+export const SubjectSchema = z.object({
+  name: z
+    .string()
+    .min(4, { message: "Class name should be at least 4 charactor." }),
+});
+
+export type SubjectchemaType = z.infer<typeof SubjectSchema>;
+
 export type UserProps = {
   id?: number;
   teacherId?: string;
