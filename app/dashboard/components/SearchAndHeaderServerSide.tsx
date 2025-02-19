@@ -14,8 +14,10 @@ function SearchAndHeaderServerSide({ title }: { title: string }) {
   const role = session && session.data?.user.role.toLocaleLowerCase();
   const path = usePathname();
   let seletctedTable = path.split("/")[2];
+
   let newPath: string =
     seletctedTable === "classes" ? "class" : seletctedTable.slice(0, -1);
+  console.log("newPath,", newPath);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (
     e: React.FormEvent<HTMLFormElement>

@@ -1,33 +1,36 @@
 "use server";
 
 import { prisma } from "@/app/libs/prisma";
-import { AnnouncementList } from "@/app/libs/types";
-import { Assignment } from "@prisma/client";
+import { ClassProps } from "@/app/libs/types";
+import { Class } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export const getAssignments = async () => {
-  const announcements: AnnouncementList[] = await prisma.announcement.findMany({
+export const getClasses = async () => {
+  const classes: ClassProps[] = await prisma.class.findMany({
     include: {
-      class: true,
+      students: true,
+      events: true,
+      lessons: true,
+      announcements: true,
+      grade: true,
     },
   });
 
-  const totalClass = await prisma.announcement.count();
+  const totalClass = await prisma.class.count();
 
-  return { announcements, totalClass };
+  return { classes, totalClass };
 };
 
 // Create a new user
-export async function createClass(data: Assignment) {
-  const response = await prisma.assignment.create({ data });
+export async function createClass(data: Class) {
+  const response = await prisma.class.create({ data });
 
-  revalidatePath("/dashboard/assignments");
   return response;
 }
 
 // Update a post
-export async function updateClass(id: number, data: Assignment) {
-  return await prisma.assignment.update({
+export async function updateClass(id: number, data: Class) {
+  return await prisma.class.update({
     where: { id },
     data,
   });
@@ -36,7 +39,7 @@ export async function updateClass(id: number, data: Assignment) {
 //  Delete a post
 export async function deleteClass(id: number) {
   try {
-    const deleteUser = await prisma.assignment.delete({
+    const deleteUser = await prisma.class.delete({
       where: {
         id,
       },

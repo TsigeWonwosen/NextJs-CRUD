@@ -48,7 +48,6 @@ export const createUpdateDelete = async ({
       case METHOD_TYPE.UPDATE:
         if (!id || !data)
           throw new Error("ID and data are required for UPDATE");
-
         return await methods[model][2](id, data);
 
       case METHOD_TYPE.DELETE:

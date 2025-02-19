@@ -38,7 +38,6 @@ export async function getTeachersWithQuery(searchParams: {
   if (search) {
     where.OR = [
       { name: { contains: search, mode: "insensitive" } },
-      { id: isNaN(Number(search)) ? search : Number(search) },
       {
         subjects: { some: { name: { contains: search, mode: "insensitive" } } },
       },

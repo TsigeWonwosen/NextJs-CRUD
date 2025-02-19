@@ -81,16 +81,23 @@ export const StudntSchema = z.object({
 export type StudentSchemaType = z.infer<typeof StudntSchema>;
 
 export const ClassSchema = z.object({
+  id: z.coerce.number().optional(),
   name: z
     .string()
-    .min(4, { message: "Class name should be at least 4 charactor." }),
+    .min(1, { message: "Class name should be at least 4 charactor." }),
+  capacity: z.coerce.number().min(1, { message: "Capacity is reqiured." }),
+  supervisorId: z.string().optional(),
+  gradeId: z.coerce.number().min(1, { message: "Grede is required." }),
 });
 export type ClassSchemaType = z.infer<typeof ClassSchema>;
 
 export const SubjectSchema = z.object({
+  id: z.coerce.number().optional(),
   name: z
     .string()
     .min(4, { message: "Class name should be at least 4 charactor." }),
+  teachers: z.array(z.string()).optional(),
+  lessons: z.array(z.string()).optional(),
 });
 
 export type SubjectchemaType = z.infer<typeof SubjectSchema>;

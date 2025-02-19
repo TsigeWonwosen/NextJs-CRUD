@@ -9,6 +9,7 @@ import {
   METHOD_TYPE,
 } from "@/app/actions/creatUpdateDelete";
 import RenderForm from "./forms/RenderForm";
+import { toast } from "react-toastify";
 
 const DeleteForm = ({
   id,
@@ -78,6 +79,7 @@ function FormModel({
       } else {
         router.refresh();
       }
+      toast.success(`${table} id: ${id} deleted successfully. `);
     } catch (error: Error | any) {
       console.error(error?.message || "Failed to delete student");
     }

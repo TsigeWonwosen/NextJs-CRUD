@@ -17,21 +17,37 @@ export const getSubjects = async () => {
 
 // Create a new user
 export async function createSubject(data: SubjectchemaType) {
+  console.log("Subject : ", data);
   try {
-    const response = await prisma.subject.create({ data: { name: data.name } });
+    await prisma.subject.create({
+      data: {
+        name: data.name,
+        teachers: {
+          connect: data.teachers?.map((teacher) => ({ id: teacher })),
+        },
+      },
+    });
 
-    // revalidatePath("/dashboard/subjects");
-    return response;
+    revalidatePath("/dashboard/subjects");
   } catch (error) {
     console.log(error);
   }
 }
 
 // Update a post
-export async function updateSubject(id: number, data: Subject) {
+export async function updateSubject({
+  id,
+  data,
+}: {
+  id: number;
+  data: { name: string; id: number; teachers: string[] };
+}) {
   return await prisma.subject.update({
     where: { id },
-    data,
+    data: {
+      name: data.name,
+      teachers: { set: data.teachers.map((teacher) => ({ id: teacher })) },
+    },
   });
 }
 

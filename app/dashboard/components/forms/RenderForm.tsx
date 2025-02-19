@@ -11,6 +11,21 @@ export default function RenderForm({
   title,
   handleToggle,
 }: any) {
+  // const grades = await prisma.grade.findMany({
+  //   select: { id: true, level: true },
+  // });
+  // const teachers = await prisma.teacher.findMany({
+  //   select: { id: true, name: true, surname: true },
+  // });
+
+  // const lessons = await prisma.lesson.findMany({
+  //   select: {
+  //     id: true,
+  //     name: true,
+  //     teacher: true,
+  //   },
+  // });
+
   switch (table) {
     case "teacher":
       return (

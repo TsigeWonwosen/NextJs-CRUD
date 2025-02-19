@@ -1,9 +1,9 @@
-import { createSubject } from "@/app/actions/subjectAction";
+import { createSubject, updateSubject } from "@/app/actions/subjectAction";
 import { SubjectchemaType, SubjectSchema } from "@/app/libs/types";
 import { capitalizeTitle } from "@/app/utils/capitalize";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { revalidatePath } from "next/cache";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -28,14 +28,30 @@ function SubjectForm({
     formState: { errors, isSubmitting },
   } = useForm<SubjectchemaType>({ resolver: zodResolver(SubjectSchema) });
 
+  const router = useRouter();
   const onSubmit = (data: SubjectchemaType) => {
     try {
-      const res = createSubject(data);
-      console.log(res);
+      if (title == "update") {
+        if (data.id) {
+          updateSubject({
+            id: data?.id,
+            data: { name: data.name, id: data.id!, teachers: data.teachers! },
+          });
+          toast.success("Subject updated succesfully", { autoClose: 3000 });
+        }
+      } else {
+        const res = createSubject(data);
+        toast.success("Subject Created succesfully", { autoClose: 3000 });
+      }
       reset();
-      toast("Subject Created succesfully", { autoClose: 3000 });
+      handleToggle();
+      router.refresh();
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
   };
 
@@ -54,6 +70,9 @@ function SubjectForm({
         onSubmit={handleSubmit(onSubmit)}
         className="p-5 w-full bg-slate-950 h-auto z-50"
       >
+        {title == "update" && (
+          <input id="id" hidden defaultValue={data.id} {...register("id")} />
+        )}
         <div className="mb-4">
           <label
             htmlFor="username"
@@ -72,7 +91,31 @@ function SubjectForm({
           />
         </div>
         {errors?.name && <p className="text-red-400">{errors.name?.message}</p>}
-
+        <div className="mb-4">
+          <label
+            htmlFor="subjects"
+            className=" text-left  block text-sm font-medium text-gray-700"
+          >
+            Teachers
+          </label>
+          <select
+            multiple
+            id="teachers"
+            defaultValue={data?.teachers}
+            {...register("teachers")}
+            className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            required
+          >
+            <option value="teacher1">Teacher 1</option>
+            <option value="teacher2">Teacher 2</option>
+            <option value="teacher3">Teacher 3</option>
+            <option value="teacher4">Teacher 4</option>
+            <option value="teacher5">Teacher 5</option>
+          </select>
+        </div>
+        {errors.teachers?.message && (
+          <p className="text-red-400">{errors.teachers?.message}</p>
+        )}
         <button
           type="submit"
           disabled={isSubmitting}

@@ -23,7 +23,7 @@ export const getClass = async () => {
 };
 
 // Create a new user
-export async function createClass(data: Class) {
+export async function createClass(data: any) {
   try {
     const response = await prisma.class.create({ data });
 
@@ -35,7 +35,7 @@ export async function createClass(data: Class) {
 }
 
 // Update a post
-export async function updateClass(id: number, data: Class) {
+export async function updateClass(id: number, data: any) {
   return await prisma.class.update({
     where: { id },
     data,
