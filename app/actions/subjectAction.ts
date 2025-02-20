@@ -17,13 +17,15 @@ export const getSubjects = async () => {
 
 // Create a new user
 export async function createSubject(data: SubjectchemaType) {
-  console.log("Subject : ", data);
   try {
     await prisma.subject.create({
       data: {
         name: data.name,
         teachers: {
           connect: data.teachers?.map((teacher) => ({ id: teacher })),
+        },
+        lessons: {
+          connect: data.lessons?.map((lesson) => ({ id: Number(lesson) })),
         },
       },
     });
@@ -40,13 +42,16 @@ export async function updateSubject({
   data,
 }: {
   id: number;
-  data: { name: string; id: number; teachers: string[] };
+  data: { name: string; id: number; teachers: string[]; lessons: string[] };
 }) {
   return await prisma.subject.update({
     where: { id },
     data: {
       name: data.name,
       teachers: { set: data.teachers.map((teacher) => ({ id: teacher })) },
+      lessons: {
+        connect: data.lessons?.map((lesson) => ({ id: Number(lesson) })),
+      },
     },
   });
 }

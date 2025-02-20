@@ -88,6 +88,7 @@ export const ClassSchema = z.object({
   capacity: z.coerce.number().min(1, { message: "Capacity is reqiured." }),
   supervisorId: z.string().optional(),
   gradeId: z.coerce.number().min(1, { message: "Grede is required." }),
+  lessons: z.array(z.string()).optional(),
 });
 export type ClassSchemaType = z.infer<typeof ClassSchema>;
 

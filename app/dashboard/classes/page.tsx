@@ -4,9 +4,9 @@ import { role } from "@/app/utils/data";
 import PaginationServerSide from "../components/PaginationServerSide";
 import Table from "../components/Table";
 import { prisma } from "@/app/libs/prisma";
-import FormModel from "../components/FormModel";
 import { PER_PAGE } from "@/app/libs/constants";
 import { ClassProps } from "@/app/libs/types";
+import FormContainer from "../components/FormContainer";
 
 const columns = [
   {
@@ -51,13 +51,13 @@ const renderRow = (item: ClassProps) => (
       <div className="flex items-center justify-center gap-2">
         {role === "admin" && (
           <>
-            <FormModel
-              studentId={item.id}
+            <FormContainer
+              id={item.id}
               table="class"
               type="update"
               data={item}
             />
-            <FormModel studentId={item.id} table="class" type="delete" />
+            <FormContainer id={item.id} table="class" type="delete" />
           </>
         )}
       </div>
@@ -90,7 +90,7 @@ export default async function Classes({
   const numberofPage = Math.ceil(classes.length / PER_PAGE);
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
-      <SearchAndHeaderServerSide title="All Classes" />
+      <SearchAndHeaderServerSide title="All Classes" table="class" />
       <Table Lists={renderRow} data={classes} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>

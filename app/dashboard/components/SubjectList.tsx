@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import FormModel from "./FormModel";
 import { SubjectProps } from "@/app/libs/types";
+import FormContainer from "./FormContainer";
 
 function SubjectsList(subject: SubjectProps) {
   return (
@@ -27,13 +28,13 @@ function SubjectsList(subject: SubjectProps) {
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
           <Link href={`/dashboard/subjects/${subject.id}`}></Link>
-          <FormModel
+          <FormContainer
             table="subject"
             type="update"
-            studentId={subject.id}
+            id={subject.id}
             data={subject}
           />
-          <FormModel table="subject" type="delete" studentId={subject.id} />
+          <FormContainer table="subject" type="delete" id={subject.id} />
         </div>
       </td>
     </tr>

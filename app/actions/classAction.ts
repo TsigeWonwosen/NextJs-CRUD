@@ -2,8 +2,9 @@
 
 import { prisma } from "@/app/libs/prisma";
 import { ClassProps } from "@/app/libs/types";
-import { Class, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { date } from "zod";
 
 export const getClass = async () => {
   const totalclasses: ClassProps[] = await prisma.class.findMany({
@@ -23,9 +24,21 @@ export const getClass = async () => {
 };
 
 // Create a new user
-export async function createClass(data: any) {
+export async function createClass(data: ClassProps) {
   try {
-    const response = await prisma.class.create({ data });
+    const response = await prisma.class.create({
+      data: {
+        name: data.name,
+        capacity: data.capacity,
+        supervisorId: data.supervisorId,
+        gradeId: data.gradeId,
+        lessons: {
+          connect: data.lessons?.map((lesson) => ({
+            id: Number(lesson),
+          })),
+        },
+      },
+    });
 
     revalidatePath("/dashboard/classes");
     return response;
@@ -35,10 +48,20 @@ export async function createClass(data: any) {
 }
 
 // Update a post
-export async function updateClass(id: number, data: any) {
+export async function updateClass(id: number, data: ClassProps) {
   return await prisma.class.update({
     where: { id },
-    data,
+    data: {
+      name: data.name,
+      capacity: data.capacity,
+      supervisorId: data.supervisorId,
+      gradeId: data.gradeId,
+      lessons: {
+        connect: data.lessons?.map((lesson) => ({
+          id: Number(lesson),
+        })),
+      },
+    },
   });
 }
 

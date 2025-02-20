@@ -13,12 +13,14 @@ function SubjectForm({
   table,
   data,
   id,
+  relatedData,
 }: {
   handleToggle: () => void;
   title: string;
   table: string;
   data?: any;
   id?: string;
+  relatedData: any;
 }) {
   const {
     register,
@@ -35,7 +37,12 @@ function SubjectForm({
         if (data.id) {
           updateSubject({
             id: data?.id,
-            data: { name: data.name, id: data.id!, teachers: data.teachers! },
+            data: {
+              name: data.name,
+              id: data.id!,
+              teachers: data.teachers!,
+              lessons: data.lessons!,
+            },
           });
           toast.success("Subject updated succesfully", { autoClose: 3000 });
         }
@@ -55,6 +62,7 @@ function SubjectForm({
     }
   };
 
+  const { teachers = [], lessons } = relatedData;
   return (
     <div className="w-[450px] h-max bg-slate-950 p-10 rounded-lg shadow-md flex flex-col items-center  relative z-10 ">
       <div
@@ -106,11 +114,41 @@ function SubjectForm({
             className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             required
           >
-            <option value="teacher1">Teacher 1</option>
-            <option value="teacher2">Teacher 2</option>
-            <option value="teacher3">Teacher 3</option>
-            <option value="teacher4">Teacher 4</option>
-            <option value="teacher5">Teacher 5</option>
+            {teachers &&
+              teachers?.map(
+                (teacher: { name: string; surname: string; id: string }) => (
+                  <option key={teacher.id} value={teacher.id}>
+                    {teacher.name + " " + teacher.surname}
+                  </option>
+                )
+              )}
+          </select>
+        </div>
+        {errors.teachers?.message && (
+          <p className="text-red-400">{errors.teachers?.message}</p>
+        )}
+
+        <div className="mb-4">
+          <label
+            htmlFor="lessons"
+            className=" text-left  block text-sm font-medium text-gray-700"
+          >
+            Lesson
+          </label>
+          <select
+            multiple
+            id="lessons"
+            defaultValue={data?.lessons.id}
+            {...register("lessons")}
+            className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            required
+          >
+            {lessons &&
+              lessons?.map((lesson: { name: string; id: string }) => (
+                <option key={lesson.id} value={lesson.id}>
+                  {lesson.name}
+                </option>
+              ))}
           </select>
         </div>
         {errors.teachers?.message && (

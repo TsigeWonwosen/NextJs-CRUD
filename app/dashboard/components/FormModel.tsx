@@ -47,14 +47,16 @@ const DeleteForm = ({
 function FormModel({
   table,
   type,
-  studentId,
+  id,
   data,
+  relatedData,
 }: {
   // table: "student" | "teacher" | "parent" | "class" | "subject";
   table: string;
   type: "delete" | "update" | "create";
-  studentId?: string | number;
+  id?: string | number;
   data?: any;
+  relatedData?: any;
 }) {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -108,19 +110,20 @@ function FormModel({
       <>
         {show && (
           <div className="w-screen h-screen bg-black bg-opacity-60 absolute top-0 left-0  flex justify-center items-center overflow-hidden z-50">
-            {studentId && type == "delete" ? (
+            {id && type == "delete" ? (
               <DeleteForm
-                id={studentId}
+                id={id}
                 handleSubmit={handleSubmit}
                 handleToggle={handleToggle}
               />
             ) : (
               <RenderForm
                 table={table}
-                id={studentId}
+                id={id}
                 title={type}
                 handleToggle={handleToggle}
                 data={data}
+                relatedData={relatedData}
               />
             )}
           </div>
