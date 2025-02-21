@@ -17,12 +17,14 @@ function ParentForm({
   table,
   data,
   id,
+  relatedData,
 }: {
   handleToggle: () => void;
   title: string;
   table: string;
   data?: any;
   id?: string;
+  relatedData: any;
 }) {
   const [preview, setPreview] = useState<string | null>(null);
   const {

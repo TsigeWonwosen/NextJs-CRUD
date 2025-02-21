@@ -21,6 +21,7 @@ export default function RenderForm({
           data={data}
           title={title}
           handleToggle={handleToggle}
+          relatedData={relatedData}
         />
       );
     case "student":
@@ -31,6 +32,7 @@ export default function RenderForm({
           data={data}
           title={title}
           handleToggle={handleToggle}
+          relatedData={relatedData}
         />
       );
     case "parent":
@@ -41,6 +43,7 @@ export default function RenderForm({
           data={data}
           title={title}
           handleToggle={handleToggle}
+          relatedData={relatedData}
         />
       );
     case "class":
@@ -65,7 +68,7 @@ export default function RenderForm({
           relatedData={relatedData}
         />
       );
-    case "exam":
+    case "parent":
       return (
         <ParentForm
           table={table}
@@ -73,6 +76,7 @@ export default function RenderForm({
           data={data}
           title={title}
           handleToggle={handleToggle}
+          relatedData={relatedData}
         />
       );
     default:

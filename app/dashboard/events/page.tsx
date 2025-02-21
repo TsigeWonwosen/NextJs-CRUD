@@ -3,11 +3,11 @@ import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
 import PaginationServerSide from "../components/PaginationServerSide";
 import Table from "../components/Table";
 import { prisma } from "@/app/libs/prisma";
-import FormModel from "../components/FormModel";
 import { PER_PAGE } from "@/app/libs/constants";
 import { EventList } from "@/app/libs/types";
 import { getServerSession } from "next-auth";
 import { Options } from "@/app/libs/auth";
+import FormContainer from "../components/FormContainer";
 
 export default async function Events({
   searchParams,
@@ -64,13 +64,13 @@ export default async function Events({
         <div className="flex items-center justify-center gap-2">
           {role === "admin" && (
             <>
-              <FormModel
-                studentId={item.id}
+              <FormContainer
+                id={item.id}
                 table="event"
                 type="update"
                 data={item}
               />
-              <FormModel studentId={item.id} table="event" type="delete" />
+              <FormContainer id={item.id} table="event" type="delete" />
             </>
           )}
         </div>
@@ -90,7 +90,7 @@ export default async function Events({
   const numberofPage = Math.ceil(events.length / PER_PAGE);
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
-      <SearchAndHeaderServerSide title="All Events" />
+      <SearchAndHeaderServerSide title="All Events" table="event" />
       <Table Lists={renderRow} data={events} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>

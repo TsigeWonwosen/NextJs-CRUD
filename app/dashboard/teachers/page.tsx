@@ -1,4 +1,3 @@
-"use server";
 import React from "react";
 
 import Table from "../components/Table";
@@ -49,7 +48,7 @@ async function Teachers({
 
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
-      <SearchAndHeaderServerSide title="All Teachers" />
+      <SearchAndHeaderServerSide title="All Teachers" table="teacher" />
       <Table data={teachers} tableHeader={HeaderClass} Lists={TeachersList} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>

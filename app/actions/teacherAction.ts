@@ -1,14 +1,13 @@
 "use server";
 
 import { prisma } from "@/app/libs/prisma";
-import { TeacherProps } from "@/app/libs/types";
-import { Teacher } from "@prisma/client";
+import { TeacherProps, TeacherSchemaType } from "@/app/libs/types";
 import { revalidatePath } from "next/cache";
 import { PER_PAGE } from "../libs/constants";
 
 export const getTeachers = async () => {
   const teachers: TeacherProps[] = await prisma.teacher.findMany({
-    include: { classes: true, subjects: true },
+    include: { classes: true, subjects: true, lessons: true },
   });
 
   const totalStudents = await prisma.student.count();
@@ -53,6 +52,7 @@ export async function getTeachersWithQuery(searchParams: {
       include: {
         classes: { select: { name: true, students: true } },
         subjects: true,
+        lessons: true,
       },
       skip,
       take: PER_PAGE,
@@ -67,20 +67,71 @@ export async function getTeachersWithQuery(searchParams: {
 }
 
 // Create a new user
-export async function createTeacher(data: Teacher) {
-  await prisma.teacher.create({ data });
-  revalidatePath("/dashboard/teachers");
+export async function createTeacher(data: TeacherSchemaType) {
+  const response = await prisma.teacher.create({
+    data: {
+      id: data.id,
+      name: data.name,
+      username: data.username,
+      surname: data.surname,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+      bloodType: data.bloodType,
+      sex: data.sex,
+      birthday: new Date(data.birthday),
+      lessons: {
+        connect: data.lessons?.map((lesson) => ({ id: Number(lesson) })),
+      },
+      classes: {
+        connect: data?.classes?.map((className) => ({
+          id: Number(className),
+        })),
+      },
+      subjects: {
+        connect: data.subjects?.map((subject: string) => ({
+          id: Number(subject),
+        })),
+      },
+    },
+  });
+  return response;
+  // revalidatePath("/dashboard/teachers");
 }
 
 // Update a post
-export async function updateTeacher(id: string, data: Teacher) {
+export async function updateTeacher(id: string, data: TeacherSchemaType) {
   const selectedTeacher = await prisma.teacher.findUnique({
     where: { id },
   });
 
-  return await prisma.student.update({
+  return await prisma.teacher.update({
     where: { id: selectedTeacher?.id },
-    data,
+    data: {
+      id: data.id,
+      name: data.name,
+      username: data.username,
+      surname: data.surname,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+      bloodType: data.bloodType,
+      sex: data.sex,
+      birthday: new Date(data.birthday),
+      lessons: {
+        connect: data.lessons?.map((lesson) => ({ id: Number(lesson) })),
+      },
+      classes: {
+        set: data?.classes?.map((className) => ({
+          id: Number(className),
+        })),
+      },
+      subjects: {
+        set: data.subjects?.map((subject: string) => ({
+          id: Number(subject),
+        })),
+      },
+    },
   });
 }
 

@@ -34,24 +34,37 @@ type UserType = {
 type addStaffType = () => void;
 
 export const TeacherSchema = z.object({
-  name: z.string().min(4, { message: "User Name should atleast 4 charactor." }),
+  id: z.string(),
+  name: z.string().min(4, { message: "Name should at least 4 charactor." }),
+  surname: z.string().min(4, { message: "Name should at least 4 charactor." }),
+  username: z
+    .string()
+    .min(4, { message: "User Name should at least 4 charactor." }),
   email: z
     .string()
     .email({ message: "Invalid email addresss" })
-    .min(4, { message: "User email should atleast 4 charactor.." }),
+    .min(4, { message: "User email should atleast 4 charactor.." })
+    .optional(),
   photo: z
     .instanceof(File, { message: "Please upload a single file" })
     .optional(),
   phone: z
     .string()
     .min(8, { message: "Phone number should atleast 8 digits." }),
-  subjects: z.enum(["Maths", "English", "Biology"], {
-    message: "Subject is requiered.",
-  }),
-  classes: z.optional(z.string().min(4, { message: "Class requierd" })),
   address: z
     .string()
     .min(4, { message: "Address should atleast 4 charactor." }),
+  bloodType: z.string().min(1, { message: "Blood type required." }),
+  sex: z.enum(["MALE", "FEMALE"]),
+  classes: z.array(z.string().min(1, { message: "Class requierd" })),
+  subjects: z.array(z.string()),
+  lessons: z.array(z.string()),
+  birthday: z.preprocess((arg) => {
+    if (typeof arg === "string" || arg instanceof Date) {
+      return new Date(arg);
+    }
+    return arg;
+  }, z.date()),
 });
 
 export type TeacherSchemaType = z.infer<typeof TeacherSchema>;
@@ -124,6 +137,7 @@ export type StudentType = Student & { class: Class };
 
 export type TeacherProps = Teacher & { classes: Class[] } & {
   subjects: Subject[];
+  lessons: Lesson[];
 };
 
 export type ParentProps = Parent & { students: Student[] };

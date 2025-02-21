@@ -11,6 +11,7 @@ import { getParents } from "@/app/actions/parentAction";
 import { ParentProps } from "@/app/libs/types";
 import { PER_PAGE } from "@/app/libs/constants";
 import PaginationServerSide from "../components/PaginationServerSide";
+import FormContainer from "../components/FormContainer";
 
 const listofParent = (user: Parent) => {
   return (
@@ -31,17 +32,17 @@ const listofParent = (user: Parent) => {
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
           <Link href={`/dashboard/teachers/${user.id}`}></Link>
-          <FormModel
+          <FormContainer
             table="parent"
             type="update"
-            studentId={user.id + ""}
+            id={user.id + ""}
             data={user}
           />
 
-          <FormModel
+          <FormContainer
             table="parent"
             type="delete"
-            studentId={user.id}
+            id={user.id}
             data={user}
           />
         </div>
@@ -113,7 +114,7 @@ function Parents() {
   const totalPages = Math.ceil(updated.totalNumber / PER_PAGE);
   return (
     <div className="mx-auto p-4 flex flex-col w-full h-full">
-      <SearchAndHeaderServerSide title="All Parents" />
+      <SearchAndHeaderServerSide title="All Parents" table="parent" />
       <Table data={filtered} tableHeader={HeaderClass} Lists={listofParent} />
       <PaginationServerSide totalPages={totalPages} />
     </div>

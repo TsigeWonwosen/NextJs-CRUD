@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import FormModel from "./FormModel";
 import { Class, Student } from "@prisma/client";
+import FormContainer from "./FormContainer";
 
 type StudentType = Student & { class: Class };
 
@@ -37,9 +38,9 @@ function StudentsList(user: StudentType) {
       <td className="  px-4 py-2 text-sm hidden md:table-cell">{user.phone}</td>
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
-          <FormModel table="student" type="update" studentId={user.id} />
+          <FormContainer table="student" type="update" id={user.id} />
 
-          <FormModel table="student" type="delete" studentId={user.id} />
+          <FormContainer table="student" type="delete" id={user.id} />
         </div>
       </td>
     </tr>

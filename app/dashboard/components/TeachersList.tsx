@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import FormModel from "./FormModel";
 import { TeacherProps } from "@/app/libs/types";
+import FormContainer from "./FormContainer";
 
 function TeachersList(user: TeacherProps) {
   return (
@@ -37,8 +36,13 @@ function TeachersList(user: TeacherProps) {
       <td className="  px-4 py-2 text-sm">
         <div className="flex justify-center items-center gap-1">
           <Link href={`/dashboard/teachers/${user.id}`}></Link>
-          <FormModel table="teacher" type="update" studentId={user.id} />
-          <FormModel table="teacher" type="delete" studentId={user.id} />
+          <FormContainer
+            table="teacher"
+            type="update"
+            id={user.id}
+            data={user}
+          />
+          <FormContainer table="teacher" type="delete" id={user.id} />
         </div>
       </td>
     </tr>
