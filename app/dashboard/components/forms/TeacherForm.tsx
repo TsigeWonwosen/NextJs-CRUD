@@ -2,11 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  TeacherProps,
-  TeacherSchema,
-  TeacherSchemaType,
-} from "@/app/libs/types";
+import { TeacherSchema, TeacherSchemaType } from "@/app/libs/types";
 import Image from "next/image";
 import { capitalizeTitle } from "@/app/utils/capitalize";
 import { toast } from "react-toastify";
@@ -34,34 +30,60 @@ function TeacherForm({
     handleSubmit,
     setValue,
     reset,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<TeacherSchemaType>({ resolver: zodResolver(TeacherSchema) });
 
   const router = useRouter();
 
   useEffect(() => {
-    console.log("subj: " + data.subjects);
-    console.log("Les: " + data.lessons);
-    console.log("class: " + data.classes);
-
     if (data && (data.subjects || data.lessons || data.classes)) {
-      setValue("subjects", data.subjects);
-      setValue("lessons", data.lessons);
-      setValue("classes", data.classes);
+      setValue(
+        "subjects",
+        data?.subjects?.map((lesson: { id: string }) => lesson.id.toString())
+      );
+      setValue(
+        "lessons",
+        data?.lessons?.map((lesson: { id: string }) => lesson.id.toString())
+      );
+
+      setValue(
+        "classes",
+        data?.classes?.map((classItem: { id: string }) =>
+          classItem.id.toString()
+        )
+      );
     }
-  }, [data, setValue]);
+  }, [id, setPreview]);
 
   const onSubmit = async (data: TeacherSchemaType) => {
+    if (!data || typeof data !== "object") {
+      throw new Error(
+        "Invalid payload: Expected an object, received " + typeof data
+      );
+    }
+
     try {
       if (title == "update") {
         if (data.id) {
-          await updateTeacher(data?.id, data);
+          const res = await updateTeacher(data?.id, data);
 
-          toast.success("Subject updated succesfully", { autoClose: 3000 });
+          if (res.success) {
+            toast.success(res.message, { autoClose: 3000 });
+          } else {
+            if (res.errors) {
+              res.errors.forEach((err) => {
+                setError("root", { message: err.message });
+                toast.error(err.message);
+              });
+            }
+          }
         }
       } else {
-        const res = createTeacher(data);
-        toast.success("Subject Created succesfully", { autoClose: 3000 });
+        const res = await createTeacher(data);
+        if (res.success) {
+          toast.success(res.message, { autoClose: 3000 });
+        }
       }
       reset();
       handleToggle();
@@ -69,8 +91,9 @@ function TeacherForm({
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
+        console.error(error.message);
       } else {
-        console.log(error);
+        console.error(error);
       }
     }
   };
@@ -240,7 +263,7 @@ function TeacherForm({
               <p className="text-red-400">{errors.address?.message}</p>
             )}
           </section>
-          <section className="w-full h-full items-center">
+          <section className="w-full h-full items-center flex flex-wrap gap-x-3 gap-y-4">
             <div className="mb-4">
               <label
                 htmlFor="subjects"
@@ -253,8 +276,8 @@ function TeacherForm({
                 id="subjects"
                 // defaultValue={data?.subjects}
                 {...register("subjects")}
-                className="p-2 mt-1 block w-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                // required
+                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                required
               >
                 {subjects &&
                   subjects.map((subject: { id: number; name: string }) => (
@@ -278,10 +301,12 @@ function TeacherForm({
               <select
                 multiple
                 id="lessons"
-                // defaultValue={data?.lessons}
+                defaultValue={data?.lessons.map((lesson: { id: string }) =>
+                  lesson.id.toString()
+                )}
                 {...register("lessons")}
-                className="p-2 mt-1 block w-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                // required
+                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                required
               >
                 {lessons &&
                   lessons.map((lesson: { id: number; name: string }) => (
@@ -305,10 +330,10 @@ function TeacherForm({
               <select
                 multiple
                 id="classes"
-                // defaultValue={data?.classes}
+                defaultValue={data?.classes}
                 {...register("classes")}
-                className="p-2 mt-1 block w-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                // required
+                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                required
               >
                 {classes &&
                   classes.map((className: { id: number; name: string }) => (
@@ -338,7 +363,7 @@ function TeacherForm({
                     ? new Date(data.birthday).toISOString().split("T")[0]
                     : ""
                 }
-                className="p-2 mt-1 block w-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               />
             </div>
@@ -358,7 +383,7 @@ function TeacherForm({
                 id="sex"
                 {...register("sex")}
                 defaultValue={data?.sex}
-                className="p-2 mt-1 block w-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               >
                 <option value={"MALE"}>Male</option>
@@ -382,7 +407,7 @@ function TeacherForm({
                 id="bloodType"
                 {...register("bloodType")}
                 defaultValue={data?.bloodType}
-                className="p-2 mt-1 block w-auto rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               ></input>
             </div>
@@ -423,6 +448,8 @@ function TeacherForm({
             className="mt-2 w-32 h-32 object-cover rounded"
           />
         )} */}
+
+        {errors.root && <p className="text-red-400">{errors.root?.message}</p>}
         <button
           type="submit"
           disabled={isSubmitting}
