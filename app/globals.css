@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #0b0725 #201050;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: #4a5568;
+    border-radius: 10px;
+    border: 3px solid #170d42;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background-color: #0b0725;
+  }
+
+  .scrollbar::-webkit-scrollbar-corner {
+    background-color: #15102b;
+  }
+}
+
 :root {
   --bg: #081229;
   --bgSoft: #191d3a;
@@ -31,7 +56,7 @@
 }
 
 .bodyStyle {
-  background-image: linear-gradient(to bottom right, #08081ffb, #000006);
+  background-image: linear-gradient(to bottom right, #020212fb, #010116);
   color: var(--text);
   min-height: 100vh;
   height: 100%;
@@ -72,5 +97,7 @@ a {
 
 .btnGradient:hover {
   z-index: 0;
-  box-shadow: 20px 0 30px #1811ebb1, -10px 0 30px #a413c4bc;
+  box-shadow:
+    20px 0 30px #1811ebb1,
+    -10px 0 30px #a413c4bc;
 }

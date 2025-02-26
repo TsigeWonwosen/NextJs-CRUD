@@ -1,6 +1,6 @@
-import {Staff} from '@/app/models/userModel';
-import connectToDatabase from '@/app/utils/mongoose';
-import { NextResponse } from 'next/server';
+import { Staff } from "@/app/models/userModel";
+import connectToDatabase from "@/app/utils/mongoose";
+import { NextResponse } from "next/server";
 
 // GET Request Handler (Fetching data)
 export async function GET(request: Request) {
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ users });
   } catch (error) {
-    return NextResponse.json({ error: 'Error Connect DB.' });
+    return NextResponse.json({ error: "Error Connect DB." });
   }
 }
 
@@ -18,15 +18,18 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   // Parse the request body as JSON
   await connectToDatabase();
-  
+
   const body = await request.json();
-  const { username, email,role,password } = body;
+  const { username, email, role, password } = body;
 
   // Simulate saving to a database (mock response)
 
-  const newStaff = Staff.create({ username, email,role,password });
+  const newStaff = Staff.create({ username, email, role, password });
 
-  return NextResponse.json({ message: 'User created', user: {username,email,role} });
+  return NextResponse.json({
+    message: "User created",
+    user: { username, email, role },
+  });
 }
 
 // PUT Request Handler (Updating data)
@@ -37,14 +40,14 @@ export async function PUT(request: Request) {
   // Simulate updating the user in a database
   const updatedUser = { id, name, email };
 
-  return NextResponse.json({ message: 'User updated', user: updatedUser });
+  return NextResponse.json({ message: "User updated", user: updatedUser });
 }
 
 // DELETE Request Handler (Deleting data)
 export async function DELETE(request: Request) {
   // In a real-world scenario, you would extract the user id from the request
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
+  const id = searchParams.get("id");
 
   // Simulate deletion from a database
   return NextResponse.json({ message: `User with id ${id} deleted` });

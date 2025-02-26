@@ -7,27 +7,27 @@ function HombergerMenu() {
   const [toggle, setToggle] = useState(false);
 
   return (
-    <div className="flex justify-center items-center sm:hidden relative ">
+    <div className="relative flex items-center justify-center sm:hidden">
       {!toggle && (
         <Menu
-          className="w-[25px] h-[25px]"
+          className="h-[25px] w-[25px]"
           onClick={() => setToggle((prev) => !prev)}
         />
       )}
       {toggle && (
         <X
-          className="w-[25px] h-[25px]"
+          className="h-[25px] w-[25px]"
           onClick={() => setToggle((prev) => !prev)}
         />
       )}
       {toggle && (
-        <ul className="flex justify-between flex-col items-center text-center h-[200px] w-[150px] z-10 absolute top-[32px] -right-[10px] bg-slate-800 rounded-md py-3 text-gray-500 font-semibold">
+        <ul className="absolute -right-[10px] top-[32px] z-10 flex h-[200px] w-[150px] flex-col items-center justify-between rounded-md bg-slate-800 py-3 text-center font-semibold text-gray-500">
           {navLists?.map((list) => (
             <Link
               key={list.name}
               href={list.path}
               onClick={() => setToggle(false)}
-              className="hover:bg-slate-600 w-[90%] px-2 py-1 rounded-md "
+              className="w-[90%] rounded-md px-2 py-1 hover:bg-slate-600"
             >
               {list.name}{" "}
             </Link>

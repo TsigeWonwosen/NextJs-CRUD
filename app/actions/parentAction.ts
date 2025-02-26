@@ -4,6 +4,8 @@ import { prisma } from "@/app/libs/prisma";
 import { ParentProps } from "@/app/libs/types";
 import { Parent, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { PER_PAGE } from "../libs/constants";
+import Students from "../dashboard/students/page";
 
 export const getParents = async () => {
   const parents: ParentProps[] = await prisma.parent.findMany({
@@ -14,6 +16,54 @@ export const getParents = async () => {
 
   return { parents, totalparent };
 };
+
+export async function getParentsWithQuery(searchParams: {
+  search?: string;
+  name?: string;
+  classId?: string;
+  page?: string;
+}) {
+  const { page, search, name, classId } = searchParams;
+
+  const where: any = {};
+
+  if (classId) {
+    where.id = isNaN(Number(classId)) ? classId : Number(classId);
+  }
+
+  if (name) {
+    where.name = { contains: name, mode: "insensitive" };
+  }
+
+  if (search) {
+    where.OR = [
+      { name: { contains: search, mode: "insensitive" } },
+      {
+        students: { some: { name: { contains: search, mode: "insensitive" } } },
+      },
+    ];
+  }
+  const p = page ? parseInt(page) : 1;
+
+  const skip = (p - 1) * PER_PAGE;
+
+  const [parents, totalparent] = await prisma.$transaction([
+    prisma.parent.findMany({
+      where,
+      include: {
+        students: true,
+      },
+      skip,
+      take: PER_PAGE,
+      orderBy: { name: "asc" },
+    }),
+    prisma.parent.count({
+      where,
+    }),
+  ]);
+
+  return { parents, totalparent };
+}
 
 // Create a new user
 export async function createParent() {}

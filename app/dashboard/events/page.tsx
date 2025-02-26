@@ -50,7 +50,7 @@ export default async function Events({
   const renderRow = (item: EventList) => (
     <tr
       key={item.id}
-      className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
+      className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
     >
       <td className="flex items-center gap-4 p-4">{item.title}</td>
       <td>{item.description || "-"}</td>
@@ -89,7 +89,7 @@ export default async function Events({
 
   const numberofPage = Math.ceil(events.length / PER_PAGE);
   return (
-    <div className="mx-auto p-4 flex flex-col w-full h-full">
+    <div className="mx-auto flex h-full w-full flex-col p-4">
       <SearchAndHeaderServerSide title="All Events" table="event" />
       <Table Lists={renderRow} data={events} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />

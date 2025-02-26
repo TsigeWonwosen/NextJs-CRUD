@@ -37,7 +37,7 @@ function TeacherTable() {
   ];
 
   return (
-    <div className="mx-auto p-4 flex flex-col">
+    <div className="mx-auto flex flex-col p-4">
       <SearchAndHeader title="All Teachers" />
       <Table
         data={teachersData}

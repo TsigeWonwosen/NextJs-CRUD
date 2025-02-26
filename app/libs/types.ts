@@ -13,7 +13,6 @@ import {
   Exam,
   Attendance,
 } from "@prisma/client";
-import { ObjectId } from "mongoose";
 import { z } from "zod";
 
 export type StaffType = {
@@ -25,18 +24,16 @@ export type StaffType = {
   createdAt?: string;
 };
 
-type UserType = {
-  id?: number;
-  name: string;
-  email: string;
-};
-
-type addStaffType = () => void;
-
 export const TeacherSchema = z.object({
   id: z.string(),
-  name: z.string().min(4, { message: "Name should at least 4 charactor." }),
-  surname: z.string().min(4, { message: "Name should at least 4 charactor." }),
+  name: z
+    .string()
+    .min(4, { message: "Name should at least 4 charactor." })
+    .regex(/^[A-Za-z]+$/, { message: "Name should only contain letters." }),
+  surname: z
+    .string()
+    .min(4, { message: "Name should at least 4 charactor." })
+    .regex(/^[A-Za-z]+$/, { message: "Surnam should only contain letters." }),
   username: z
     .string()
     .min(4, { message: "User Name should at least 4 charactor." }),
@@ -45,8 +42,17 @@ export const TeacherSchema = z.object({
     .email({ message: "Invalid email addresss" })
     .min(4, { message: "User email should atleast 4 charactor.." })
     .optional(),
-  photo: z
-    .instanceof(File, { message: "Please upload a single file" })
+  img: z
+    .union([
+      z
+        .instanceof(FileList)
+        .refine((files) => files.length > 0, "Image is required")
+        .refine(
+          (files) => files[0]?.type.startsWith("image/"),
+          "File must be an image",
+        ),
+      z.string().url(),
+    ])
     .optional(),
   phone: z
     .string()

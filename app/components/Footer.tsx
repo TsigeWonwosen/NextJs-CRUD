@@ -3,9 +3,9 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#060819] text-slate-200/50 py-6 px-8  w-full max-h-[100px] h-auto">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        <div className="text-center md:text-left mb-4 md:mb-0">
+    <footer className="h-auto max-h-[100px] w-full bg-[#060819] px-8 py-6 text-slate-200/50">
+      <div className="container mx-auto flex flex-col items-center justify-between md:flex-row">
+        <div className="mb-4 text-center md:mb-0 md:text-left">
           <h1 className="text-lg font-normal">The Ethiopian</h1>
           <p className="text-sm">&copy; 2025 All rights reserved.</p>
         </div>

@@ -10,7 +10,7 @@ export async function GET(
     params: { id },
   }: {
     params: { id: string };
-  }
+  },
 ) {
   const userId = id;
 
@@ -18,7 +18,7 @@ export async function GET(
   if (!isValidObjectId(userId)) {
     return NextResponse.json(
       { error: "Invalid user ID format" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -40,7 +40,7 @@ export async function GET(
     console.error("Error fetching user:", error);
     return NextResponse.json(
       { error: "Error connecting to the database." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

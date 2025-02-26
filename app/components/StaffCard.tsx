@@ -7,16 +7,16 @@ function StaffCard({ staff }: { staff: StaffType }) {
   return (
     <ul
       role="list"
-      className="w-full max-w-[550px]  p-2 divide-y divide-gray-100 even:bg-slate-900"
+      className="w-full max-w-[550px] divide-y divide-gray-100 p-2 even:bg-slate-900"
     >
-      <li className="flex justify-between gap-x-6 py-5  p-3">
+      <li className="flex justify-between gap-x-6 p-3 py-5">
         <div className="flex min-w-0 gap-x-4">
           <div className="min-w-0 flex-auto justify-normal text-left">
             <p className="text-sm/6 font-semibold text-gray-50">{username}</p>
             <p className="mt-1 truncate text-xs/5 text-gray-50">{email}</p>
           </div>
         </div>
-        <div className="hidden md:flex md:justify-start md:text-left md:items-start shrink-0 sm:flex sm:flex-col sm:items-end">
+        <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end md:flex md:items-start md:justify-start md:text-left">
           <p className="text-sm/6 text-gray-300">{role}</p>
           <p className="text-sm/6 text-gray-300">{_id}</p>
           <p className="mt-1 text-xs/5 text-gray-300">

@@ -23,7 +23,7 @@ function StudentClient({
   totalSudents: number;
 }) {
   const [studentData, setStudentData] = useState<StudentType[]>(
-    students.slice(0, PER_PAGE)
+    students.slice(0, PER_PAGE),
   );
   const [felteredData, setFelteredData] = useState<StudentType[]>(studentData);
 
@@ -81,7 +81,7 @@ function StudentClient({
   };
 
   return (
-    <div className="w-full h-full mx-auto p-4 flex flex-col">
+    <div className="mx-auto flex h-full w-full flex-col p-4">
       <SearchAndHeader title="All Students" handleSearch={handleSearch} />
       <Table
         Lists={StudentsList}

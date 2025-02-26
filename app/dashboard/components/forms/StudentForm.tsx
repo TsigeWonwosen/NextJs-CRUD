@@ -77,24 +77,24 @@ function StudentForm({
   // };
 
   return (
-    <div className="w-[450px] h-max bg-slate-950 p-10 rounded-lg shadow-md flex flex-col items-center  relative z-10 ">
+    <div className="relative z-10 flex h-max w-[450px] flex-col items-center rounded-lg bg-slate-950 p-10 shadow-md">
       <div
-        className="absolute top-4 right-4 cursor-pointer z-70 w-3 h-3"
+        className="z-70 absolute right-4 top-4 h-3 w-3 cursor-pointer"
         onClick={() => handleToggle()}
       >
         <Image src="/close.png" alt="" width={14} height={14} />
       </div>
-      <h2 className="text-2xl font-bold mb-4 text-center ">
+      <h2 className="mb-4 text-center text-2xl font-bold">
         {capitalizeTitle(table) + " " + capitalizeTitle(title)}
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="p-5 w-full bg-slate-950 h-auto z-50"
+        className="z-50 h-auto w-full bg-slate-950 p-5"
       >
         <div className="mb-4">
           <label
             htmlFor="username"
-            className=" text-left block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Username
           </label>
@@ -103,7 +103,7 @@ function StudentForm({
             id="username"
             defaultValue={data?.name}
             {...register("name")}
-            className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your username"
             required
           />
@@ -113,7 +113,7 @@ function StudentForm({
         <div className="mb-4">
           <label
             htmlFor="email"
-            className=" text-left  block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Email
           </label>
@@ -122,7 +122,7 @@ function StudentForm({
             id="email"
             defaultValue={data?.email}
             {...register("email")}
-            className=" p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your email"
             required
           />
@@ -133,7 +133,7 @@ function StudentForm({
         <div className="mb-4">
           <label
             htmlFor="phone"
-            className=" text-left  block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Phone
           </label>
@@ -142,7 +142,7 @@ function StudentForm({
             id="phone"
             defaultValue={data?.phone}
             {...register("phone")}
-            className=" p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your phone number"
             required
           />
@@ -153,7 +153,7 @@ function StudentForm({
         <div className="mb-4">
           <label
             htmlFor="address"
-            className=" text-left  block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Address
           </label>
@@ -162,7 +162,7 @@ function StudentForm({
             id="addrees"
             defaultValue={data?.address}
             {...register("address")}
-            className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your password"
             required
           />
@@ -173,7 +173,7 @@ function StudentForm({
         <div className="mb-4">
           <label
             htmlFor="birthday"
-            className=" text-left  block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Birth Day
           </label>
@@ -182,7 +182,7 @@ function StudentForm({
             id="birthday"
             defaultValue={data?.birthday}
             {...register("birthday")}
-            className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your password"
             required
           />
@@ -193,7 +193,7 @@ function StudentForm({
         <div className="mb-4">
           <label
             htmlFor="subjects"
-            className=" text-left  block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Subjects
           </label>
@@ -201,7 +201,7 @@ function StudentForm({
             id="subjects"
             defaultValue={data?.subjects}
             {...register("subjects")}
-            className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             required
           >
             <option value="Maths">Maths</option>
@@ -252,13 +252,13 @@ function StudentForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           {isSubmitting
             ? "Submitting..."
             : title === "create"
-            ? "Create"
-            : "Update"}
+              ? "Create"
+              : "Update"}
         </button>
       </form>
     </div>

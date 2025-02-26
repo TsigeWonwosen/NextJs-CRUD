@@ -17,9 +17,9 @@ async function InfoCard({
   const Count: any = await compoundCount[name].count();
 
   return (
-    <div className="min-w-[180px]   w-full max-w-[300px] shadow-md shadow-slate-100/10 h-[120px] flex justify-between flex-col odd:bg-wondebgHardColo even:bg-wondeblackColor/20 rounded-xl gap-2 px-5 py-3 flex-1">
-      <div className="flex justify-between items-center w-full">
-        <h1 className=" text-[10px] text-left  bg-slate-700 text-cyan-600 px-[4px] py-[1px] rounded-full">
+    <div className="odd:bg-wondebgHardColo flex h-[120px] w-full min-w-[180px] max-w-[300px] flex-1 flex-col justify-between gap-2 rounded-xl px-5 py-3 shadow-md shadow-slate-100/10 even:bg-wondeblackColor/20">
+      <div className="flex w-full items-center justify-between">
+        <h1 className="rounded-full bg-slate-700 px-[4px] py-[1px] text-left text-[10px] text-cyan-600">
           <p>{new Date().getFullYear()}</p>
         </h1>
         <button>
@@ -33,12 +33,12 @@ async function InfoCard({
         </button>
       </div>
       <div className="flex justify-start">
-        <span className="text-left text-2xl font-bold from-neutral-100">
+        <span className="from-neutral-100 text-left text-2xl font-bold">
           {Count}
         </span>
       </div>
       <div className="flex justify-start text-left">
-        <span className="capitalize font-medium text-sm w-full text-gray-500">
+        <span className="w-full text-sm font-medium capitalize text-gray-500">
           {name}s
         </span>
       </div>

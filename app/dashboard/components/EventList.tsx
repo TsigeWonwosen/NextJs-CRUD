@@ -14,12 +14,12 @@ const EventList = async ({ dateParam }: { dateParam: string | undefined }) => {
 
   return data.map((event) => (
     <div
-      className="p-5 rounded-md border-2 border-t-2 odd:border-slate-900 even:border-slate-700  w-full"
+      className="w-full rounded-md border-2 border-t-2 p-5 odd:border-slate-900 even:border-slate-700"
       key={event.id}
     >
       <div className="flex items-center justify-between">
         <h1 className="font-semibold text-gray-600">{event.title}</h1>
-        <span className="text-gray-300 text-xs">
+        <span className="text-xs text-gray-300">
           {event.startTime.toLocaleTimeString("en-UK", {
             hour: "2-digit",
             minute: "2-digit",
@@ -27,7 +27,7 @@ const EventList = async ({ dateParam }: { dateParam: string | undefined }) => {
           })}
         </span>
       </div>
-      <p className="mt-2 text-gray-400 text-sm">{event.description}</p>
+      <p className="mt-2 text-sm text-gray-400">{event.description}</p>
     </div>
   ));
 };

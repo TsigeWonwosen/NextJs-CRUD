@@ -54,7 +54,7 @@ export default async function Results({
   const renderRow = (item: ResultList) => (
     <tr
       key={item.id}
-      className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
+      className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
     >
       <td className="flex items-center gap-4 p-4">{item.student.name}</td>
       <td>{item.assignment?.title || "-"}</td>
@@ -104,7 +104,7 @@ export default async function Results({
 
   const numberofPage = Math.ceil(results.length / PER_PAGE);
   return (
-    <div className="mx-auto p-4 flex flex-col w-full h-full">
+    <div className="mx-auto flex h-full w-full flex-col p-4">
       <SearchAndHeaderServerSide title="All Results" />
       <Table Lists={renderRow} data={results} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />

@@ -8,6 +8,7 @@ import { capitalizeTitle } from "@/app/utils/capitalize";
 import { toast } from "react-toastify";
 import { createTeacher, updateTeacher } from "@/app/actions/teacherAction";
 import { useRouter } from "next/navigation";
+import { uploadPhoto } from "@/app/actions/uploadPhoto";
 
 function TeacherForm({
   handleToggle,
@@ -40,94 +41,122 @@ function TeacherForm({
     if (data && (data.subjects || data.lessons || data.classes)) {
       setValue(
         "subjects",
-        data?.subjects?.map((lesson: { id: string }) => lesson.id.toString())
+        data?.subjects?.map((lesson: { id: string }) => lesson.id.toString()),
       );
       setValue(
         "lessons",
-        data?.lessons?.map((lesson: { id: string }) => lesson.id.toString())
+        data?.lessons?.map((lesson: { id: string }) => lesson.id.toString()),
       );
 
       setValue(
         "classes",
         data?.classes?.map((classItem: { id: string }) =>
-          classItem.id.toString()
-        )
+          classItem.id.toString(),
+        ),
       );
     }
-  }, [id, setPreview]);
+  }, [id, setValue]);
 
   const onSubmit = async (data: TeacherSchemaType) => {
     if (!data || typeof data !== "object") {
       throw new Error(
-        "Invalid payload: Expected an object, received " + typeof data
+        "Invalid payload: Expected an object, received " + typeof data,
       );
     }
 
     try {
       if (title == "update") {
         if (data.id) {
-          const res = await updateTeacher(data?.id, data);
+          let imgUrl;
+          const file = data.img instanceof FileList ? data.img[0] : null;
+          if (file) {
+            imgUrl = await uploadPhoto(file);
+          }
+          const res = await updateTeacher(data?.id, {
+            ...data,
+            img: imgUrl?.url as string,
+          });
 
           if (res.success) {
             toast.success(res.message, { autoClose: 3000 });
+            reset();
+            handleToggle();
+            router.refresh();
           } else {
             if (res.errors) {
               res.errors.forEach((err) => {
-                setError("root", { message: err.message });
+                setError(err.path as keyof TeacherSchemaType, {
+                  type: "Server",
+                  message: err.message,
+                });
                 toast.error(err.message);
               });
+            } else {
+              setError("root", { message: res.message, type: "server" });
+              toast.error(res.message);
             }
           }
         }
-      } else {
+      }
+
+      if (title == "create") {
         const res = await createTeacher(data);
         if (res.success) {
           toast.success(res.message, { autoClose: 3000 });
+          reset();
+          handleToggle();
+          router.refresh();
         }
       }
-      reset();
-      handleToggle();
-      router.refresh();
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof Error) {
         toast.error(error.message);
-        console.error(error.message);
+        setError("root", { message: error.message, type: "server" });
       } else {
         console.error(error);
+      }
+      if (error.errors) {
+        error.errors.forEach((err: { path: string[]; message: string }) => {
+          setError("root", {
+            type: "server",
+            message: err.message,
+          });
+        });
       }
     }
   };
 
-  // const handlePhotoPreview = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const selectedFile = event.target.files?.[0]; // Get the first file
-  //   if (selectedFile) {
-  //     setValue("photo", selectedFile); // Set the file to the form
-  //     setPreview(URL.createObjectURL(selectedFile)); // Generate preview
-  //   }
-  // };
+  const handlePhotoPreview = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0]; // Get the first file
+    if (selectedFile) {
+      // setValue("photo", selectedFile); // Set the file to the form
+      setPreview(URL.createObjectURL(selectedFile)); // Generate preview
+    }
+  };
 
   const { subjects = [], lessons = [], classes = [] } = relatedData;
   return (
-    <div className="w-[70%] h-max bg-slate-950 p-10 rounded-lg shadow-md flex flex-col items-center  relative z-10 ">
+    <div className="relative z-10 flex h-full w-full flex-col items-center rounded-lg bg-slate-950 p-10 shadow-md sm:w-[90%] md:w-[70%]">
       <div
-        className="absolute top-4 right-4 cursor-pointer z-70 w-3 h-3"
+        className="z-70 absolute right-7 top-5 h-3 w-3 cursor-pointer"
         onClick={() => handleToggle()}
       >
         <Image src="/close.png" alt="" width={14} height={14} />
       </div>
-      <h2 className="text-2xl font-bold mb-4 text-center ">
+      <h2 className="mb-4 text-center text-2xl font-bold">
         {capitalizeTitle(table) + " " + capitalizeTitle(title)}
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" p-5 w-full bg-slate-950 h-auto z-50"
+        className="z-50 h-auto w-full bg-slate-950 p-5"
+        encType="multipart/form-data"
       >
-        <div className="flex justify-between items-start gap-x-3">
-          <section className="w-full h-full">
+        <div className="flex flex-col items-start justify-between gap-x-3 xl:flex-row">
+          <section className="h-full w-full">
             <div className="mb-4">
               <label
                 htmlFor="id"
-                className=" text-left block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 Id
               </label>
@@ -136,7 +165,7 @@ function TeacherForm({
                 id="id"
                 defaultValue={data?.id}
                 {...register("id")}
-                className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your address"
               />
             </div>
@@ -144,7 +173,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="name"
-                className=" text-left block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 Name
               </label>
@@ -153,7 +182,7 @@ function TeacherForm({
                 id="name"
                 defaultValue={data?.name}
                 {...register("name")}
-                className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your name"
                 required
               />
@@ -165,7 +194,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="surname"
-                className=" text-left block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 SurName
               </label>
@@ -174,7 +203,7 @@ function TeacherForm({
                 id="surname"
                 defaultValue={data?.surname}
                 {...register("surname")}
-                className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your username"
                 required
               />
@@ -185,7 +214,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="username"
-                className=" text-left block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 User Name
               </label>
@@ -194,7 +223,7 @@ function TeacherForm({
                 id="username"
                 defaultValue={data?.name}
                 {...register("username")}
-                className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your username"
                 required
               />
@@ -205,7 +234,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="email"
-                className=" text-left  block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 Email
               </label>
@@ -214,7 +243,7 @@ function TeacherForm({
                 id="email"
                 defaultValue={data?.email}
                 {...register("email")}
-                className=" p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your email"
                 required
               />
@@ -225,7 +254,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="phone"
-                className=" text-left  block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 Phone
               </label>
@@ -234,7 +263,7 @@ function TeacherForm({
                 id="phone"
                 defaultValue={data?.phone}
                 {...register("phone")}
-                className=" p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your phone number"
                 required
               />
@@ -245,7 +274,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="address"
-                className=" text-left  block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 Address
               </label>
@@ -254,7 +283,7 @@ function TeacherForm({
                 id="addrees"
                 defaultValue={data?.address}
                 {...register("address")}
-                className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your address"
                 required
               />
@@ -263,11 +292,11 @@ function TeacherForm({
               <p className="text-red-400">{errors.address?.message}</p>
             )}
           </section>
-          <section className="w-full h-full items-center flex flex-wrap gap-x-3 gap-y-4">
+          <section className="flex h-full w-full flex-wrap items-center gap-x-3 gap-y-4">
             <div className="mb-4">
               <label
                 htmlFor="subjects"
-                className=" text-left  block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 Subjects
               </label>
@@ -276,7 +305,7 @@ function TeacherForm({
                 id="subjects"
                 // defaultValue={data?.subjects}
                 {...register("subjects")}
-                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               >
                 {subjects &&
@@ -294,7 +323,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="lessons"
-                className=" text-left  block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 lessons
               </label>
@@ -302,10 +331,10 @@ function TeacherForm({
                 multiple
                 id="lessons"
                 defaultValue={data?.lessons.map((lesson: { id: string }) =>
-                  lesson.id.toString()
+                  lesson.id.toString(),
                 )}
                 {...register("lessons")}
-                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               >
                 {lessons &&
@@ -323,7 +352,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="classes"
-                className=" text-left  block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 classes
               </label>
@@ -332,7 +361,7 @@ function TeacherForm({
                 id="classes"
                 defaultValue={data?.classes}
                 {...register("classes")}
-                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               >
                 {classes &&
@@ -349,7 +378,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="birthday"
-                className=" text-left  block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 Birthday
               </label>
@@ -363,7 +392,7 @@ function TeacherForm({
                     ? new Date(data.birthday).toISOString().split("T")[0]
                     : ""
                 }
-                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               />
             </div>
@@ -374,7 +403,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="Sex"
-                className=" text-left  block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 Sex
               </label>
@@ -383,7 +412,7 @@ function TeacherForm({
                 id="sex"
                 {...register("sex")}
                 defaultValue={data?.sex}
-                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               >
                 <option value={"MALE"}>Male</option>
@@ -397,7 +426,7 @@ function TeacherForm({
             <div className="mb-4">
               <label
                 htmlFor="bloodType"
-                className=" text-left  block text-sm font-medium text-gray-700"
+                className="block text-left text-sm font-medium text-gray-700"
               >
                 Blood Type
               </label>
@@ -407,7 +436,7 @@ function TeacherForm({
                 id="bloodType"
                 {...register("bloodType")}
                 defaultValue={data?.bloodType}
-                className="p-2 mt-1 block min-w-[100px] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               ></input>
             </div>
@@ -415,51 +444,60 @@ function TeacherForm({
             {errors.sex?.message && (
               <p className="text-red-400">{errors.sex?.message}</p>
             )}
+
+            <div className="mb-4">
+              <label
+                htmlFor="img"
+                className="flex items-center justify-between text-left text-sm font-medium text-gray-700"
+              >
+                <Image
+                  src={`/upload.png`}
+                  alt="Upload Photo"
+                  width={29}
+                  height={29}
+                />
+                <span>Upload Photo</span>
+              </label>
+              <input
+                id="img"
+                type="file"
+                {...register("img")}
+                accept="image/*"
+                // onChange={handlePhotoPreview}
+                className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              />
+            </div>
+            {errors.img?.message && (
+              <p className="text-red-400">Photo Error: {errors.img?.message}</p>
+            )}
+            {preview && (
+              <Image
+                src={preview}
+                width={40}
+                height={40}
+                alt="Preview"
+                className="mt-2 h-32 w-32 rounded object-cover"
+              />
+            )}
+
+            {errors.root && (
+              <p className="text-red-400">
+                {errors.root.type + " : " + errors.root?.message}
+              </p>
+            )}
           </section>
         </div>
-        {/* <div className="mb-4">
-          <label
-            htmlFor="photo"
-            className=" text-left   text-sm font-medium text-gray-700 flex justify-between items-center"
-          >
-            <Image
-              src={`/upload.png`}
-              alt="Upload Photo"
-              width={29}
-              height={29}
-            />
-            <span>Upload Photo</span>
-          </label> */}
-        {/* <input
-            id="photo"
-            type="file"
-            {...register("photo")}
-            // onChange={handlePhotoPreview}
-            className=" block p-2 mt-1  w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-          />
-        </div> */}
-        {/* {errors.photo?.message && (
-          <p className="text-red-400">Photo Error: {errors.photo?.message}</p>
-        )} */}
-        {/* {preview && (
-          <Image
-            src={preview}
-            alt="Preview"
-            className="mt-2 w-32 h-32 object-cover rounded"
-          />
-        )} */}
 
-        {errors.root && <p className="text-red-400">{errors.root?.message}</p>}
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           {isSubmitting
             ? "Submitting..."
             : title === "create"
-            ? "Create"
-            : "Update"}
+              ? "Create"
+              : "Update"}
         </button>
       </form>
     </div>

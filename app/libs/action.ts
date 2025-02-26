@@ -43,7 +43,7 @@ type UserType = {
 // ADD staff to the database
 export const addUser = async (
   prevState: { error?: string | null; success?: boolean | null } | null,
-  formData: UserType
+  formData: UserType,
 ): Promise<{ error: string | null; success: boolean | null } | null> => {
   try {
     await connectToDatabase();
@@ -96,7 +96,7 @@ export const getStaffs = async () => {
 };
 
 export const deleteStaff = async (
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error: string | null } | null | undefined> => {
   try {
     await connectToDatabase();

@@ -39,7 +39,7 @@ const columns = [
 const renderRow = (item: ClassProps) => (
   <tr
     key={item.id}
-    className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
+    className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
   >
     <td className="flex items-center gap-4 p-4">{item.name}</td>
     <td className="hidden md:table-cell">{item.capacity}</td>
@@ -89,7 +89,7 @@ export default async function Classes({
 
   const numberofPage = Math.ceil(classes.length / PER_PAGE);
   return (
-    <div className="mx-auto p-4 flex flex-col w-full h-full">
+    <div className="mx-auto flex h-full w-full flex-col p-4">
       <SearchAndHeaderServerSide title="All Classes" table="class" />
       <Table Lists={renderRow} data={classes} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />

@@ -24,9 +24,9 @@ export default async function DashboardPage({
 }) {
   const { date } = await searchParams;
   return (
-    <div className="flex justify-between flex-col  md:flex-row  md:gap-4 w-full h-full   gap-2  relative ">
-      <div className="flex flex-col justify-between h-full w-full gap-5">
-        <div className="flex justify-between transition-all flex-col items-center md:flex-row gap-4 flex-wrap w-full h-full mb-5 md:mb-2">
+    <div className="relative flex h-full w-full flex-col justify-between gap-2 md:flex-row md:gap-4">
+      <div className="flex h-full w-full flex-col justify-between gap-5">
+        <div className="mb-5 flex h-full w-full flex-col flex-wrap items-center justify-between gap-4 transition-all md:mb-2 md:flex-row">
           <InfoCard name="admin" />
           <InfoCard name="teacher" />
           <InfoCard name="student" />
@@ -36,7 +36,7 @@ export default async function DashboardPage({
 
         <SchoolChart />
       </div>
-      <div className="flex mt-4 md:w-[350px] md:mt-0 h-full">
+      <div className="mt-4 flex h-full md:mt-0 md:w-[350px]">
         <Card>
           <ReactCalandor />
           <EventList dateParam={date} />

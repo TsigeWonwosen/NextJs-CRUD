@@ -13,7 +13,7 @@ const StaffSchema = new mongoose.Schema(
     role: { type: String, required: true, default: "Staff" },
     img: { type: String, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const User = mongoose.models.User || mongoose.model("User", UserSchema);

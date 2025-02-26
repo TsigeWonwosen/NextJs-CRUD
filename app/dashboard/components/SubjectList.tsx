@@ -8,25 +8,25 @@ function SubjectsList(subject: SubjectProps) {
   return (
     <tr
       key={subject.id}
-      className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
+      className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
     >
-      <td className=" flex flex-row justify-start  px-1 py-2 ">
-        <section className="flex justify-start flex-col items-start ml-[6px] sm:ml-2 md:ml-3 ">
+      <td className="flex flex-row justify-start px-1 py-2">
+        <section className="ml-[6px] flex flex-col items-start justify-start sm:ml-2 md:ml-3">
           <p className="text-sm">{subject.name}</p>
         </section>
       </td>
-      <td className=" px-4 py-2 text-sm hidden sm:table-cell">
+      <td className="hidden px-4 py-2 text-sm sm:table-cell">
         {subject.lessons.map((teacher) => teacher.name).join(",")}
       </td>
 
-      <td className="  px-4 py-2 text-sm hidden md:table-cell">
+      <td className="hidden px-4 py-2 text-sm md:table-cell">
         {subject.lessons.map((teacher) => teacher.day).join(",")}
       </td>
-      <td className="  px-4 py-2 text-sm hidden md:table-cell">
+      <td className="hidden px-4 py-2 text-sm md:table-cell">
         {subject.teachers.map((teacher) => teacher.name).join(",")}
       </td>
-      <td className="  px-4 py-2 text-sm">
-        <div className="flex justify-center items-center gap-1">
+      <td className="px-4 py-2 text-sm">
+        <div className="flex items-center justify-center gap-1">
           <Link href={`/dashboard/subjects/${subject.id}`}></Link>
           <FormContainer
             table="subject"

@@ -13,11 +13,11 @@ async function SearchAndHeaderServerSide({
   const session = await getServerSession(Options);
   let role = session?.user.role.toLocaleLowerCase();
   return (
-    <div className="flex flex-col justify-start items-start mb-3 md:flex-row md:justify-between md:items-start">
-      <h4 className="text-left text-base text-slate-500  mb-2 w-auto md:flex-1 md:mb-0">
+    <div className="mb-3 flex flex-col items-start justify-start md:flex-row md:items-start md:justify-between">
+      <h4 className="mb-2 w-auto text-left text-base text-slate-500 md:mb-0 md:flex-1">
         {title}
       </h4>
-      <section className="flex justify-right items-center gap-2 px-2 w-full h-full md:w-auto md:gap-1 ">
+      <section className="justify-right flex h-full w-full items-center gap-2 px-2 md:w-auto md:gap-1">
         <SearchHeader />
         {role === "admin" && <FormContainer table={table} type="create" />}
       </section>

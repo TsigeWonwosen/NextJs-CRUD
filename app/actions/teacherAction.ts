@@ -5,6 +5,7 @@ import { TeacherProps, TeacherSchemaType } from "@/app/libs/types";
 import { revalidatePath } from "next/cache";
 import { PER_PAGE } from "../libs/constants";
 import { z } from "zod";
+import { getErrorMessage } from "../utils/getErrorMessage";
 
 export const getTeachers = async () => {
   const teachers: TeacherProps[] = await prisma.teacher.findMany({
@@ -120,7 +121,7 @@ export async function createTeacher(data: TeacherSchemaType) {
 
 function calculateLessonUpdates(
   existingLessonIds: number[] | null,
-  newLessonIds: number[] | null
+  newLessonIds: number[] | null,
 ) {
   const lessonsToConnect =
     newLessonIds?.filter((id) => !existingLessonIds?.includes(id)) || [];
@@ -131,12 +132,6 @@ function calculateLessonUpdates(
 
 // Update a post
 export async function updateTeacher(id: string, data: TeacherSchemaType) {
-  // console.log("Data From FE : ", JSON.stringify(data));
-
-  if (!data) {
-    throw new Error("Invalid data provided");
-  }
-
   if (!data || !data.lessons || !data.classes || !data.subjects) {
     throw new Error("Invalid data provided");
   }
@@ -152,7 +147,7 @@ export async function updateTeacher(id: string, data: TeacherSchemaType) {
     }
 
     const lessonsExist: number[] = selectedTeacher?.lessons.map(
-      (lesson) => lesson.id
+      (lesson) => lesson.id,
     );
 
     const lessonsNew: number[] | [] = data
@@ -161,7 +156,7 @@ export async function updateTeacher(id: string, data: TeacherSchemaType) {
 
     const { lessonsToConnect, lessonsToDisconnect } = calculateLessonUpdates(
       lessonsExist,
-      lessonsNew
+      lessonsNew,
     );
 
     await prisma.lesson.updateMany({
@@ -181,6 +176,7 @@ export async function updateTeacher(id: string, data: TeacherSchemaType) {
         address: data.address,
         bloodType: data.bloodType,
         sex: data.sex,
+        img: typeof data.img === "string" ? data.img : undefined,
         birthday: new Date(data.birthday),
         lessons: {
           // disconnect: lessonsToDisconnect?.map((id) => ({ id })),
@@ -202,21 +198,8 @@ export async function updateTeacher(id: string, data: TeacherSchemaType) {
 
     return { success: true, message: "Form updated successfully!" };
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return {
-        success: false,
-        errors: error.errors.map((err) => ({
-          path: err.path.join("."),
-          message: err.message,
-        })),
-      };
-    } else {
-      console.error("Error update teacher", error);
-      return {
-        success: false,
-        message: "An error occurred while submitting the form.",
-      };
-    }
+    const message = getErrorMessage(error);
+    return message;
   }
 }
 
@@ -229,7 +212,6 @@ export async function deleteTeacher(id: string) {
   if (!selectedTeacher || !selectedTeacher.id) {
     throw new Error("Teacher is invalid or missing an ID");
   }
-  console.log("Teacher Id: ", selectedTeacher.id);
   try {
     await prisma.teacher.delete({
       where: {

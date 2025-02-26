@@ -11,14 +11,12 @@ const Header = () => {
   const { user } = session || {};
 
   return (
-    <div className="sticky top-0 right-0 px-10 py-8 flex justify-end items-center h-[50px] w-full z-50 border-b border-gray-700 border-opacity-50 mb-4 bg-[#08081A]  shadow-md">
+    <div className="sticky right-0 top-0 z-50 mb-4 flex h-[50px] w-full items-center justify-end border-b border-gray-700 border-opacity-50 bg-[#08081A] px-10 py-8 shadow-md">
       {
         <>
           <HombergerMenu />
-          <ul className="hidden sm:flex justify-center w-auto  h-[300px]text-center space-x-2 relative ml-auto">
-            {navLists?.map((list) => (
-              <Links {...list} key={list.name} />
-            ))}
+          <ul className="h-[300px]text-center relative ml-auto hidden w-auto justify-center space-x-2 sm:flex">
+            {navLists?.map((list) => <Links {...list} key={list.name} />)}
             {user ? (
               <>
                 {user?.role === "Admin" || user?.role === "admin" ? (

@@ -19,9 +19,9 @@ function Admin() {
   }, []);
 
   return (
-    <div className="flex gap-x-4 w-full p-7">
-      <div className="w-1/2 bg-slate-900 rounded-lg p-7 items-center">
-        <h2 className="text-2xl font-bold mb-4 text-center text--">
+    <div className="flex w-full gap-x-4 p-7">
+      <div className="w-1/2 items-center rounded-lg bg-slate-900 p-7">
+        <h2 className="text-- mb-4 text-center text-2xl font-bold">
           List of Staffs
         </h2>
         {staffs.map((staff) => {

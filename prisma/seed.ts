@@ -70,7 +70,7 @@ async function main() {
         subjects: { connect: [{ id: (i % 10) + 1 }] },
         classes: { connect: [{ id: (i % 6) + 1 }] },
         birthday: new Date(
-          new Date().setFullYear(new Date().getFullYear() - 30)
+          new Date().setFullYear(new Date().getFullYear() - 30),
         ),
       },
     });
@@ -127,7 +127,7 @@ async function main() {
         gradeId: (i % 6) + 1,
         classId: (i % 6) + 1,
         birthday: new Date(
-          new Date().setFullYear(new Date().getFullYear() - 10)
+          new Date().setFullYear(new Date().getFullYear() - 10),
         ),
       },
     });

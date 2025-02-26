@@ -34,7 +34,7 @@ const columns = [
 const renderRow = (item: AnnouncementList) => (
   <tr
     key={item.id}
-    className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
+    className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
   >
     <td className="flex items-center gap-4 p-4">{item.title}</td>
     <td>{item.class?.name || "-"}</td>
@@ -75,7 +75,7 @@ export default async function Announcements({
 
   const numberofPage = Math.ceil(announcement.length / PER_PAGE);
   return (
-    <div className="mx-auto p-4 flex flex-col w-full h-ful">
+    <div className="h-ful mx-auto flex w-full flex-col p-4">
       <SearchAndHeaderServerSide title="All Announcements" />
       <Table Lists={renderRow} data={announcement} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />

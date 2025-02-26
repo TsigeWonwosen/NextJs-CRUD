@@ -47,7 +47,7 @@ async function Teachers({
   const numberofPage = Math.ceil(teacherCounts / PER_PAGE);
 
   return (
-    <div className="mx-auto p-4 flex flex-col w-full h-full">
+    <div className="mx-auto flex h-full w-full flex-col p-4">
       <SearchAndHeaderServerSide title="All Teachers" table="teacher" />
       <Table data={teachers} tableHeader={HeaderClass} Lists={TeachersList} />
       <PaginationServerSide totalPages={numberofPage} />

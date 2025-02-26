@@ -38,8 +38,8 @@ type dataType = {
 
 export default function StatusChart({ data }: { data: dataType[] }) {
   return (
-    <div className=" w-full md:w-[95%] h-[400px]  bg-[#0C162E] rounded-md flex flex-col justify-between px-2 py-4 md:px-5">
-      <section className="h-[30px] flex justify-between items-center">
+    <div className="flex h-[400px] w-full flex-col justify-between rounded-md bg-[#0C162E] px-2 py-4 md:w-[95%] md:px-5">
+      <section className="flex h-[30px] items-center justify-between">
         <h3 className="text-xl font-semibold">Students</h3>
         <Link href={`/dashboard/students`}>
           <Image
@@ -72,14 +72,14 @@ export default function StatusChart({ data }: { data: dataType[] }) {
           </Pie>
         </PieChart>
       </ResponsiveContainer>
-      <div className="w-full flex justify-center items-center gap-5">
-        <section className="flex  justify-center items-center gap-2">
-          <span className="w-[12px] h-[12px] rounded-full bg-[#3788D8]"></span>
-          <p className="font-semibold text-[13px] text-gray-200">Boys</p>
+      <div className="flex w-full items-center justify-center gap-5">
+        <section className="flex items-center justify-center gap-2">
+          <span className="h-[12px] w-[12px] rounded-full bg-[#3788D8]"></span>
+          <p className="text-[13px] font-semibold text-gray-200">Boys</p>
         </section>
-        <section className="flex  justify-center items-center gap-2">
-          <span className="w-[12px] h-[12px] rounded-full bg-[#06093C]"></span>
-          <p className="font-semibold text-[13px] text-gray-200">Gilrs</p>
+        <section className="flex items-center justify-center gap-2">
+          <span className="h-[12px] w-[12px] rounded-full bg-[#06093C]"></span>
+          <p className="text-[13px] font-semibold text-gray-200">Gilrs</p>
         </section>
       </div>
     </div>

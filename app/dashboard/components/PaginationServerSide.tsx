@@ -31,19 +31,19 @@ function PaginationServerSide({ totalPages }: { totalPages: number }) {
 
   if (totalPages <= 1) return;
   return (
-    <div className="flex justify-between items-center px-4 py-2 mt-1 w-[98%] border border-slate-700 rounded-md">
+    <div className="mt-1 flex w-[98%] items-center justify-between rounded-md border border-slate-700 px-4 py-2">
       <button
         disabled={currentPage === 1}
         onClick={handlePrev}
-        className=" rounded-md px-2 py-0.5  bg-slate-400 disabled:bg-gray-300font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+        className="disabled:bg-gray-300font-semibold rounded-md bg-slate-400 px-2 py-0.5 disabled:cursor-not-allowed disabled:opacity-50"
       >
         Priv
       </button>
-      <div className="flex justify-center items-center  text-center w-[50%]  gap-3 m-1">
+      <div className="m-1 flex w-[50%] items-center justify-center gap-3 text-center">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <button
             key={page}
-            className={`px-2 py-0.5  rounded-md ${
+            className={`rounded-md px-2 py-0.5 ${
               currentPage === page ? "bg-lime-700" : "bg-slate-600"
             } font-semibold`}
             onClick={() => {
@@ -57,7 +57,7 @@ function PaginationServerSide({ totalPages }: { totalPages: number }) {
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className=" rounded-md px-2 py-0.5  bg-slate-400 disabled:bg-gray-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+        className="rounded-md bg-slate-400 px-2 py-0.5 font-semibold disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-50"
       >
         Next
       </button>

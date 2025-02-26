@@ -69,7 +69,7 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
         <div className="mb-4">
           <label
             htmlFor="username"
-            className=" text-left block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Username
           </label>
@@ -77,7 +77,7 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
             type="text"
             id="username"
             {...register("username")}
-            className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your username"
             required
           />
@@ -89,7 +89,7 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
         <div className="mb-4">
           <label
             htmlFor="email"
-            className=" text-left  block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Email
           </label>
@@ -97,7 +97,7 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
             type="email"
             id="email"
             {...register("email")}
-            className=" p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your email"
             required
           />
@@ -109,7 +109,7 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
         <div className="mb-4">
           <label
             htmlFor="password"
-            className=" text-left  block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Password
           </label>
@@ -117,7 +117,7 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
             type="password"
             id="password"
             {...register("password")}
-            className="p-2 mt-1 block w-full rounded-md text-gray-700 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             placeholder="Enter your password"
             required
           />
@@ -129,7 +129,7 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
         <div className="mb-4">
           <label
             htmlFor="role"
-            className=" text-left  block text-sm font-medium text-gray-700"
+            className="block text-left text-sm font-medium text-gray-700"
           >
             Role
           </label>
@@ -137,7 +137,7 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
             id="role"
             // name="role"
             {...register("role")}
-            className="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             required
           >
             <option value="admin">Admin</option>
@@ -152,11 +152,11 @@ function AddUser({ handleLogin }: { handleLogin: () => void }) {
         <button
           type="submit"
           disabled={isPanding}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           {isPanding ? "adding..." : "Add user"}
         </button>
-        {state?.error && <p className="text-red-500 mt-2">{state.error}</p>}
+        {state?.error && <p className="mt-2 text-red-500">{state.error}</p>}
         <p>
           have you already account?{" "}
           <span onClick={handleLogin} className="cursor-pointer">

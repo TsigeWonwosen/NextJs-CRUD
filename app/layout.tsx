@@ -22,17 +22,19 @@ export default function RootLayout({
 }>) {
   return (
     <SessionProviderWrapper>
-      <html lang="en" suppressHydrationWarning>
-        <body className="bodyStyle">
-          <main className="flex justify-between flex-col items-center h-full w-full min-h-screen">
-            <div className="flex justify-between items-start w-full h-full">
-              <div className="sticky top-0 left-0 w-[80px] sm:w-[150px] md:w-[200px]  h-screen overflow-y-auto">
+      <html lang="en" suppressHydrationWarning className="scrollbar">
+        <body className="scrollbar bodyStyle">
+          <main className="flex h-full min-h-screen w-full flex-col items-center justify-between">
+            <div className="flex h-full w-full items-start justify-between">
+              <div className="sticky left-0 top-0 h-screen w-[80px] overflow-y-auto sm:w-[150px] md:w-[200px]">
                 <SideMenu />
               </div>
-              <div className="flex flex-col flex-1 h-full min-h-screen ">
+              <div className="flex h-full min-h-screen flex-1 flex-col">
                 <Header />
-                <ToastContainer position="bottom-right" theme="dark" />
-                <section className="flex w-full  flex-1">{children}</section>
+                <section className="flex w-full flex-1">
+                  {children}
+                  <ToastContainer position="bottom-right" theme="dark" />
+                </section>
                 <Footer />
               </div>
             </div>

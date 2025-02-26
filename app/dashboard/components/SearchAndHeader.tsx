@@ -24,17 +24,17 @@ function SearchAndHeader({
   };
 
   return (
-    <div className="flex flex-col justify-start items-start mb-3 md:flex-row md:justify-between md:items-start">
-      <h4 className="text-left text-base text-slate-500  mb-2 w-auto md:flex-1 md:mb-0">
+    <div className="mb-3 flex flex-col items-start justify-start md:flex-row md:items-start md:justify-between">
+      <h4 className="mb-2 w-auto text-left text-base text-slate-500 md:mb-0 md:flex-1">
         {title}
       </h4>
-      <section className="flex justify-between items-center gap-2 w-full h-full md:w-auto md:gap-0">
-        <div className="flex justify-between  items-center bg-slate-800 text-slate-200 rounded-full  py-[1px] gap-2 max-w-[250px] sm:w-full">
-          <section className="flex items-center justify-between flex-1 h-full bg-slate-900 rounded-full mr-[2px]  px-2 relative">
-            <Search className=" rounded-l-full  w-5 h-5 mr-3  opacity-60 absolute top-1/2 left-[6px] -translate-y-1/2 translate cursor-pointer" />
+      <section className="flex h-full w-full items-center justify-between gap-2 md:w-auto md:gap-0">
+        <div className="flex max-w-[250px] items-center justify-between gap-2 rounded-full bg-slate-800 py-[1px] text-slate-200 sm:w-full">
+          <section className="relative mr-[2px] flex h-full flex-1 items-center justify-between rounded-full bg-slate-900 px-2">
+            <Search className="translate absolute left-[6px] top-1/2 mr-3 h-5 w-5 -translate-y-1/2 cursor-pointer rounded-l-full opacity-60" />
 
             <input
-              className="appearance-none outline-none  bg-transparent text-sm px-5 py-1 w-full h-full text-slate-200/50 rounded-md "
+              className="h-full w-full appearance-none rounded-md bg-transparent px-5 py-1 text-sm text-slate-200/50 outline-none"
               type="search"
               placeholder=" Search ..."
               ref={inputRef}
@@ -43,11 +43,11 @@ function SearchAndHeader({
           </section>
         </div>
 
-        <div className="flex justify-center items-center ml-2 gap-1 w-[150px] ">
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200/80">
+        <div className="ml-2 flex w-[150px] items-center justify-center gap-1">
+          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200/80">
             <Filter size={"15px"} />
           </button>
-          <button className="w-8 h-8 flex justify-center items-center  rounded-full bg-[#7dd37b]">
+          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-[#7dd37b]">
             <SortAsc size={"15px"} />
           </button>
           {role === "admin" && <FormModel table="student" type="create" />}

@@ -41,7 +41,7 @@ const columns = [
 const renderRow = (item: AttendanceList) => (
   <tr
     key={item.id}
-    className="w-full h-full border border-transparent rounded-sm even:bg-slate-900 hover:bg-gray-700"
+    className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
   >
     <td className="flex items-center gap-4 p-4">
       {new Intl.DateTimeFormat("en-US").format(item.date)}
@@ -84,7 +84,7 @@ export default async function Attendaces({
 
   const numberofPage = Math.ceil(attendace.length / PER_PAGE);
   return (
-    <div className="mx-auto p-4 flex flex-col w-full h-ful">
+    <div className="h-ful mx-auto flex w-full flex-col p-4">
       <SearchAndHeaderServerSide title="All Attendances" />
       <Table Lists={renderRow} data={attendace} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />

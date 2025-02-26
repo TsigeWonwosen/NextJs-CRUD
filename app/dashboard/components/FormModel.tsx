@@ -23,7 +23,7 @@ const DeleteForm = ({
   return (
     <form
       onSubmit={() => handleSubmit(id)}
-      className="w-[350px] h-[250px] bg-black/90 text-white/80 opacity-1 rounded-md flex justify-center flex-col items-center gap-4 z-52 relative"
+      className="opacity-1 z-52 relative flex h-[250px] w-[90%] flex-col items-center justify-center gap-4 rounded-md bg-slate-950 py-2 text-white/80 md:w-[60%]"
     >
       <div>
         <label htmlFor="">
@@ -31,12 +31,12 @@ const DeleteForm = ({
         </label>
       </div>
 
-      <button className="w-max px-2 py-1 rounded-md  text-gray-400 btnGradient">
+      <button className="btnGradient w-max rounded-md px-2 py-1 text-gray-400">
         Delete
       </button>
       <button
         onClick={handleToggle}
-        className="absolute top-5 right-5 w-4 h-4 text-xl font-semibold text-gray-500/50"
+        className="absolute right-5 top-5 h-4 w-4 text-xl font-semibold text-gray-500/50"
       >
         <X size={17} className="text-gray-300" />
       </button>
@@ -69,8 +69,8 @@ function FormModel({
     type == "create"
       ? METHOD_TYPE.CREATE
       : type == "update"
-      ? METHOD_TYPE.UPDATE
-      : METHOD_TYPE.DELETE;
+        ? METHOD_TYPE.UPDATE
+        : METHOD_TYPE.DELETE;
 
   const handleSubmit = async (id: string | number) => {
     try {
@@ -93,8 +93,8 @@ function FormModel({
     type === "create"
       ? "bg-[#4493F8]"
       : type === "update"
-      ? "bg-green-900/80"
-      : "bg-red-600/65";
+        ? "bg-green-900/80"
+        : "bg-red-600/65";
 
   const Icon =
     type === "create" ? (
@@ -106,10 +106,10 @@ function FormModel({
     );
 
   return (
-    <div className="w-auto h-auto">
+    <div className="h-full w-full">
       <>
         {show && (
-          <div className="w-screen h-screen bg-black bg-opacity-60 absolute top-0 left-0  flex justify-center items-center overflow-hidden z-50">
+          <div className="overflew-x-hidden absolute bottom-0 left-0 top-2 z-50 flex h-full min-h-screen w-full items-center justify-center bg-black bg-opacity-70">
             {id && type == "delete" ? (
               <DeleteForm
                 id={id}
@@ -129,10 +129,10 @@ function FormModel({
           </div>
         )}
       </>
-      <div className="flex justify-center flex-row items-center gap-2">
+      <div className="flex flex-row items-center justify-center gap-2">
         <button
           onClick={handleToggle}
-          className={` ${styleType} flex justify-center   items-center  ${BgColor} rounded-full `}
+          className={` ${styleType} flex items-center justify-center ${BgColor} rounded-full`}
         >
           {Icon}
         </button>
