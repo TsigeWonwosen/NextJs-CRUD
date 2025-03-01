@@ -1,10 +1,11 @@
 "use server";
 
 import { prisma } from "@/app/libs/prisma";
-import { Class, Prisma, Student } from "@prisma/client";
+import { Prisma, Student } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-
-type StudentType = Student & { class: Class };
+import { StudentSchemaType } from "../libs/types";
+import { getErrorMessage } from "../utils/getErrorMessage";
+import Attendaces from "../dashboard/attendance/page";
 
 export async function getStudentsWithQuery(searchParams: {
   search?: string;
@@ -34,17 +35,21 @@ export async function getStudentsWithQuery(searchParams: {
     where,
     include: {
       results: true, // Example of including relations
+      attendances: true,
     },
   });
-
+  ``;
   return students;
 }
 export const getStudents = async () => {
-  const students: StudentType[] = await prisma.student.findMany({
-    include: { class: true },
+  const students = await prisma.student.findMany({
+    include: {
+      results: true,
+      attendances: true,
+    },
     orderBy: { id: "asc" },
   });
-
+  // console.log("Students", students[0]);
   const totalStudents = await prisma.student.count();
 
   return { students, totalStudents };
@@ -58,25 +63,43 @@ export async function getUsersWithPosts() {
 }
 
 // Create a new user
-export async function createStudent(data: Student) {
-  const student = await prisma.student.create({ data });
+export async function createStudent(data: any) {
+  try {
+    const student = await prisma.student.create({ data });
 
-  revalidatePath("/dashboard/students");
-  return student;
+    // revalidatePath("/dashboard/students");
+    return { success: true, message: "Form created successfully!" };
+  } catch (error: any) {
+    const message = getErrorMessage(error);
+    return message;
+  }
 }
 
 // Update a post
-export async function updateStudent(id: string, data: Student) {
+export async function updateStudent(id: string, data: any) {
+  console.log("Student data : ", data);
   const selectedStudent = await prisma.student.findUnique({
     where: { id },
-  });
-
-  const response = await prisma.student.update({
-    where: { id: selectedStudent?.id },
-    data,
-  });
-  revalidatePath("/dashboard/students");
-  return response;
+  }); // Find the student to update by ID
+  try {
+    const student = await prisma.student.update({
+      where: { id: selectedStudent?.id },
+      data: {
+        ...data,
+        img: typeof data.img === "string" ? data.img : undefined,
+      },
+      include: {
+        results: true,
+        attendances: true,
+      },
+    });
+    // revalidatePath("/dashboard/students");
+    console.log("Resonse : ", student);
+    return { success: true, message: "Form updated successfully!" };
+  } catch (error: any) {
+    const message = getErrorMessage(error);
+    return message;
+  }
 }
 
 //  Delete a post
@@ -101,15 +124,7 @@ export async function deleteStudent(id: string) {
 
     revalidatePath("/dashboard/students");
   } catch (error: any) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2025"
-    ) {
-      console.log("Student not found:", id);
-      throw new Error(`Student with ID ${id} not found`);
-    } else {
-      console.log("Error deleting student:", error);
-      throw new Error(`Failed to delete student: ${error?.message}`);
-    }
+    const message = getErrorMessage(error);
+    return message;
   }
 }

@@ -13,7 +13,8 @@ import {
   Exam,
   Attendance,
 } from "@prisma/client";
-import { z } from "zod";
+import { date, z } from "zod";
+import Attendaces from "../dashboard/attendance/page";
 
 export type StaffType = {
   _id: string;
@@ -23,6 +24,23 @@ export type StaffType = {
   role?: string;
   createdAt?: string;
 };
+
+const fileSchema = z
+  .any()
+  .refine(
+    (val) => val instanceof FileList || val instanceof File,
+    "Input must be a File or FileList",
+  )
+  .refine((val) => {
+    if (val instanceof FileList) return val.length > 0;
+    if (val instanceof File) return true; // A single file is valid
+    return false;
+  }, "Image is required")
+  .refine((val) => {
+    if (val instanceof FileList) return val[0]?.type.startsWith("image/");
+    if (val instanceof File) return val.type.startsWith("image/");
+    return false;
+  }, "File must be an image");
 
 export const TeacherSchema = z.object({
   id: z.string(),
@@ -42,18 +60,7 @@ export const TeacherSchema = z.object({
     .email({ message: "Invalid email addresss" })
     .min(4, { message: "User email should atleast 4 charactor.." })
     .optional(),
-  img: z
-    .union([
-      z
-        .instanceof(FileList)
-        .refine((files) => files.length > 0, "Image is required")
-        .refine(
-          (files) => files[0]?.type.startsWith("image/"),
-          "File must be an image",
-        ),
-      z.string().url(),
-    ])
-    .optional(),
+  img: z.union([fileSchema, z.string().url()]).optional(),
   phone: z
     .string()
     .min(8, { message: "Phone number should atleast 8 digits." }),
@@ -75,26 +82,60 @@ export const TeacherSchema = z.object({
 
 export type TeacherSchemaType = z.infer<typeof TeacherSchema>;
 
+const attendanceSchema = z.object({
+  id: z.number(),
+  studentId: z.string(),
+  date: z.date(),
+});
+
+const resultSchema = z.object({
+  id: z.number(),
+  studentId: z.string(),
+  score: z.number(),
+  examId: z.number().nullable(),
+  assignmentId: z.number().nullable(),
+});
+
 export const StudntSchema = z.object({
-  name: z.string().min(4, { message: "User Name should atleast 4 charactor." }),
+  id: z.string().optional(),
+  name: z.string().min(4, { message: "Name should at least 4 charactor." }),
+
+  surname: z.string().min(4, { message: "Name should at least 4 charactor." }),
+
+  username: z
+    .string()
+    .min(4, { message: "User Name should at least 4 charactor." }),
   email: z
     .string()
     .email({ message: "Invalid email addresss" })
-    .min(4, { message: "User email should atleast 4 charactor.." }),
-  photo: z
-    .instanceof(File, { message: "Please upload a single file" })
-    .optional(),
+    .min(4, { message: "User email should atleast 4 charactor.." })
+    .or(z.literal(""))
+    .nullable(),
+  img: z.union([fileSchema, z.string().url(), z.undefined()]).optional(),
   phone: z
     .string()
-    .min(8, { message: "Phone number should atleast 8 digits." }),
-  subjects: z.enum(["Maths", "English", "Biology"], {
-    message: "Subject is requiered.",
-  }),
-  classes: z.optional(z.string().min(4, { message: "Class requierd" })),
+    .min(8, { message: "Phone number should atleast 8 digits." })
+    .nullable(),
   address: z
     .string()
     .min(4, { message: "Address should atleast 4 charactor." }),
-  birthday: z.date(),
+  bloodType: z.string().min(1, { message: "Blood type required." }),
+  sex: z.enum(["MALE", "FEMALE"]),
+  classId: z.coerce.number().min(1, { message: "Class requierd" }),
+  parentId: z.string().min(1, { message: "Parent requierd" }),
+  gradeId: z.coerce.number().min(1, { message: "Grade requierd" }),
+  attendances: z
+    .array(z.coerce.number())
+    .nonempty("At least one attendance is required"),
+  results: z
+    .array(z.coerce.number())
+    .nonempty("At least one attendance is required"),
+  birthday: z.preprocess((arg) => {
+    if (typeof arg === "string" || arg instanceof Date) {
+      return new Date(arg);
+    }
+    return arg;
+  }, z.date()),
 });
 
 export type StudentSchemaType = z.infer<typeof StudntSchema>;
@@ -139,7 +180,13 @@ export type pageProps = {
   searchParams?: { [key: string]: string | string[] | undefined };
 };
 
-export type StudentType = Student & { class: Class };
+export type StudentType = Student & {
+  class: Class;
+  grade: Grade;
+  attendance: Attendance[];
+  results: Result[];
+  parent: Parent;
+};
 
 export type TeacherProps = Teacher & { classes: Class[] } & {
   subjects: Subject[];

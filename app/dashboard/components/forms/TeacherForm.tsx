@@ -33,7 +33,12 @@ function TeacherForm({
     reset,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<TeacherSchemaType>({ resolver: zodResolver(TeacherSchema) });
+  } = useForm<TeacherSchemaType>({
+    resolver: zodResolver(TeacherSchema),
+    defaultValues: {
+      img: data?.img || "", // Use existing URL if available
+    },
+  });
 
   const router = useRouter();
 
@@ -129,7 +134,7 @@ function TeacherForm({
   const handlePhotoPreview = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]; // Get the first file
     if (selectedFile) {
-      // setValue("photo", selectedFile); // Set the file to the form
+      // setValue("img", typeof selectedFile == "string" ? selectedFile : ""); // Set the file to the form
       setPreview(URL.createObjectURL(selectedFile)); // Generate preview
     }
   };
@@ -445,29 +450,31 @@ function TeacherForm({
               <p className="text-red-400">{errors.sex?.message}</p>
             )}
 
-            <div className="mb-4">
+            <div className="mb-4 flex w-full flex-col items-center gap-y-4 md:flex-row md:gap-x-3">
               <label
                 htmlFor="img"
-                className="flex items-center justify-between text-left text-sm font-medium text-gray-700"
+                className="flex w-full flex-row items-center justify-start gap-2 text-left text-sm font-medium text-gray-700"
               >
                 <Image
                   src={`/upload.png`}
                   alt="Upload Photo"
-                  width={29}
-                  height={29}
+                  width={25}
+                  height={25}
                 />
-                <span>Upload Photo</span>
+                <span className="w-auto text-left text-sm font-medium text-gray-700">
+                  Upload Photo
+                </span>
               </label>
               <input
                 id="img"
                 type="file"
                 {...register("img")}
                 accept="image/*"
-                // onChange={handlePhotoPreview}
+                onChange={handlePhotoPreview}
                 className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               />
             </div>
-            {errors.img?.message && (
+            {errors.img?.message && typeof errors.img?.message === "string" && (
               <p className="text-red-400">Photo Error: {errors.img?.message}</p>
             )}
             {preview && (

@@ -1,31 +1,25 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import SearchAndHeader from "./SearchAndHeader";
-import Table from "./Table";
-import StudentsList from "./StudentsList";
-import { Class, Student } from "@prisma/client";
+import React, { useState } from "react";
 import Pagination from "./Pagination";
-import {
-  createStudent,
-  getStudents,
-  updateStudent,
-  deleteStudent,
-} from "../../actions/studentActions";
+import SearchAndHeader from "./SearchAndHeader";
+import { StudentSchemaType } from "@/app/libs/types";
 
 const PER_PAGE = 10;
-type StudentType = Student & { class: Class };
 
 function StudentClient({
   students,
   totalSudents,
+  studentList,
 }: {
-  students: StudentType[];
+  students: StudentSchemaType[];
   totalSudents: number;
+  studentList: any;
 }) {
-  const [studentData, setStudentData] = useState<StudentType[]>(
+  const [studentData, setStudentData] = useState<StudentSchemaType[]>(
     students.slice(0, PER_PAGE),
   );
-  const [felteredData, setFelteredData] = useState<StudentType[]>(studentData);
+  const [felteredData, setFelteredData] =
+    useState<StudentSchemaType[]>(studentData);
 
   const handleSearch = (search: string) => {
     const filtered = studentData.filter((data) => {
@@ -68,29 +62,26 @@ function StudentClient({
     },
   ];
 
-  const handleClick = async (id: string) => {
-    await deleteStudent(id);
-  };
-
-  const handleClickUpdate = async (id: string, data: Student) => {
-    await updateStudent(id, data);
-  };
-
-  const handleAdd = async (data: Student) => {
-    await createStudent(data);
-  };
-
   return (
-    <div className="mx-auto flex h-full w-full flex-col p-4">
+    <>
       <SearchAndHeader title="All Students" handleSearch={handleSearch} />
-      <Table
-        Lists={StudentsList}
-        tableHeader={HeaderClass}
-        data={felteredData}
-      />
-
+      <table className="min-w-full border-collapse overflow-hidden rounded-md border-0 border-b-slate-700">
+        <thead className="w-full rounded-full border-0">
+          <tr className="w-full border-0 border-slate-800 bg-gray-900 text-[14px]">
+            {HeaderClass.map((header, index) => (
+              <th
+                key={index}
+                className={`border-b border-gray-500 px-3 py-2 text-left last:text-center ${header.class}`}
+              >
+                {header.header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>{studentList}</tbody>
+      </table>
       <Pagination total={totalSudents} handleChange={handlePagination} />
-    </div>
+    </>
   );
 }
 

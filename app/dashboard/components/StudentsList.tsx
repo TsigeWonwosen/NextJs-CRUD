@@ -1,11 +1,10 @@
+"use server";
 import Image from "next/image";
 import React from "react";
-import { Class, Student } from "@prisma/client";
 import FormContainer from "./FormContainer";
+import { StudentSchemaType } from "@/app/libs/types";
 
-type StudentType = Student & { class: Class };
-
-function StudentsList(user: StudentType) {
+function StudentsList(user: StudentSchemaType) {
   return (
     <tr
       key={user.id}
@@ -13,7 +12,7 @@ function StudentsList(user: StudentType) {
     >
       <td className="flex flex-row justify-start px-1 py-2">
         <Image
-          src={user?.img || `/avatar.png`}
+          src={typeof user.img === "string" ? user.img : `/avatar.png`}
           width={35}
           height={35}
           alt="Profile Photo"
@@ -26,15 +25,19 @@ function StudentsList(user: StudentType) {
       </td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.id}</td>
       <td className="hidden px-4 py-2 text-sm sm:table-cell">
-        {user.class.name}
+        {user.parentId}
       </td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.gradeId}</td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.address}</td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.phone}</td>
       <td className="px-4 py-2 text-sm">
         <div className="flex items-center justify-center gap-1">
-          <FormContainer table="student" type="update" id={user.id} />
-
+          <FormContainer
+            table="student"
+            type="update"
+            id={user.id}
+            data={user}
+          />
           <FormContainer table="student" type="delete" id={user.id} />
         </div>
       </td>

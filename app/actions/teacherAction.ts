@@ -81,6 +81,7 @@ export async function createTeacher(data: TeacherSchemaType) {
         phone: data.phone,
         address: data.address,
         bloodType: data.bloodType,
+        img: typeof data.img === "string" ? data.img : undefined,
         sex: data.sex,
         birthday: new Date(data.birthday),
         lessons: {
