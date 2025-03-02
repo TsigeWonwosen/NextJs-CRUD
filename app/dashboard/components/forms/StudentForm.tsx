@@ -10,6 +10,7 @@ import { uploadPhoto } from "@/app/actions/uploadPhoto";
 import { createStudent, updateStudent } from "@/app/actions/studentActions";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import InputField from "../InputField";
 
 function StudentForm({
   handleToggle,
@@ -35,17 +36,18 @@ function StudentForm({
     reset,
     formState: { errors, isSubmitting },
   } = useForm<StudentSchemaType>({
-    resolver: zodResolver(StudntSchema),
+    // resolver: zodResolver(StudntSchema),
     defaultValues: {
       ...data,
-      attendances: data?.attendances?.join(",") || "",
-      results: data?.results,
+      //   attendances: data?.attendances || [],
+      //   results: data?.results || [],
       birthday: data?.birthday
         ? new Date(data.birthday).toISOString().split("T")[0]
         : "",
     },
   });
 
+  console.log("Errors: ", errors);
   const router = useRouter();
 
   useEffect(() => {
@@ -59,6 +61,15 @@ function StudentForm({
   }, [id, setValue]);
 
   const onSubmit = async (data: StudentSchemaType) => {
+    let imgUrl;
+    if (data.id) {
+      const file =
+        data.img && data.img instanceof FileList ? data.img[0] : null;
+      if (file) {
+        imgUrl = await uploadPhoto(file);
+      }
+    }
+
     const transformedData = {
       ...data,
       attendances:
@@ -75,7 +86,22 @@ function StudentForm({
               .map((id) => Number(id))
               .filter((id) => !isNaN(id))
           : data.results,
+      img: imgUrl ? (imgUrl?.url as string) : undefined,
     };
+
+    const result = StudntSchema.safeParse(transformedData);
+    if (result.success) {
+      console.log("Validation succeeded:", result.data);
+      // Submit the data to your backend
+    } else {
+      console.error("Validation failed:", result.error);
+      result.error.errors.forEach((error) => {
+        setError(error.path[0] as keyof StudentSchemaType, {
+          type: "manual",
+          message: error.message,
+        });
+      });
+    }
 
     if (!data || typeof data !== "object") {
       throw new Error(
@@ -84,23 +110,9 @@ function StudentForm({
     }
     try {
       if (title == "update") {
-        if (data.id) {
-          let imgUrl;
-          const file =
-            data.img && data.img instanceof FileList ? data.img[0] : null;
-          if (file) {
-            imgUrl = await uploadPhoto(file);
-          }
-          const res = await updateStudent(data?.id, {
-            ...data,
-            img: imgUrl?.url as string,
-            attendances: {
-              connect: data.attendances.map((id) => ({ id })), // Connect to existing attendances
-            },
-            results: {
-              connect: data.results.map((id) => ({ id })), // Connect to existing results
-            },
-          });
+        if (data?.id && result.success) {
+          const res = await updateStudent(data?.id, result.data);
+
           if (res.success) {
             toast.success(res.message, { autoClose: 3000 });
             reset();
@@ -175,44 +187,20 @@ function StudentForm({
       >
         <div className="flex flex-col items-start justify-between gap-x-3 xl:flex-row">
           <section className="h-full w-full">
-            <div className="mb-4">
-              <label
-                htmlFor="id"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Id
-              </label>
-              <input
-                type="text"
-                id="id"
-                defaultValue={data?.id}
-                {...register("id")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your address"
-              />
-            </div>
-            {errors?.id && <p className="text-red-400">{errors.id?.message}</p>}
-            <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                defaultValue={data?.name}
-                {...register("name")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your name"
-                required
-              />
-            </div>
-            {errors?.name && (
-              <p className="text-red-400">{errors.name?.message}</p>
-            )}
-
+            <InputField
+              label="Id"
+              name="id"
+              defaultValue={data.id}
+              register={register}
+              errors={errors.id}
+            />
+            <InputField
+              label="Name"
+              name="name"
+              defaultValue={data.name}
+              register={register}
+              errors={errors.name}
+            />
             <div className="mb-4">
               <label
                 htmlFor="surname"
@@ -418,7 +406,7 @@ function StudentForm({
               <select
                 multiple
                 id="results"
-                defaultValue={data?.results}
+                // defaultValue={data?.results}
                 {...register("results")}
                 className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required

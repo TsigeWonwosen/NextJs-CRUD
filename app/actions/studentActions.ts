@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { StudentSchemaType } from "../libs/types";
 import { getErrorMessage } from "../utils/getErrorMessage";
 import Attendaces from "../dashboard/attendance/page";
+import { connect } from "http2";
 
 export async function getStudentsWithQuery(searchParams: {
   search?: string;
@@ -77,26 +78,34 @@ export async function createStudent(data: any) {
 
 // Update a post
 export async function updateStudent(id: string, data: any) {
-  console.log("Student data : ", data);
   const selectedStudent = await prisma.student.findUnique({
     where: { id },
-  }); // Find the student to update by ID
+  });
   try {
-    const student = await prisma.student.update({
-      where: { id: selectedStudent?.id },
-      data: {
-        ...data,
-        img: typeof data.img === "string" ? data.img : undefined,
-      },
-      include: {
-        results: true,
-        attendances: true,
-      },
-    });
+    if (data.attendances.length > 0 || data.results.length > 0) {
+      const student = await prisma.student.update({
+        where: { id: selectedStudent?.id },
+        data: {
+          ...data,
+          attendances: {
+            connect: data.attendances.map((attendance: number) => ({
+              id: attendance,
+            })),
+          },
+          results: {
+            connect: data.results.map((id: number) => ({ id })),
+          },
+        },
+        include: {
+          results: true,
+          attendances: true,
+        },
+      });
+    }
     // revalidatePath("/dashboard/students");
-    console.log("Resonse : ", student);
     return { success: true, message: "Form updated successfully!" };
   } catch (error: any) {
+    console.log("Error : ", error);
     const message = getErrorMessage(error);
     return message;
   }
