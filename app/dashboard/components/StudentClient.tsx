@@ -1,32 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import SearchAndHeader from "./SearchAndHeader";
-import { StudentSchemaType } from "@/app/libs/types";
-
-const PER_PAGE = 10;
+import StudentsList, { StudentListProps } from "./StudentsList";
+import { PER_PAGE } from "@/app/libs/constants";
 
 function StudentClient({
   students,
   totalSudents,
-  studentList,
+  relatedData,
 }: {
-  students: StudentSchemaType[];
+  students: StudentListProps[];
   totalSudents: number;
-  studentList: any;
+  relatedData: any;
 }) {
-  const [studentData, setStudentData] = useState<StudentSchemaType[]>(
-    students.slice(0, PER_PAGE),
+  const [studentData, setStudentData] = useState<StudentListProps[]>(students);
+  const [felteredData, setFelteredData] = useState<StudentListProps[]>(
+    studentData.slice(0, PER_PAGE),
   );
-  const [felteredData, setFelteredData] =
-    useState<StudentSchemaType[]>(studentData);
 
   const handleSearch = (search: string) => {
     const filtered = studentData.filter((data) => {
-      return data.name.toLowerCase().includes(search.toLowerCase());
+      return (
+        data.name.toLowerCase().includes(search.toLowerCase()) ||
+        data.id.toString().includes(search)
+      );
     });
     setFelteredData(filtered);
   };
+
   const handlePagination = (page: number) => {
     const start = (page - 1) * PER_PAGE;
     const end = page * PER_PAGE;
@@ -62,9 +64,19 @@ function StudentClient({
     },
   ];
 
+  const listOfStudents = felteredData.map((student) => {
+    return (
+      <StudentsList key={student.id} user={student} relatedData={relatedData} />
+    );
+  });
+
   return (
-    <>
-      <SearchAndHeader title="All Students" handleSearch={handleSearch} />
+    <div className="w-full">
+      <SearchAndHeader
+        title="All Students"
+        handleSearch={handleSearch}
+        relatedData={relatedData}
+      />
       <table className="min-w-full border-collapse overflow-hidden rounded-md border-0 border-b-slate-700">
         <thead className="w-full rounded-full border-0">
           <tr className="w-full border-0 border-slate-800 bg-gray-900 text-[14px]">
@@ -78,10 +90,11 @@ function StudentClient({
             ))}
           </tr>
         </thead>
-        <tbody>{studentList}</tbody>
+
+        <tbody>{listOfStudents}</tbody>
       </table>
       <Pagination total={totalSudents} handleChange={handlePagination} />
-    </>
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const PER_PAGE = 10;
 
@@ -21,6 +22,12 @@ function Pagination({
     setCurrentPage((prev) => prev - 1);
     handleChange(currentPage - 1);
   };
+
+  const router = useRouter();
+  useEffect(() => {
+    router.push(`?page=${currentPage}`, { scroll: false });
+  }, [currentPage]);
+
   return (
     <div className="mt-1 flex w-[98%] items-center justify-between rounded-md border border-slate-700 px-4 py-2">
       <button

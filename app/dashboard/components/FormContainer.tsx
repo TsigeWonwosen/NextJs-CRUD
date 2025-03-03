@@ -15,9 +15,6 @@ async function FormContainer({
   data?: any;
 }) {
   let relatedData = {};
-  const grades = await prisma.grade.findMany({
-    select: { id: true, level: true },
-  });
   const teachers = await prisma.teacher.findMany({
     select: { id: true, name: true, surname: true },
   });
@@ -32,8 +29,16 @@ async function FormContainer({
   const subjects = await prisma.subject.findMany({
     select: { id: true, name: true },
   });
+
+  const grades = await prisma.grade.findMany({
+    select: { id: true, level: true },
+  });
   const classes = await prisma.class.findMany({
     select: { id: true, name: true },
+  });
+
+  const parents = await prisma.parent.findMany({
+    select: { id: true, name: true, surname: true },
   });
 
   const results = await prisma.result.findMany({
@@ -47,10 +52,6 @@ async function FormContainer({
   });
   const attendances = await prisma.attendance.findMany({
     select: { id: true, studentId: true, date: true },
-  });
-
-  const parents = await prisma.parent.findMany({
-    select: { id: true, name: true, surname: true },
   });
 
   switch (table) {

@@ -1,10 +1,19 @@
-"use server";
 import Image from "next/image";
-import React from "react";
-import FormContainer from "./FormContainer";
-import { StudentSchemaType } from "@/app/libs/types";
+import { Student } from "@prisma/client";
+import FormModel from "./FormModel";
 
-function StudentsList(user: StudentSchemaType) {
+export type StudentListProps = Student & {
+  attendances: number[];
+  results: number[];
+};
+
+function StudentsList({
+  user,
+  relatedData,
+}: {
+  user: StudentListProps;
+  relatedData: any;
+}) {
   return (
     <tr
       key={user.id}
@@ -32,13 +41,19 @@ function StudentsList(user: StudentSchemaType) {
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.phone}</td>
       <td className="px-4 py-2 text-sm">
         <div className="flex items-center justify-center gap-1">
-          <FormContainer
+          <FormModel
             table="student"
             type="update"
             id={user.id}
             data={user}
+            relatedData={relatedData}
           />
-          <FormContainer table="student" type="delete" id={user.id} />
+          <FormModel
+            table="student"
+            type="delete"
+            id={user.id}
+            relatedData={relatedData}
+          />
         </div>
       </td>
     </tr>

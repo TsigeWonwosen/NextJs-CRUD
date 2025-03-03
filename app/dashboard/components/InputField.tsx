@@ -4,12 +4,14 @@ import { FieldError } from "react-hook-form";
 function InputField({
   label,
   name,
+  type,
   defaultValue,
   register,
   errors,
 }: {
   label: string;
   name: string;
+  type?: string;
   defaultValue: any;
   register: any;
   errors: FieldError | undefined;
@@ -24,10 +26,9 @@ function InputField({
           {label}
         </label>
         <input
-          type="text"
+          type={type || "text"}
           id="id"
           defaultValue={defaultValue}
-          {...register(name)}
           {...register(name)}
           className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
           placeholder="Enter your address"

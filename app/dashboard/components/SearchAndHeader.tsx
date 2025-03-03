@@ -1,15 +1,17 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Filter, Search, SortAsc } from "lucide-react";
 import { useSession } from "next-auth/react";
-import FormContainer from "./FormContainer";
+import FormModel from "./FormModel";
 
 function SearchAndHeader({
   title,
   handleSearch,
+  relatedData,
 }: {
   title: string;
   handleSearch: (search: string) => void;
+  relatedData: any;
 }) {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -23,7 +25,7 @@ function SearchAndHeader({
   };
 
   return (
-    <div className="mb-3 flex flex-col items-start justify-start md:flex-row md:items-start md:justify-between">
+    <div className="mb-3 flex h-full flex-col items-start justify-start md:flex-row md:items-start md:justify-between">
       <h4 className="mb-2 w-auto text-left text-base text-slate-500 md:mb-0 md:flex-1">
         {title}
       </h4>
@@ -33,7 +35,7 @@ function SearchAndHeader({
             <Search className="translate absolute left-[6px] top-1/2 mr-3 h-5 w-5 -translate-y-1/2 cursor-pointer rounded-l-full opacity-60" />
 
             <input
-              className="h-full w-full appearance-none rounded-md bg-transparent px-5 py-1 text-sm text-slate-200/50 outline-none"
+              className="h-full w-full appearance-none rounded-md bg-transparent px-5 py-[6px] text-sm text-slate-200/50 outline-none"
               type="search"
               placeholder=" Search ..."
               ref={inputRef}
@@ -42,14 +44,23 @@ function SearchAndHeader({
           </section>
         </div>
 
-        <div className="ml-2 flex w-[150px] items-center justify-center gap-1">
-          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200/80">
-            <Filter size={"15px"} />
-          </button>
-          <button className="flex h-8 w-8 items-center justify-center rounded-full bg-[#7dd37b]">
-            <SortAsc size={"15px"} />
-          </button>
-          {/* {role === "admin" && <FormContainer table="student" type="create" />} */}
+        <div className="item-center flex h-full w-full max-w-[120px] justify-center pl-2">
+          <div className="flex h-full w-full items-center justify-between gap-1">
+            <button className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200/80">
+              <Filter size={"16px"} />
+            </button>
+            <button className="flex h-8 w-8 items-center justify-center rounded-full bg-[#7dd37b]">
+              <SortAsc size={"16px"} />
+            </button>
+          </div>
+
+          {role === "admin" && (
+            <FormModel
+              table="student"
+              type="create"
+              relatedData={relatedData}
+            />
+          )}
         </div>
       </section>
     </div>

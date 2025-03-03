@@ -62,12 +62,9 @@ function StudentForm({
 
   const onSubmit = async (data: StudentSchemaType) => {
     let imgUrl;
-    if (data.id) {
-      const file =
-        data.img && data.img instanceof FileList ? data.img[0] : null;
-      if (file) {
-        imgUrl = await uploadPhoto(file);
-      }
+    const file = data.img && data.img instanceof FileList ? data.img[0] : null;
+    if (file) {
+      imgUrl = await uploadPhoto(file);
     }
 
     const transformedData = {
@@ -135,7 +132,7 @@ function StudentForm({
         }
       }
       if (title == "create") {
-        const res = await createStudent(data);
+        const res = await createStudent(result.data);
         if (res.success) {
           toast.success(res.message, { autoClose: 3000 });
           reset();
@@ -190,117 +187,55 @@ function StudentForm({
             <InputField
               label="Id"
               name="id"
-              defaultValue={data.id}
+              defaultValue={data?.id}
               register={register}
               errors={errors.id}
             />
             <InputField
               label="Name"
               name="name"
-              defaultValue={data.name}
+              defaultValue={data?.name}
               register={register}
-              errors={errors.name}
+              errors={errors?.name}
             />
-            <div className="mb-4">
-              <label
-                htmlFor="surname"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                SurName
-              </label>
-              <input
-                type="text"
-                id="surname"
-                defaultValue={data?.surname}
-                {...register("surname")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your username"
-                required
-              />
-            </div>
-            {errors?.surname && (
-              <p className="text-red-400">{errors.surname?.message}</p>
-            )}
-            <div className="mb-4">
-              <label
-                htmlFor="username"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                User Name
-              </label>
-              <input
-                type="text"
-                id="username"
-                defaultValue={data?.name}
-                {...register("username")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your username"
-                required
-              />
-            </div>
-            {errors?.name && (
-              <p className="text-red-400">{errors.name?.message}</p>
-            )}
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                defaultValue={data?.email}
-                {...register("email")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-            {errors.email?.message && (
-              <p className="text-red-400">{errors?.email?.message}</p>
-            )}
-            <div className="mb-4">
-              <label
-                htmlFor="phone"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Phone
-              </label>
-              <input
-                type="phone"
-                id="phone"
-                defaultValue={data?.phone}
-                {...register("phone")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your phone number"
-                required
-              />
-            </div>
-            {errors.phone?.message && (
-              <p className="text-red-400">{errors?.phone?.message}</p>
-            )}
-            <div className="mb-4">
-              <label
-                htmlFor="address"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Address
-              </label>
-              <input
-                type="address"
-                id="addrees"
-                defaultValue={data?.address}
-                {...register("address")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your address"
-                required
-              />
-            </div>
-            {errors.address?.message && (
-              <p className="text-red-400">{errors.address?.message}</p>
-            )}
+
+            <InputField
+              label="Surname"
+              name="surname"
+              defaultValue={data?.surname}
+              register={register}
+              errors={errors?.surname}
+            />
+
+            <InputField
+              label="Username"
+              name="username"
+              defaultValue={data?.username}
+              register={register}
+              errors={errors?.username}
+            />
+            <InputField
+              label="Email"
+              name="email"
+              defaultValue={data?.email}
+              register={register}
+              errors={errors?.email}
+            />
+
+            <InputField
+              label="Phone"
+              name="phone"
+              defaultValue={data?.phone}
+              register={register}
+              errors={errors?.phone}
+            />
+            <InputField
+              label="Address"
+              name="address"
+              defaultValue={data?.address}
+              register={register}
+              errors={errors?.address}
+            />
           </section>
           <section className="flex h-full w-full flex-wrap items-center gap-x-3 gap-y-4">
             <div className="mb-4">
@@ -406,7 +341,6 @@ function StudentForm({
               <select
                 multiple
                 id="results"
-                // defaultValue={data?.results}
                 {...register("results")}
                 className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
@@ -440,7 +374,7 @@ function StudentForm({
                 {parents &&
                   parents.map((parent: { id: string; name: string }) => (
                     <option key={parent.id} value={String(parent.id)}>
-                      {parent.name + " | " + parent.id}
+                      {parent.name}
                     </option>
                   ))}
               </select>
@@ -448,30 +382,15 @@ function StudentForm({
             {errors.parentId?.message && (
               <p className="text-red-400">{errors.parentId?.message}</p>
             )}
-            <div className="mb-4">
-              <label
-                htmlFor="birthday"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Birthday
-              </label>
 
-              <input
-                type="date"
-                id="birthday"
-                {...register("birthday")}
-                defaultValue={
-                  data?.birthday
-                    ? new Date(data.birthday).toISOString().split("T")[0]
-                    : ""
-                }
-                className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                required
-              />
-            </div>
-            {errors.birthday?.message && (
-              <p className="text-red-400">{errors.birthday?.message}</p>
-            )}
+            <InputField
+              label="Birth Date"
+              name="birthday"
+              defaultValue={data?.birthday.toISOString().split("T")[0]}
+              register={register}
+              errors={errors.birthday}
+              type="date"
+            />
 
             <div className="mb-4">
               <label
@@ -496,27 +415,13 @@ function StudentForm({
               <p className="text-red-400">{errors.sex?.message}</p>
             )}
 
-            <div className="mb-4">
-              <label
-                htmlFor="bloodType"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Blood Type
-              </label>
-
-              <input
-                type="input"
-                id="bloodType"
-                {...register("bloodType")}
-                defaultValue={data?.bloodType}
-                className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                required
-              ></input>
-            </div>
-
-            {errors.sex?.message && (
-              <p className="text-red-400">{errors.sex?.message}</p>
-            )}
+            <InputField
+              label="Blood Type"
+              name="bloodType"
+              defaultValue={data?.bloodType}
+              register={register}
+              errors={errors?.bloodType}
+            />
 
             <div className="mb-4 flex w-full flex-col items-center gap-y-4 md:flex-row md:gap-x-3">
               <label

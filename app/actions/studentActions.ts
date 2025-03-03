@@ -1,12 +1,8 @@
 "use server";
 
 import { prisma } from "@/app/libs/prisma";
-import { Prisma, Student } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { StudentSchemaType } from "../libs/types";
 import { getErrorMessage } from "../utils/getErrorMessage";
-import Attendaces from "../dashboard/attendance/page";
-import { connect } from "http2";
 
 export async function getStudentsWithQuery(searchParams: {
   search?: string;
@@ -39,9 +35,10 @@ export async function getStudentsWithQuery(searchParams: {
       attendances: true,
     },
   });
-  ``;
+
   return students;
 }
+
 export const getStudents = async () => {
   const students = await prisma.student.findMany({
     include: {
@@ -50,7 +47,6 @@ export const getStudents = async () => {
     },
     orderBy: { id: "asc" },
   });
-  // console.log("Students", students[0]);
   const totalStudents = await prisma.student.count();
 
   return { students, totalStudents };
@@ -66,11 +62,28 @@ export async function getUsersWithPosts() {
 // Create a new user
 export async function createStudent(data: any) {
   try {
-    const student = await prisma.student.create({ data });
-
-    // revalidatePath("/dashboard/students");
-    return { success: true, message: "Form created successfully!" };
+    if (data.attendances.length > 0 || data.results.length > 0) {
+      const student = await prisma.student.create({
+        data: {
+          ...data,
+          attendances: {
+            connect: data.attendances.map((attendance: number) => ({
+              id: attendance,
+            })),
+          },
+          results: {
+            connect: data.results.map((id: number) => ({ id })),
+          },
+        },
+        include: {
+          results: true,
+          attendances: true,
+        },
+      });
+    }
+    return { success: true, message: "Form updated successfully!" };
   } catch (error: any) {
+    console.log("Error : ", error);
     const message = getErrorMessage(error);
     return message;
   }
@@ -102,7 +115,6 @@ export async function updateStudent(id: string, data: any) {
         },
       });
     }
-    // revalidatePath("/dashboard/students");
     return { success: true, message: "Form updated successfully!" };
   } catch (error: any) {
     console.log("Error : ", error);
