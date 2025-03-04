@@ -5,7 +5,6 @@ import { ParentProps } from "@/app/libs/types";
 import { Parent, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { PER_PAGE } from "../libs/constants";
-import Students from "../dashboard/students/page";
 
 export const getParents = async () => {
   const parents: ParentProps[] = await prisma.parent.findMany({

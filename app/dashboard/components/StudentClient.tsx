@@ -1,9 +1,10 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import SearchAndHeader from "./SearchAndHeader";
 import StudentsList, { StudentListProps } from "./StudentsList";
 import { PER_PAGE } from "@/app/libs/constants";
+import { getStudents } from "@/app/actions/studentActions";
 
 function StudentClient({
   students,
@@ -19,15 +20,34 @@ function StudentClient({
     studentData.slice(0, PER_PAGE),
   );
 
+  const hundleUpdateStudent = async () => {
+    const { students } = await getStudents();
+
+    const studentsUpdated = students.map((student) => ({
+      ...student,
+      attendances: student.attendances?.map((attendance) => attendance.id),
+      results: student.results.map((result) => result.id),
+    }));
+    setFelteredData(studentsUpdated.slice(0, PER_PAGE));
+  };
+
   const handleSearch = (search: string) => {
+    if (!search) {
+      setFelteredData(studentData.slice(0, PER_PAGE));
+      return;
+    }
     const filtered = studentData.filter((data) => {
       return (
         data.name.toLowerCase().includes(search.toLowerCase()) ||
         data.id.toString().includes(search)
       );
     });
-    setFelteredData(filtered);
+    setFelteredData(filtered.slice(0, PER_PAGE));
   };
+
+  useEffect(() => {
+    setFelteredData(studentData.slice(0, PER_PAGE));
+  }, [studentData]);
 
   const handlePagination = (page: number) => {
     const start = (page - 1) * PER_PAGE;
@@ -64,11 +84,25 @@ function StudentClient({
     },
   ];
 
-  const listOfStudents = felteredData.map((student) => {
-    return (
-      <StudentsList key={student.id} user={student} relatedData={relatedData} />
-    );
-  });
+  const ListOfStudents = ({
+    felteredData,
+    hundleUpdateStudent,
+  }: {
+    felteredData: StudentListProps[];
+    hundleUpdateStudent: () => void;
+  }) => {
+    const respons = felteredData.map((student) => {
+      return (
+        <StudentsList
+          key={student.id}
+          user={student}
+          relatedData={relatedData}
+          hundleUpdateStudent={hundleUpdateStudent}
+        />
+      );
+    });
+    return <tbody>{respons}</tbody>;
+  };
 
   return (
     <div className="w-full">
@@ -76,6 +110,7 @@ function StudentClient({
         title="All Students"
         handleSearch={handleSearch}
         relatedData={relatedData}
+        hundleUpdateStudent={hundleUpdateStudent}
       />
       <table className="min-w-full border-collapse overflow-hidden rounded-md border-0 border-b-slate-700">
         <thead className="w-full rounded-full border-0">
@@ -91,7 +126,10 @@ function StudentClient({
           </tr>
         </thead>
 
-        <tbody>{listOfStudents}</tbody>
+        <ListOfStudents
+          felteredData={felteredData}
+          hundleUpdateStudent={hundleUpdateStudent}
+        />
       </table>
       <Pagination total={totalSudents} handleChange={handlePagination} />
     </div>

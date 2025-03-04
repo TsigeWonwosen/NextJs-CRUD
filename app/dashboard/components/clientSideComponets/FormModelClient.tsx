@@ -8,15 +8,15 @@ import {
   createUpdateDelete,
   METHOD_TYPE,
 } from "@/app/actions/creatUpdateDelete";
-import RenderForm from "./forms/RenderForm";
 import { toast } from "react-toastify";
+import StudentForm from "../forms/StudentForm";
 
 const DeleteForm = ({
   id,
   handleSubmit,
   handleToggle,
 }: {
-  id: string | number;
+  id: string;
   handleSubmit: (id: string | number) => void;
   handleToggle: () => void;
 }) => {
@@ -44,19 +44,20 @@ const DeleteForm = ({
   );
 };
 
-function FormModel({
+function FormModelClient({
   table,
   type,
   id,
   data,
   relatedData,
+  hundleUpdateStudent,
 }: {
-  // table: "student" | "teacher" | "parent" | "class" | "subject";
   table: string;
   type: "delete" | "update" | "create";
-  id?: string | number;
+  id?: string;
   data?: any;
   relatedData?: any;
+  hundleUpdateStudent: () => void;
 }) {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -76,11 +77,12 @@ function FormModel({
     try {
       setShow(false);
       await createUpdateDelete({ model: table, action, id, data });
-      if (table == "class") {
-        router.push(`/dashboard/classes`);
-      } else {
-        router.refresh();
+
+      router.refresh();
+      if (hundleUpdateStudent) {
+        await hundleUpdateStudent();
       }
+
       toast.success(`${table} id: ${id} deleted successfully. `);
     } catch (error: Error | any) {
       console.error(error?.message || "Failed to delete student");
@@ -112,18 +114,19 @@ function FormModel({
           <div className="overflew-x-hidden absolute bottom-0 left-0 top-2 z-50 flex h-full min-h-screen w-full items-center justify-center bg-black bg-opacity-70">
             {id && type == "delete" ? (
               <DeleteForm
-                id={id}
+                id={id?.toString()}
                 handleSubmit={handleSubmit}
                 handleToggle={handleToggle}
               />
             ) : (
-              <RenderForm
+              <StudentForm
                 table={table}
                 id={id}
+                data={data}
                 title={type}
                 handleToggle={handleToggle}
-                data={data}
                 relatedData={relatedData}
+                hundleUpdateStudent={hundleUpdateStudent}
               />
             )}
           </div>
@@ -141,4 +144,4 @@ function FormModel({
   );
 }
 
-export default FormModel;
+export default FormModelClient;

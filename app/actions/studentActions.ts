@@ -81,6 +81,7 @@ export async function createStudent(data: any) {
         },
       });
     }
+    revalidatePath("/dashboard/students");
     return { success: true, message: "Form updated successfully!" };
   } catch (error: any) {
     console.log("Error : ", error);
@@ -115,6 +116,8 @@ export async function updateStudent(id: string, data: any) {
         },
       });
     }
+    revalidatePath("/dashboard/students");
+
     return { success: true, message: "Form updated successfully!" };
   } catch (error: any) {
     console.log("Error : ", error);

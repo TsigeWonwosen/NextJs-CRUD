@@ -1,17 +1,19 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { Filter, Search, SortAsc } from "lucide-react";
 import { useSession } from "next-auth/react";
-import FormModel from "./FormModel";
+import FormModelClient from "./clientSideComponets/FormModelClient";
 
 function SearchAndHeader({
   title,
   handleSearch,
   relatedData,
+  hundleUpdateStudent,
 }: {
   title: string;
   handleSearch: (search: string) => void;
   relatedData: any;
+  hundleUpdateStudent: () => void;
 }) {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -55,10 +57,11 @@ function SearchAndHeader({
           </div>
 
           {role === "admin" && (
-            <FormModel
+            <FormModelClient
               table="student"
               type="create"
               relatedData={relatedData}
+              hundleUpdateStudent={hundleUpdateStudent}
             />
           )}
         </div>

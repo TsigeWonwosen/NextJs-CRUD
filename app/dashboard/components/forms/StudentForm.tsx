@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, FormEvent, use, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StudntSchema, StudentSchemaType } from "@/app/libs/types";
@@ -13,19 +13,21 @@ import { useRouter } from "next/navigation";
 import InputField from "../InputField";
 
 function StudentForm({
-  handleToggle,
   title,
   table,
   data,
   id,
   relatedData,
+  handleToggle,
+  hundleUpdateStudent,
 }: {
-  handleToggle: () => void;
   title: string;
   table: string;
   data?: any;
   id?: string;
   relatedData: any;
+  handleToggle: () => void;
+  hundleUpdateStudent: () => void;
 }) {
   const [preview, setPreview] = useState<string | null>(null);
   const {
@@ -35,28 +37,18 @@ function StudentForm({
     setError,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<StudentSchemaType>({
-    // resolver: zodResolver(StudntSchema),
-    defaultValues: {
-      ...data,
-      //   attendances: data?.attendances || [],
-      //   results: data?.results || [],
-      birthday: data?.birthday
-        ? new Date(data.birthday).toISOString().split("T")[0]
-        : "",
-    },
-  });
+  } = useForm<StudentSchemaType>({});
 
   console.log("Errors: ", errors);
   const router = useRouter();
 
   useEffect(() => {
-    if (data) {
+    if (data && data.attendances && data.results) {
       setValue(
         "attendances",
-        data.attendances.map((item: any) => item.id).toString(),
+        data.attendances.map((item: number) => item).toString(),
       );
-      setValue("results", data.results.map((item: any) => item.id).toString());
+      setValue("results", data.results.map((item: any) => item).toString());
     }
   }, [id, setValue]);
 
@@ -88,7 +80,7 @@ function StudentForm({
 
     const result = StudntSchema.safeParse(transformedData);
     if (result.success) {
-      console.log("Validation succeeded:", result.data);
+      // console.log("Validation succeeded:", result.data);
       // Submit the data to your backend
     } else {
       console.error("Validation failed:", result.error);
@@ -115,6 +107,7 @@ function StudentForm({
             reset();
             handleToggle();
             router.refresh();
+            hundleUpdateStudent();
           } else {
             if (res.errors) {
               res.errors.forEach((err) => {
@@ -137,6 +130,7 @@ function StudentForm({
           toast.success(res.message, { autoClose: 3000 });
           reset();
           handleToggle();
+          hundleUpdateStudent();
           router.refresh();
         }
       }

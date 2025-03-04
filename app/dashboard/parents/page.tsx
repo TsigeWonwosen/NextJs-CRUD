@@ -3,7 +3,6 @@ import Link from "next/link";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
 import { Parent } from "@prisma/client";
 import { getParentsWithQuery } from "@/app/actions/parentAction";
-import { ParentProps } from "@/app/libs/types";
 import { PER_PAGE } from "@/app/libs/constants";
 import PaginationServerSide from "../components/PaginationServerSide";
 import FormContainer from "../components/FormContainer";
@@ -74,7 +73,6 @@ async function Parents({
     },
   ];
   const totalPages = Math.ceil(totalparent / PER_PAGE);
-  console.log(totalPages);
   return (
     <div className="mx-auto flex h-full w-full flex-col p-4">
       <SearchAndHeaderServerSide title="All Parents" table="parent" />

@@ -24,17 +24,7 @@ export default function RenderForm({
           relatedData={relatedData}
         />
       );
-    case "student":
-      return (
-        <StudentForm
-          table={table}
-          id={id}
-          data={data}
-          title={title}
-          handleToggle={handleToggle}
-          relatedData={relatedData}
-        />
-      );
+
     case "parent":
       return (
         <ParentForm

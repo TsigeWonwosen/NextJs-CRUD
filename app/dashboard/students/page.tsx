@@ -1,6 +1,5 @@
 import StudentClient from "../components/StudentClient";
 import { getStudents } from "../../actions/studentActions";
-import { PER_PAGE } from "@/app/libs/constants";
 import { prisma } from "@/app/libs/prisma";
 
 async function Students() {
