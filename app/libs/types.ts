@@ -140,6 +140,32 @@ export const StudntSchema = z.object({
 
 export type StudentSchemaType = z.infer<typeof StudntSchema>;
 
+//Parent Schema and Type
+export const ParentSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(4, { message: "Name should at least 4 charactor." }),
+  surname: z.string().min(4, { message: "Name should at least 4 charactor." }),
+
+  username: z
+    .string()
+    .min(4, { message: "User Name should at least 4 charactor." }),
+  email: z
+    .string()
+    .email({ message: "Invalid email addresss" })
+    .min(4, { message: "User email should atleast 4 charactor.." })
+    .optional(),
+  img: z.union([fileSchema, z.string().url()]).optional(),
+  phone: z
+    .string()
+    .min(8, { message: "Phone number should atleast 8 digits." }),
+  address: z
+    .string()
+    .min(4, { message: "Address should atleast 4 charactor." }),
+  students: z.array(z.string()),
+});
+
+export type ParentSchemaType = z.infer<typeof ParentSchema>;
+
 export const ClassSchema = z.object({
   id: z.coerce.number().optional(),
   name: z

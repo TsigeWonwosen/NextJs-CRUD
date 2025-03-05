@@ -1,10 +1,11 @@
 "use server";
 
 import { prisma } from "@/app/libs/prisma";
-import { ParentProps } from "@/app/libs/types";
-import { Parent, Prisma } from "@prisma/client";
+import { ParentProps, ParentSchemaType } from "@/app/libs/types";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { PER_PAGE } from "../libs/constants";
+import { getErrorMessage } from "../utils/getErrorMessage";
 
 export const getParents = async () => {
   const parents: ParentProps[] = await prisma.parent.findMany({
@@ -65,19 +66,50 @@ export async function getParentsWithQuery(searchParams: {
 }
 
 // Create a new user
-export async function createParent() {}
+export async function createParent(data: ParentSchemaType) {
+  try {
+    await prisma.parent.create({
+      data: {
+        ...data,
+        id: data.id ?? "",
+        students: {
+          connect: data.students.map((student: string) => ({
+            id: String(student),
+          })),
+        },
+      },
+    });
+    revalidatePath("/dashboard/parents");
+    return { success: true, message: "Parent updated successfully." };
+  } catch (error) {
+    const message = getErrorMessage(error);
+    return message;
+  }
+}
 
 // Update a post
-export async function updateParent(id: string, data: Parent) {
-  const selectedParent = await prisma.parent.findUnique({
-    where: { id },
-  });
+export async function updateParent(id: string, data: ParentSchemaType) {
+  try {
+    const selectedParent = await prisma.parent.findUnique({
+      where: { id },
+    });
 
-  return await prisma.parent.update({
-    where: { id: selectedParent?.id },
-    data,
-  });
-  revalidatePath("/dashboard/parents");
+    const updatedParent = await prisma.parent.update({
+      where: { id: selectedParent?.id },
+      data: {
+        ...data,
+        students: {
+          connect: data.students.map((student: string) => ({ id: student })),
+        },
+      },
+    });
+
+    revalidatePath("/dashboard/parents");
+    return { success: true, message: "Parent updated successfully." };
+  } catch (error) {
+    const message = getErrorMessage(error);
+    return message;
+  }
 }
 
 //  Delete a post

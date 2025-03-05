@@ -18,7 +18,7 @@ async function SideMenu() {
         <section className="flex flex-col gap-2">
           <Link
             href="/dashboard"
-            className="flex w-[80%] items-center justify-center hover:text-white"
+            className="justify-left flex w-[80%] items-center hover:text-white"
           >
             <Image
               src="/Logo.jpg"
