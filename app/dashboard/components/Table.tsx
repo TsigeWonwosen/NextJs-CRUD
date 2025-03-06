@@ -24,7 +24,7 @@ function Table({
         </tr>
       </thead>
       <tbody className="border-b border-y-gray-900">
-        {data.map((teacher) => Lists(teacher))}
+        {data.map((item) => Lists(item))}
       </tbody>
     </table>
   );

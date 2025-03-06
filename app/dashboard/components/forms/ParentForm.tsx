@@ -8,6 +8,7 @@ import { capitalizeTitle } from "@/app/utils/capitalize";
 import { createParent, updateParent } from "@/app/actions/parentAction";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import InputField from "../InputField";
 
 function ParentForm({
   handleToggle,
@@ -43,6 +44,12 @@ function ParentForm({
   }, [id, setValue]);
 
   const onSubmit = async (data: ParentSchemaType) => {
+    if (!data || typeof data !== "object") {
+      throw new Error(
+        "Invalid payload: Expected an object, received " + typeof data,
+      );
+    }
+
     try {
       const transformedData = {
         ...data,
@@ -86,7 +93,7 @@ function ParentForm({
         if (title == "update") {
           if (data?.id && result.success) {
             const res = await updateParent(data?.id, result.data);
-            if (result.success) {
+            if (res.success) {
               toast.success(res.message, { autoClose: 3000 });
               reset();
               handleToggle();
@@ -108,18 +115,12 @@ function ParentForm({
           }
         }
       } else {
-        console.error("Validation failed:", result.error);
         result.error.errors.forEach((error) => {
           setError(error.path[0] as keyof ParentSchemaType, {
             type: "manual",
             message: error.message,
           });
         });
-      }
-      if (!data || typeof data !== "object") {
-        throw new Error(
-          "Invalid payload: Expected an object, received " + typeof data,
-        );
       }
 
       // reset();
@@ -146,144 +147,62 @@ function ParentForm({
       >
         <section className="flex w-full flex-col md:flex-row md:gap-3">
           <section className="h-auto w-full">
-            <div className="mb-4">
-              <label
-                htmlFor="id"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Id
-              </label>
-              <input
-                type="text"
-                id="id"
-                defaultValue={data?.id}
-                {...register("id")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your Id"
-              />
-            </div>
-            {errors?.id && <p className="text-red-400">{errors.id?.message}</p>}
-            <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                defaultValue={data?.name}
-                {...register("name")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your address"
-              />
-            </div>
-            {errors?.name && (
-              <p className="text-red-400">{errors.name?.message}</p>
-            )}
-            <div className="mb-4">
-              <label
-                htmlFor="surname"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Surname
-              </label>
-              <input
-                type="text"
-                id="surname"
-                defaultValue={data?.surname}
-                {...register("surname")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your address"
-              />
-            </div>
-            {errors?.surname && (
-              <p className="text-red-400">{errors.surname?.message}</p>
-            )}
-            <div className="mb-4">
-              <label
-                htmlFor="username"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                defaultValue={data?.username}
-                {...register("username")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your username"
-                required
-              />
-            </div>
-            {errors?.username && (
-              <p className="text-red-400">{errors.username?.message}</p>
-            )}
+            <InputField
+              label="Id"
+              name="id"
+              register={register}
+              defaultValue={data.id}
+              errors={errors.id}
+            />
 
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                defaultValue={data?.email}
-                {...register("email")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-            {errors.email?.message && (
-              <p className="text-red-400">{errors?.email?.message}</p>
-            )}
-            <div className="mb-4">
-              <label
-                htmlFor="phone"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Phone
-              </label>
-              <input
-                type="phone"
-                id="phone"
-                defaultValue={data?.phone}
-                {...register("phone")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your phone number"
-                required
-              />
-            </div>
-            {errors.phone?.message && (
-              <p className="text-red-400">{errors?.phone?.message}</p>
-            )}
+            <InputField
+              label="Name"
+              name="name"
+              register={register}
+              defaultValue={data.name}
+              errors={errors.name}
+            />
+
+            <InputField
+              label="Surname"
+              name="surname"
+              register={register}
+              defaultValue={data.surname}
+              errors={errors.surname}
+            />
+            <InputField
+              label="Username"
+              name="username"
+              register={register}
+              defaultValue={data.username}
+              errors={errors.username}
+            />
+
+            <InputField
+              label="Email"
+              name="email"
+              register={register}
+              defaultValue={data.email}
+              errors={errors.email}
+              type="email"
+            />
+            <InputField
+              label="Phone"
+              name="phone"
+              register={register}
+              defaultValue={data.phone}
+              errors={errors.phone}
+              type="phone"
+            />
           </section>
           <section className="h-auto w-full">
-            <div className="mb-4">
-              <label
-                htmlFor="address"
-                className="block text-left text-sm font-medium text-gray-700"
-              >
-                Address
-              </label>
-              <input
-                type="address"
-                id="addrees"
-                defaultValue={data?.address}
-                {...register("address")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="Enter your address"
-                required
-              />
-            </div>
-            {errors.address?.message && (
-              <p className="text-red-400">{errors.address?.message}</p>
-            )}
+            <InputField
+              label="Address"
+              name="address"
+              register={register}
+              defaultValue={data.addrees}
+              errors={errors.address}
+            />
 
             {errors.address?.message && (
               <p className="text-red-400">{errors.address?.message}</p>
@@ -316,6 +235,9 @@ function ParentForm({
             )}
           </section>
         </section>
+        {errors.root?.message && (
+          <p className="mb-1 text-red-400">{errors.root?.message}</p>
+        )}
         <button
           type="submit"
           disabled={isSubmitting}

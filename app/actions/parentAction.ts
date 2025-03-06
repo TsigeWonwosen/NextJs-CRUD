@@ -90,23 +90,62 @@ export async function createParent(data: ParentSchemaType) {
 // Update a post
 export async function updateParent(id: string, data: ParentSchemaType) {
   try {
-    const selectedParent = await prisma.parent.findUnique({
-      where: { id },
-    });
+    const updatedParent = await prisma.$transaction(async (prisma) => {
+      const selectedParent = await prisma.parent.findUnique({
+        where: { id },
+        include: { students: true },
+      });
 
-    const updatedParent = await prisma.parent.update({
-      where: { id: selectedParent?.id },
-      data: {
-        ...data,
-        students: {
-          connect: data.students.map((student: string) => ({ id: student })),
+      const existedStudents = selectedParent?.students.map(
+        (student) => student.id,
+      );
+
+      const newStudentIds = data.students.map((student) => student);
+
+      const studentsToDisconnect = existedStudents?.filter(
+        (id) => !newStudentIds.includes(id),
+      );
+
+      const studentsToConnect = newStudentIds.filter(
+        (id) => !existedStudents?.includes(id),
+      );
+      // Step 3: Ensure at least one student remains connected
+      if (studentsToDisconnect?.length === existedStudents?.length) {
+        throw new Error("Cannot disconnect all students from a parent.");
+      }
+
+      console.log("Old Student Disconnect :", studentsToDisconnect);
+      console.log("new Student Connect :", studentsToConnect);
+
+      await prisma.parent.update({
+        where: { id: selectedParent?.id },
+        data: {
+          ...data,
+          students: {
+            disconnect: studentsToDisconnect?.map((id) => ({ id })),
+          },
         },
-      },
-    });
+      });
 
+      return await prisma.parent.update({
+        where: { id: selectedParent?.id },
+        data: {
+          ...data,
+          students: {
+            connect: studentsToConnect.map((student: string) => ({
+              id: student,
+            })),
+          },
+        },
+        include: { students: true },
+      });
+    });
     revalidatePath("/dashboard/parents");
     return { success: true, message: "Parent updated successfully." };
   } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error: " + error.message);
+    }
     const message = getErrorMessage(error);
     return message;
   }

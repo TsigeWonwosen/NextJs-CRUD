@@ -360,7 +360,7 @@ function StudentForm({
               </label>
               <select
                 id="paretnId"
-                defaultValue={data?.paretnId}
+                defaultValue={data.parentId}
                 {...register("parentId")}
                 className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required

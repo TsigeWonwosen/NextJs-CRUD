@@ -21,9 +21,9 @@ const listofParent = (user: Parent) => {
       <td className="hidden px-4 py-2 text-sm sm:table-cell">{user.name}</td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.phone}</td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.address}</td>
-      <td className="px-4 py-2 text-sm">
-        <div className="flex items-center justify-center gap-1">
-          <Link href={`/dashboard/teachers/${user.id}`}></Link>
+      <td className="px-[10px] py-2 text-sm">
+        <div className="flex items-center justify-center gap-0">
+          {/* <Link href={`/dashboard/parents/${user.id}`}></Link> */}
           <FormContainer
             table="parent"
             type="update"

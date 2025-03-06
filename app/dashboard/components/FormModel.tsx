@@ -98,15 +98,15 @@ function FormModel({
 
   const Icon =
     type === "create" ? (
-      <CirclePlus size={"16px"} className="text-white" />
+      <CirclePlus size={"16px"} className="text-gray-300" />
     ) : type === "update" ? (
-      <Pencil size={"14px"} className="text-white" />
+      <Pencil size={"14px"} className="text-gray-300" />
     ) : (
-      <Trash size={"14px"} className="text-white" />
+      <Trash size={"14px"} className="text-gray-300" />
     );
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-auto">
       <>
         {show && (
           <div className="overflew-x-hidden absolute bottom-0 left-0 top-2 z-50 flex h-full min-h-screen w-full items-center justify-center bg-black bg-opacity-70">
@@ -129,10 +129,10 @@ function FormModel({
           </div>
         )}
       </>
-      <div className="flex flex-row items-center justify-center gap-2">
+      <div className="ml-2 flex w-auto flex-row items-center justify-center">
         <button
           onClick={handleToggle}
-          className={` ${styleType} flex items-center justify-center ${BgColor} rounded-full`}
+          className={` ${styleType} ${BgColor} flex items-center justify-center rounded-full`}
         >
           {Icon}
         </button>

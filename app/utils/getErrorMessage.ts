@@ -27,8 +27,7 @@ export const getErrorMessage = (
     } else if (error.code === "P2003") {
       errorResponse = {
         success: false,
-        message:
-          "Foreign key constraint failed. Check if the lesson and teacher exist.",
+        message: "Foreign key constraint failed. Check if the tables exist.",
       };
     } else {
       errorResponse = {

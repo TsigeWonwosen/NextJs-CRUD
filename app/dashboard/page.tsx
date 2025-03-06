@@ -36,7 +36,7 @@ export default async function DashboardPage({
 
         <SchoolChart />
       </div>
-      <div className="mt-4 flex h-full md:mt-0 md:w-[350px]">
+      <div className="mt-4 flex h-full md:mt-0 md:w-[300px]">
         <Card>
           <ReactCalandor />
           <EventList dateParam={date} />
