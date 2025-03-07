@@ -23,8 +23,9 @@ export async function getTeachersWithQuery(searchParams: {
   name?: string;
   classId?: string;
   page?: string;
+  sort?: string;
 }) {
-  const { page, search, name, classId } = searchParams;
+  const { page, search, name, classId, sort } = searchParams;
 
   const where: any = {};
 
@@ -58,7 +59,7 @@ export async function getTeachersWithQuery(searchParams: {
       },
       skip,
       take: PER_PAGE,
-      orderBy: { name: "asc" },
+      orderBy: { name: sort === "asc" ? "asc" : "desc" },
     }),
     prisma.teacher.count({
       where,

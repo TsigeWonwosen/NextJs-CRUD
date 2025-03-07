@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
-import { Filter, Search, SortAsc } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Filter, Search, SortAsc, SortDesc } from "lucide-react";
 import { useSession } from "next-auth/react";
 import FormModelClient from "./clientSideComponets/FormModelClient";
+import { useRouter } from "next/navigation";
 
 function SearchAndHeader({
   title,
@@ -16,6 +17,7 @@ function SearchAndHeader({
   hundleUpdateStudent: () => void;
 }) {
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const [sort, setSort] = useState(true);
 
   const session = useSession();
   const role = session?.data?.user?.role.toLocaleLowerCase();
@@ -25,6 +27,11 @@ function SearchAndHeader({
       handleSearch(inputRef?.current?.value);
     }
   };
+  const router = useRouter();
+  useEffect(() => {
+    let sortDirection = sort ? "asc" : "desc";
+    router.push(`?sort=${sortDirection}`);
+  }, [sort]);
 
   return (
     <div className="mb-3 flex h-full flex-col items-start justify-start md:flex-row md:items-start md:justify-between">
@@ -49,10 +56,26 @@ function SearchAndHeader({
         <div className="item-center flex h-full w-full max-w-[120px] justify-center pl-2">
           <div className="flex h-full w-full items-center justify-between gap-1">
             <button className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200/80">
-              <Filter size={"16px"} />
+              <Filter size={"15px"} />
             </button>
             <button className="flex h-8 w-8 items-center justify-center rounded-full bg-[#7dd37b]">
-              <SortAsc size={"16px"} />
+              {sort ? (
+                <SortAsc
+                  onClick={() => {
+                    setSort((prevState) => !prevState);
+                    hundleUpdateStudent();
+                  }}
+                  size={"15px"}
+                />
+              ) : (
+                <SortDesc
+                  onClick={() => {
+                    setSort((prevState) => !prevState);
+                    hundleUpdateStudent();
+                  }}
+                  size={"15px"}
+                />
+              )}
             </button>
           </div>
 

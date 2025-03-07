@@ -22,9 +22,9 @@ export async function getParentsWithQuery(searchParams: {
   name?: string;
   classId?: string;
   page?: string;
+  sort?: string;
 }) {
-  const { page, search, name, classId } = searchParams;
-
+  const { page, search, name, classId, sort } = searchParams;
   const where: any = {};
 
   if (classId) {
@@ -55,7 +55,7 @@ export async function getParentsWithQuery(searchParams: {
       },
       skip,
       take: PER_PAGE,
-      orderBy: { name: "asc" },
+      orderBy: { name: sort === "asc" ? "asc" : "desc" },
     }),
     prisma.parent.count({
       where,
@@ -101,38 +101,38 @@ export async function updateParent(id: string, data: ParentSchemaType) {
       );
 
       const newStudentIds = data.students.map((student) => student);
+      console.log("New:", newStudentIds);
 
-      const studentsToDisconnect = existedStudents?.filter(
-        (id) => !newStudentIds.includes(id),
-      );
+      const studentsToDisconnect = existedStudents
+        ? existedStudents?.filter((id) => !newStudentIds.includes(id))
+        : [];
 
       const studentsToConnect = newStudentIds.filter(
         (id) => !existedStudents?.includes(id),
       );
       // Step 3: Ensure at least one student remains connected
-      if (studentsToDisconnect?.length === existedStudents?.length) {
-        throw new Error("Cannot disconnect all students from a parent.");
-      }
+      // if (studentsToDisconnect?.length === existedStudents?.length) {
+      //   throw new Error("Cannot disconnect all students from a parent.");
+      // }
 
-      console.log("Old Student Disconnect :", studentsToDisconnect);
-      console.log("new Student Connect :", studentsToConnect);
-
-      await prisma.parent.update({
-        where: { id: selectedParent?.id },
-        data: {
-          ...data,
-          students: {
-            disconnect: studentsToDisconnect?.map((id) => ({ id })),
+      if (studentsToDisconnect?.length > 0) {
+        await prisma.parent.update({
+          where: { id: selectedParent?.id },
+          data: {
+            ...data,
+            students: {
+              disconnect: studentsToDisconnect?.map((id) => ({ id })),
+            },
           },
-        },
-      });
+        });
+      }
 
       return await prisma.parent.update({
         where: { id: selectedParent?.id },
         data: {
           ...data,
           students: {
-            connect: studentsToConnect.map((student: string) => ({
+            connect: studentsToConnect?.map((student: string) => ({
               id: student,
             })),
           },

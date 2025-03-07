@@ -22,7 +22,7 @@ export const getErrorMessage = (
       errorResponse = {
         success: false,
         message:
-          "Invalid operation: Cannot reassign lesson due to relation constraints.",
+          "Invalid operation: Cannot reassign - due to relation constraints.",
       };
     } else if (error.code === "P2003") {
       errorResponse = {

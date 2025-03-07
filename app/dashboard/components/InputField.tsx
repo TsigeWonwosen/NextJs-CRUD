@@ -30,8 +30,8 @@ function InputField({
           id={name}
           defaultValue={defaultValue}
           {...register(name)}
-          className="mt-1 block w-full rounded-md border-gray-300 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-          placeholder="Enter your address"
+          className="mt-1 block w-full rounded-md border-gray-600 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          placeholder={`Enter your ${name}`}
         />
       </div>
       {errors?.message && <p className="text-red-400">{errors.message}</p>}

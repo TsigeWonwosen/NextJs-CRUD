@@ -1,9 +1,14 @@
 import StudentClient from "../components/StudentClient";
-import { getStudents } from "../../actions/studentActions";
+import { getStudentsWithQuery } from "../../actions/studentActions";
 import { prisma } from "@/app/libs/prisma";
 
-async function Students() {
-  const { students, totalStudents } = await getStudents();
+async function Students({
+  searchParams,
+}: {
+  searchParams: { search?: string; name?: string; id?: string; sort?: string };
+}) {
+  const searchParam = await searchParams;
+  const { students, totalStudents } = await getStudentsWithQuery(searchParam);
 
   const studentsUpdated = students.map((student) => ({
     ...student,

@@ -8,8 +8,9 @@ export async function getStudentsWithQuery(searchParams: {
   search?: string;
   name?: string;
   id?: string;
+  sort?: string;
 }) {
-  const { search, name, id } = searchParams;
+  const { search, name, id, sort } = searchParams;
 
   const where: any = {};
 
@@ -28,15 +29,20 @@ export async function getStudentsWithQuery(searchParams: {
     ];
   }
 
-  const students = await prisma.student.findMany({
-    where,
-    include: {
-      results: true, // Example of including relations
-      attendances: true,
-    },
-  });
+  const [students, totalStudents] = await prisma.$transaction([
+    prisma.student.findMany({
+      where,
+      include: {
+        results: true, // Example of including relations
+        attendances: true,
+      },
+      orderBy: { name: sort === "asc" ? "asc" : "desc" },
+    }),
 
-  return students;
+    prisma.student.count(),
+  ]);
+
+  return { students, totalStudents };
 }
 
 export const getStudents = async () => {

@@ -4,7 +4,11 @@ import Pagination from "./Pagination";
 import SearchAndHeader from "./SearchAndHeader";
 import StudentsList, { StudentListProps } from "./StudentsList";
 import { PER_PAGE } from "@/app/libs/constants";
-import { getStudents } from "@/app/actions/studentActions";
+import {
+  getStudents,
+  getStudentsWithQuery,
+} from "@/app/actions/studentActions";
+import { useSearchParams } from "next/navigation";
 
 function StudentClient({
   students,
@@ -19,9 +23,15 @@ function StudentClient({
   const [felteredData, setFelteredData] = useState<StudentListProps[]>(
     studentData.slice(0, PER_PAGE),
   );
+  const searchParam = useSearchParams();
 
   const hundleUpdateStudent = async () => {
-    const { students } = await getStudents();
+    const { students, totalStudents } = await getStudentsWithQuery({
+      search: searchParam.get("search") || undefined,
+      name: searchParam.get("name") || undefined,
+      id: searchParam.get("id") || undefined,
+      sort: searchParam.get("sort") || undefined,
+    });
 
     const studentsUpdated = students.map((student) => ({
       ...student,

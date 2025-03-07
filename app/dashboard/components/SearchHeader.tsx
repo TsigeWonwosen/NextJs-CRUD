@@ -1,11 +1,11 @@
 "use client";
 import { Filter, SortAsc, SortDesc, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function SearchHeader() {
   const [search, setSearch] = useState("");
-  const [isAsc, setIsAsc] = useState(true);
+  const [sort, setSort] = useState(true);
   const router = useRouter();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (
@@ -19,6 +19,10 @@ function SearchHeader() {
     router.push(`${window.location.pathname}?${params}`);
     setSearch("");
   };
+  useEffect(() => {
+    let sortDirection = sort ? "asc" : "desc";
+    router.push(`?sort=${sortDirection}`);
+  }, [sort]);
 
   return (
     <>
@@ -42,15 +46,15 @@ function SearchHeader() {
           <Filter size={"15px"} />
         </button>
         <button className="flex h-8 w-8 items-center justify-center rounded-full bg-[#7dd37b]">
-          {isAsc ? (
+          {sort ? (
             <SortAsc
               size={"15px"}
-              onClick={() => setIsAsc((prvState) => !prvState)}
+              onClick={() => setSort((prvStat) => !prvStat)}
             />
           ) : (
             <SortDesc
               size={"15px"}
-              onClick={() => setIsAsc((prvState) => !prvState)}
+              onClick={() => setSort((prvStt) => !prvStt)}
             />
           )}
         </button>

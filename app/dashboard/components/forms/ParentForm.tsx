@@ -9,6 +9,7 @@ import { createParent, updateParent } from "@/app/actions/parentAction";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import InputField from "../InputField";
+import { Student } from "@prisma/client";
 
 function ParentForm({
   handleToggle,
@@ -37,11 +38,13 @@ function ParentForm({
   const router = useRouter();
 
   useEffect(() => {
-    setValue(
-      "students",
-      data?.students.map((student: { id: string }) => student.id).toString(),
-    );
-  }, [id, setValue]);
+    if (data?.students) {
+      const studentsString = data.students.map(
+        (student: { id: Student["id"] }) => student.id,
+      );
+      setValue("students", studentsString);
+    }
+  }, [id, setValue, data?.students]);
 
   const onSubmit = async (data: ParentSchemaType) => {
     if (!data || typeof data !== "object") {
@@ -53,26 +56,19 @@ function ParentForm({
     try {
       const transformedData = {
         ...data,
-        students:
-          typeof data.students === "string"
-            ? (data.students as string)
-                .split(",")
-                .map((id) => Number(id))
-                .filter((id) => !isNaN(id))
-            : data.students,
+        students: data.students.map((students) => students),
       };
 
       const result = ParentSchema.safeParse(transformedData);
       if (result.success) {
-        console.log("Validation succeeded:", result.data);
         if (title == "create") {
           if (result.success) {
             const res = await createParent(result.data);
             if (res && res.success) {
               toast.success(res.message, { autoClose: 3000 });
-              reset();
               handleToggle();
               router.refresh();
+              reset();
             } else {
               if (res.errors) {
                 res.errors.forEach((err) => {
@@ -122,8 +118,6 @@ function ParentForm({
           });
         });
       }
-
-      // reset();
     } catch (eror) {
       console.log(eror);
     }
@@ -200,7 +194,7 @@ function ParentForm({
               label="Address"
               name="address"
               register={register}
-              defaultValue={data.addrees}
+              defaultValue={data.address}
               errors={errors.address}
             />
 

@@ -1,13 +1,13 @@
 import Table from "../components/Table";
 import Link from "next/link";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
-import { Parent } from "@prisma/client";
 import { getParentsWithQuery } from "@/app/actions/parentAction";
 import { PER_PAGE } from "@/app/libs/constants";
 import PaginationServerSide from "../components/PaginationServerSide";
 import FormContainer from "../components/FormContainer";
+import { ParentSchemaType } from "@/app/libs/types";
 
-const listofParent = (user: Parent) => {
+const listofParent = (user: ParentSchemaType) => {
   return (
     <tr
       key={user.id}
@@ -18,7 +18,9 @@ const listofParent = (user: Parent) => {
         <span className="text-xs text-slate-700">{user.email}</span>
       </td>
 
-      <td className="hidden px-4 py-2 text-sm sm:table-cell">{user.name}</td>
+      <td className="hidden px-4 py-2 text-sm sm:table-cell">
+        {user.students.map((student: any) => student.name).join(", ")}
+      </td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.phone}</td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.address}</td>
       <td className="px-[10px] py-2 text-sm">

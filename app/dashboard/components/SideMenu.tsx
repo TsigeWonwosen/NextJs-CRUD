@@ -28,16 +28,16 @@ async function SideMenu() {
               className="h-[35px] w-[35px] rounded-full"
             />
           </Link>
-          <section className="flex flex-col gap-0">
+          <section className="flex flex-col gap-[2px]">
             <div className="flex items-center justify-start gap-1">
-              <UserCheck size={"9px"} />
-              <p className="text-[9px] text-sm font-semibold">
+              <UserCheck size={"10px"} />
+              <p className="font-mono text-sm">
                 {session && capitalizeTitle(role)}
               </p>
             </div>
             <div className="flex items-center justify-start gap-1">
-              <MailCheck size={"8px"} />
-              <p className="text-[9px] text-xs font-semibold">
+              <MailCheck size={"10px"} />
+              <p className="font-mono text-xs">
                 {session && session?.user.email}
               </p>
             </div>
