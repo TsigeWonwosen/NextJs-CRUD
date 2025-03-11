@@ -18,10 +18,10 @@ function InputField({
 }) {
   return (
     <>
-      <div className="mb-4">
+      <div className="mb-4 w-full">
         <label
           htmlFor={name}
-          className="block text-left text-sm font-medium text-gray-700"
+          className="mb-1 block text-left text-sm font-medium text-gray-700"
         >
           {label}
         </label>
@@ -30,7 +30,7 @@ function InputField({
           id={name}
           defaultValue={defaultValue}
           {...register(name)}
-          className="mt-1 block w-full rounded-md border-gray-600 p-2 text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          className="w-full rounded-md border-0 bg-slate-900 p-2 text-gray-300 transition duration-150 ease-in-out focus:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
           placeholder={`Enter your ${name}`}
         />
       </div>

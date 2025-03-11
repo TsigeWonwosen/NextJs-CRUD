@@ -17,8 +17,8 @@ function UserMenu({
 
   return (
     <>
-      <section className="relative h-[44px] w-[44px]">
-        <section className="flex h-[35px] w-[35px] items-center justify-center overflow-hidden rounded-full bg-slate-300">
+      <section className="relative h-auto w-[44px]">
+        <section className="flex h-[30px] w-[30px] items-center justify-center overflow-hidden rounded-full bg-gray-500">
           <Image
             src={user?.image || `/profile-avatar.png`}
             className="object-cover"
@@ -27,16 +27,18 @@ function UserMenu({
             alt="User image"
           />
           <button
-            className="absolute bottom-1 right-0 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-gray-600 font-bold caret-lime-300"
+            className="absolute -bottom-1 right-1 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-gray-600 font-bold caret-lime-300"
             onClick={handleChange}
           >
             <ChevronDown className="text-gray-300" />
           </button>
         </section>
+        {show && (
+          <div className="absolute -right-1 top-[52px] z-20 flex flex-col items-center justify-start">
+            <LogoutForm user={user} />
+          </div>
+        )}
       </section>
-      <div className="absolute right-0 top-12 z-20 flex flex-col items-center justify-start">
-        {show && <LogoutForm user={user} />}
-      </div>
     </>
   );
 }

@@ -101,7 +101,6 @@ export async function updateParent(id: string, data: ParentSchemaType) {
       );
 
       const newStudentIds = data.students.map((student) => student);
-      console.log("New:", newStudentIds);
 
       const studentsToDisconnect = existedStudents
         ? existedStudents?.filter((id) => !newStudentIds.includes(id))

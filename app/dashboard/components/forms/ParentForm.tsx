@@ -62,50 +62,49 @@ function ParentForm({
       const result = ParentSchema.safeParse(transformedData);
       if (result.success) {
         if (title == "create") {
-          if (result.success) {
-            const res = await createParent(result.data);
-            if (res && res.success) {
-              toast.success(res.message, { autoClose: 3000 });
-              handleToggle();
-              router.refresh();
-              reset();
-            } else {
-              if (res.errors) {
-                res.errors.forEach((err) => {
-                  setError(err.path as keyof ParentSchemaType, {
-                    type: "Server",
-                    message: err.message,
-                  });
-                  toast.error(err.message);
+          const res = await createParent(result.data);
+          if (res && res.success) {
+            toast.success(res.message, { autoClose: 3000 });
+            handleToggle();
+            router.refresh();
+            reset();
+          } else {
+            if (res.errors) {
+              res.errors.forEach((err) => {
+                setError(err.path as keyof ParentSchemaType, {
+                  type: "Server",
+                  message: err.message,
                 });
-              } else {
-                setError("root", { message: res.message, type: "server" });
-                toast.error(res.message);
-              }
+                toast.error(err.message);
+              });
+            } else {
+              setError("root", { message: res.message, type: "server" });
+              toast.error(res.message);
             }
           }
-        }
-
-        if (title == "update") {
-          if (data?.id && result.success) {
-            const res = await updateParent(data?.id, result.data);
-            if (res.success) {
-              toast.success(res.message, { autoClose: 3000 });
-              reset();
-              handleToggle();
-              router.refresh();
-            } else {
-              if (res.errors) {
-                res.errors.forEach((err) => {
-                  setError(err.path as keyof ParentSchemaType, {
-                    type: "Server",
-                    message: err.message,
-                  });
-                  toast.error(err.message);
-                });
+        } else {
+          if (title == "update") {
+            if (data?.id) {
+              const res = await updateParent(data?.id, result.data);
+              console.log("Resp: " + res);
+              if (res.success) {
+                toast.success(res.message, { autoClose: 3000 });
+                reset();
+                handleToggle();
+                router.refresh();
               } else {
-                setError("root", { message: res.message, type: "server" });
-                toast.error(res.message);
+                if (res.errors) {
+                  res.errors.forEach((err) => {
+                    setError(err.path as keyof ParentSchemaType, {
+                      type: "Server",
+                      message: err.message,
+                    });
+                    toast.error(err.message);
+                  });
+                } else {
+                  setError("root", { message: res.message, type: "server" });
+                  toast.error(res.message);
+                }
               }
             }
           }
@@ -123,9 +122,11 @@ function ParentForm({
     }
   };
   const { students } = relatedData;
-  console.log("Error: ", errors);
+
+  if (errors) console.log("Error: ", errors);
+
   return (
-    <div className="relative z-10 flex h-max w-[90%] flex-col items-center rounded-lg bg-slate-950 p-10 shadow-md">
+    <div className="relative flex h-screen w-[90%] flex-col items-center overflow-scroll rounded-lg bg-slate-950 p-10 shadow-md lg:w-[70%]">
       <div
         className="z-70 absolute right-7 top-7 h-3 w-3 cursor-pointer"
         onClick={() => handleToggle()}
@@ -137,74 +138,76 @@ function ParentForm({
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="z-50 h-auto w-full bg-slate-950 p-5"
+        className="h-auto w-full bg-slate-950 p-5"
       >
-        <section className="flex w-full flex-col md:flex-row md:gap-3">
-          <section className="h-auto w-full">
-            <InputField
-              label="Id"
-              name="id"
-              register={register}
-              defaultValue={data.id}
-              errors={errors.id}
-            />
+        <section className="flex w-full flex-col">
+          <InputField
+            label="Id"
+            name="id"
+            register={register}
+            defaultValue={data?.id}
+            errors={errors.id}
+          />
 
+          <div className="flex w-full flex-col gap-2 md:flex-row">
             <InputField
               label="Name"
               name="name"
               register={register}
-              defaultValue={data.name}
-              errors={errors.name}
+              defaultValue={data?.name}
+              errors={errors?.name}
             />
 
             <InputField
               label="Surname"
               name="surname"
               register={register}
-              defaultValue={data.surname}
-              errors={errors.surname}
+              defaultValue={data?.surname}
+              errors={errors?.surname}
             />
+          </div>
+          <div className="flex w-full flex-col gap-2 md:flex-row">
             <InputField
               label="Username"
               name="username"
               register={register}
-              defaultValue={data.username}
-              errors={errors.username}
+              defaultValue={data?.username}
+              errors={errors?.username}
             />
 
             <InputField
               label="Email"
               name="email"
               register={register}
-              defaultValue={data.email}
-              errors={errors.email}
+              defaultValue={data?.email}
+              errors={errors?.email}
               type="email"
             />
-            <InputField
-              label="Phone"
-              name="phone"
-              register={register}
-              defaultValue={data.phone}
-              errors={errors.phone}
-              type="phone"
-            />
-          </section>
-          <section className="h-auto w-full">
-            <InputField
-              label="Address"
-              name="address"
-              register={register}
-              defaultValue={data.address}
-              errors={errors.address}
-            />
+          </div>
 
-            {errors.address?.message && (
-              <p className="text-red-400">{errors.address?.message}</p>
-            )}
-            <div className="mb-4">
+          <div className="flex w-full flex-col gap-2 md:flex-row">
+            <div className="w-1/2">
+              <InputField
+                label="Phone"
+                name="phone"
+                register={register}
+                defaultValue={data?.phone}
+                errors={errors?.phone}
+                type="phone"
+              />
+              <InputField
+                label="Address"
+                name="address"
+                register={register}
+                defaultValue={data?.address}
+                errors={errors?.address}
+              />
+            </div>
+
+            <div className="mb-4 w-1/2">
               <label
                 htmlFor="students"
-                className="block text-left text-sm font-medium text-gray-700"
+                className="mb-1 block text-left text-sm font-medium text-gray-700"
               >
                 Students
               </label>
@@ -212,12 +215,16 @@ function ParentForm({
                 multiple
                 id="students"
                 {...register("students")}
-                className="mt-1 block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mb-4 w-full rounded-md border-0 bg-slate-900 p-2 text-gray-300 transition duration-150 ease-in-out focus:bg-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 required
               >
                 {students.map((student: { id: string; name: string }) => {
                   return (
-                    <option key={student.id} value={student.id}>
+                    <option
+                      key={student.id}
+                      value={student.id}
+                      className="bg-slate-600"
+                    >
                       {student.name}
                     </option>
                   );
@@ -227,7 +234,7 @@ function ParentForm({
             {errors.students?.message && (
               <p className="text-red-400">{errors.students?.message}</p>
             )}
-          </section>
+          </div>
         </section>
         {errors.root?.message && (
           <p className="mb-1 text-red-400">{errors.root?.message}</p>

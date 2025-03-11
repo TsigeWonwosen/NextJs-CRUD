@@ -100,7 +100,7 @@ function StudentForm({
     try {
       if (title == "update") {
         if (data?.id && result.success) {
-          const res = await updateStudent(data?.id, result.data);
+          const res = await updateStudent(data?.id, result?.data);
 
           if (res.success) {
             toast.success(res.message, { autoClose: 3000 });
@@ -360,7 +360,7 @@ function StudentForm({
               </label>
               <select
                 id="paretnId"
-                defaultValue={data.parentId}
+                defaultValue={data?.parentId}
                 {...register("parentId")}
                 className="mt-1 block min-w-[100px] rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required

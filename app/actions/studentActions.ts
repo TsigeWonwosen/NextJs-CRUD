@@ -3,6 +3,7 @@
 import { prisma } from "@/app/libs/prisma";
 import { revalidatePath } from "next/cache";
 import { getErrorMessage } from "../utils/getErrorMessage";
+import { StudentSchemaType } from "../libs/types";
 
 export async function getStudentsWithQuery(searchParams: {
   search?: string;
@@ -97,7 +98,9 @@ export async function createStudent(data: any) {
 }
 
 // Update a post
-export async function updateStudent(id: string, data: any) {
+type updatStudentSchema = Omit<StudentSchemaType, "img"> & { img: any };
+
+export async function updateStudent(id: string, data: updatStudentSchema) {
   const selectedStudent = await prisma.student.findUnique({
     where: { id },
   });

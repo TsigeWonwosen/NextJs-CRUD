@@ -10,24 +10,26 @@ const Header = () => {
   const { data: session } = useSession();
   const { user } = session || {};
 
+  let roles = user?.role.toLocaleLowerCase();
+
   return (
     <div className="sticky right-0 top-0 z-50 mb-4 flex h-[50px] w-full items-center justify-end border-b border-gray-700 border-opacity-50 bg-[#08081A] px-10 py-8 shadow-md">
       {
         <>
           <HombergerMenu />
-          <ul className="h-[300px]text-center relative ml-auto hidden w-auto justify-center space-x-2 sm:flex">
+          <ul className="relative ml-auto hidden h-[30px] w-auto items-center justify-center space-x-2 text-center sm:flex">
             {navLists?.map((list) => <Links {...list} key={list.name} />)}
             {user ? (
               <>
-                {user?.role === "Admin" || user?.role === "admin" ? (
+                {roles === "admin" ? (
                   <>
                     <Links name="Admin" path="/admin" />
-                    <span className="px-2">|</span>
+                    <span className="h-[20px] w-1 px-2 text-gray-500">|</span>
                     <UserMenu user={user} />
                   </>
                 ) : (
                   <>
-                    <span className="px-2">|</span>
+                    <span className="px-2 text-gray-500">|</span>
                     <UserMenu user={user} />
                   </>
                 )}

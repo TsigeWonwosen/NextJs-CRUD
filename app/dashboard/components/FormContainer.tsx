@@ -75,6 +75,7 @@ async function FormContainer({
       break;
     case "parent":
       relatedData = { students };
+
       break;
     case "class":
       relatedData = { teachers, grades, announcements, lessons };
