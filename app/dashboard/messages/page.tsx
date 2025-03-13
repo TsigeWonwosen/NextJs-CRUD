@@ -7,6 +7,7 @@ import Table from "../components/Table";
 import { prisma } from "@/app/libs/prisma";
 import FormModel from "../components/FormModel";
 import { PER_PAGE } from "@/app/libs/constants";
+import FormContainer from "../components/FormContainer";
 
 type AnnouncementList = Announcement & { class: Class };
 
@@ -47,10 +48,8 @@ const renderRow = (item: AnnouncementList) => (
       <div className="flex items-center justify-center gap-2">
         {role === "admin" && (
           <>
-            {/* <FormContainer table="announcement" type="update" data={item} />
-            <FormContainer table="announcement" type="delete" id={item.id} /> */}
-            <FormModel studentId={item.id} table="Parents" type="update" />
-            <FormModel studentId={item.id} table="Parents" type="delete" />
+            <FormContainer table="message" type="update" data={item} />
+            <FormContainer table="message" type="delete" id={item.id} />
           </>
         )}
       </div>
@@ -75,7 +74,7 @@ export default async function Messages({
   const numberofPage = Math.ceil(announcement.length / PER_PAGE);
   return (
     <div className="mx-auto flex h-full w-full flex-col p-4">
-      <SearchAndHeaderServerSide title="All Messages" />
+      <SearchAndHeaderServerSide title="All Messages" table="message" />
       <Table Lists={renderRow} data={announcement} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>

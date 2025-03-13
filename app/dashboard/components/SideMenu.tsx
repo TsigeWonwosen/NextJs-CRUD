@@ -12,7 +12,7 @@ async function SideMenu() {
   const session = await getServerSession(Options);
   const role = session?.user.role ? session?.user.role : "Admin";
 
-  if (session?.user) {
+  if (role) {
     return (
       <div className="z-20 flex h-full w-full flex-col justify-start gap-2 bg-[#353c56]/10 p-3 text-sm shadow-xl md:px-4 lg:justify-start">
         <section className="flex flex-col gap-2">
@@ -28,17 +28,17 @@ async function SideMenu() {
               className="h-[35px] w-[35px] rounded-full"
             />
           </Link>
-          <section className="flex flex-col gap-[2px]">
-            <div className="flex items-center justify-start gap-1">
+          <section className="flex flex-col gap-[3px]">
+            <div className="flex items-center justify-start gap-2">
               <UserCheck size={"10px"} />
               <p className="font-mono text-sm">
-                {session && capitalizeTitle(role)}
+                {role && capitalizeTitle(role)}
               </p>
             </div>
-            <div className="flex items-center justify-start gap-1">
+            <div className="flex items-center justify-start gap-2">
               <MailCheck size={"10px"} />
-              <p className="font-mono text-xs">
-                {session && session?.user.email}
+              <p className="font-mono text-[10px] text-gray-600">
+                {role && session?.user.email}
               </p>
             </div>
           </section>
@@ -62,11 +62,11 @@ async function SideMenu() {
                       <Image
                         src={item.icon}
                         alt={item.label}
-                        width={10}
-                        height={10}
+                        width={12}
+                        height={12}
                         className="max-w-fit overflow-hidden rounded-sm bg-slate-400/25 object-cover text-slate-300"
                       />
-                      <div className="hidden text-[11px] lg:block">
+                      <div className="hidden text-[13px] lg:block">
                         {item.label}
                       </div>
                     </li>

@@ -1,35 +1,47 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { routeAccessMap } from "./app/libs/routeAccessMap";
 
-export const middleware = async (req: NextRequest, res: NextResponse) => {
-  const path = req.nextUrl.pathname;
-  // const token = req.cookies.get("next-auth.session-token");
+export async function middleware(req: NextRequest) {
+  let pathName = req.nextUrl.pathname;
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
   if (!token) {
     const loginUrl = new URL("/login", req.url);
-    loginUrl.searchParams.set("redirectTo", path);
+    loginUrl.searchParams.set("redirectTo", pathName);
     return NextResponse.redirect(loginUrl);
   }
 
-  const role = token.role as string; // Extract user role
+  pathName = pathName.split("/")[2];
+  pathName = "/" + pathName;
 
-  const studentUrl = new URL("/dashboard/students", req.url);
-  const teacherUrl = new URL("/dashboard/teachers", req.url);
-  const parenttUrl = new URL("/dashboard/students", req.url);
-  // Redirect users to their allowed page
-  // if (path.startsWith("/dashboard")) {
-  //   if (role === "student") {
-  //     return NextResponse.rewrite(studentUrl);
-  //   }
-  //   if (role === "teacher") {
-  //     return NextResponse.rewrite(teacherUrl);
-  //   }
-  //   if (role === "parent") {
-  //     return NextResponse.rewrite(parenttUrl);
-  //   }
-  // }
+  const allowedRoles = Object.entries(routeAccessMap).find(([path]) =>
+    pathName.startsWith(path),
+  )?.[1];
+
+  const role = token.role as string;
+
+  if (role && (pathName == "/login" || pathName == "/register")) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
+  if (allowedRoles && !allowedRoles.includes(role.toLocaleLowerCase())) {
+    return NextResponse.redirect(new URL("/forbidden", req.url)); // Redirect to unauthorized page
+  }
+
+  if (allowedRoles?.includes(role)) {
+    if (role === "student" && pathName !== "/students") {
+      return NextResponse.redirect(new URL("/dashboard/students", req.url));
+    }
+    if (role === "teacher" && pathName !== "/teachers") {
+      return NextResponse.redirect(new URL("/dashboard/teachers", req.url));
+    }
+    if (role === "parent" && pathName !== "/parents") {
+      return NextResponse.redirect(new URL("/dashboard/parents", req.url));
+    }
+  }
   return NextResponse.next();
-};
+}
 
 export const config = {
   matcher: ["/dashboard/:path*", "/services/:path*", "/admin/:path*"], // Apply middleware only to these routes

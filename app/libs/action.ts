@@ -74,7 +74,7 @@ export const getStaffs = async () => {
     await connectToDatabase();
     const users: StaffType[] | any = await Staff.find().lean();
 
-    console.log("Users", users);
+    // console.log("Users", users);
     let serializedData = await users.sort((a: any, b: any) => {
       return b.createdAt - a.createdAt;
     });
