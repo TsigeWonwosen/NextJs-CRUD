@@ -15,17 +15,17 @@ export async function middleware(req: NextRequest) {
   pathName = pathName.split("/")[2];
   pathName = "/" + pathName;
 
-  const allowedRoles = Object.entries(routeAccessMap).find(([path]) =>
-    pathName.startsWith(path),
+  const allowedRoles = Object.entries(routeAccessMap).find(
+    ([path]) => pathName == path,
   )?.[1];
 
-  const role = token.role as string;
+  const role = (token.role as string).toLocaleLowerCase();
 
   if (role && (pathName == "/login" || pathName == "/register")) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  if (allowedRoles && !allowedRoles.includes(role.toLocaleLowerCase())) {
+  if ((allowedRoles ?? []).length > 0 && !(allowedRoles ?? []).includes(role)) {
     return NextResponse.redirect(new URL("/forbidden", req.url)); // Redirect to unauthorized page
   }
 
@@ -33,9 +33,9 @@ export async function middleware(req: NextRequest) {
     if (role === "student" && pathName !== "/students") {
       return NextResponse.redirect(new URL("/dashboard/students", req.url));
     }
-    if (role === "teacher" && pathName !== "/teachers") {
-      return NextResponse.redirect(new URL("/dashboard/teachers", req.url));
-    }
+    // if (role === "teacher" && pathName !== "/teachers") {
+    //   return NextResponse.redirect(new URL("/dashboard/teachers", req.url));
+    // }
     if (role === "parent" && pathName !== "/parents") {
       return NextResponse.redirect(new URL("/dashboard/parents", req.url));
     }

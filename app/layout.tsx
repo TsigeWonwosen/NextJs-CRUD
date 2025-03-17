@@ -26,7 +26,7 @@ export default function RootLayout({
         <body className="scrollbar bodyStyle">
           <main className="flex h-full min-h-screen w-full flex-col items-center justify-between">
             <div className="flex h-full w-full items-start justify-between">
-              <div className="sticky left-0 top-0 h-screen w-[80px] overflow-y-auto sm:w-[150px] md:w-[200px]">
+              <div className="sticky left-0 top-0 h-screen w-auto">
                 <SideMenu />
               </div>
               <div className="flex h-full min-h-screen flex-1 flex-col">

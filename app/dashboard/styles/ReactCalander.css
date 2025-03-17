@@ -1,12 +1,16 @@
 .react-calendar {
-  width: 350px;
-  max-width: 100%;
+  width: 100% !important;
+  max-width: 100% !important;
   background: #0c162e !important;
   border: 0.2px solid #0906138e !important;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
   border-radius: 5px;
   box-shadow: #090613 !important;
+  height: auto !important; /* Allow height to adjust dynamically */
+  border: 1px solid #ccc;
+  font-family: Arial, sans-serif;
+  padding: 5px 10px;
 }
 
 .react-calendar button,
@@ -36,7 +40,7 @@ input:where([type="submit"]) {
 
 .react-calendar .highlight {
   background-color: #240881 !important;
-  color: white;
+  color: rgba(255, 255, 255, 0.748);
   border-radius: 1px;
 }
 

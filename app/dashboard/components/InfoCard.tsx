@@ -15,11 +15,10 @@ async function InfoCard({
   };
 
   const Count: any = await compoundCount[name].count();
-
   return (
-    <div className="odd:bg-wondebgHardColo flex h-[120px] w-full min-w-[180px] max-w-[300px] flex-1 flex-col justify-between gap-2 rounded-xl px-5 py-3 shadow-md shadow-slate-100/10 even:bg-wondeblackColor/20">
+    <div className="odd:bg-wondebgHardColo flex h-[125px] max-w-[400px] flex-col justify-between gap-2 rounded-xl px-5 py-3 shadow-sm shadow-slate-100/20 even:bg-wondeblackColor/20">
       <div className="flex w-full items-center justify-between">
-        <h1 className="rounded-full bg-slate-700 px-[4px] py-[1px] text-left text-[10px] text-cyan-600">
+        <h1 className="rounded-md bg-slate-700 px-[4px] py-[1px] text-left text-[10px] text-cyan-600">
           <p>{new Date().getFullYear()}</p>
         </h1>
         <button>
