@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: "media",
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -20,6 +20,9 @@ const config: Config = {
         wondetxColor: "#2e3842",
         wondetextHardColor: "192028",
         wondeblackColor: "#020202",
+        "custom-dark": "#020212fb",
+        "custom-darker": "#010116",
+        darkText: "#676180",
       },
     },
   },

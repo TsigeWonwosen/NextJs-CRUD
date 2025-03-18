@@ -21,7 +21,6 @@ function StudentsList({
   const [students, setStudents] = useState(user);
 
   const { id, name, email, parentId, gradeId, address, phone, img } = students;
-  console.log("Image: " + img);
   return (
     <tr
       key={id}

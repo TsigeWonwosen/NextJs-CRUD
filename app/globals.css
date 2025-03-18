@@ -30,7 +30,7 @@
 :root {
   --bg: #081229;
   --bgSoft: #191d3a;
-  --text: hwb(252 38% 50%);
+  --text: #676180;
   --textSoft: #afb1b6;
   --btn: #516391;
   --btnPink: #516391;
@@ -56,8 +56,8 @@
 }
 
 .bodyStyle {
-  background-image: linear-gradient(to bottom right, #020212fb, #010116);
-  color: var(--text);
+  /* background-image: linear-gradient(to bottom right, #020212fb, #010116); */
+  /* color: var(--text); */
   min-height: 100vh;
   height: 100%;
   width: 100%;

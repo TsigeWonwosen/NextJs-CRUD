@@ -18,16 +18,16 @@ function UserMenu({
   return (
     <>
       <section className="relative h-auto w-[44px]">
-        <section className="flex h-[30px] w-[30px] items-center justify-center overflow-hidden rounded-full bg-gray-500">
+        <section className="flex h-[27px] w-[27px] items-center justify-center overflow-hidden rounded-full bg-gray-500">
           <Image
             src={user?.image || `/profile-avatar.png`}
             className="object-cover"
-            width={25}
-            height={25}
+            width={23}
+            height={23}
             alt="User image"
           />
           <button
-            className="absolute -bottom-1 right-1 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-gray-600 font-bold caret-lime-300"
+            className="absolute -bottom-1 right-2 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-gray-600 font-bold caret-lime-300"
             onClick={handleChange}
           >
             <ChevronDown className="text-gray-300" />

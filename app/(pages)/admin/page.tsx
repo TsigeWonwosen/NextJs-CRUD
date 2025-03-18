@@ -19,8 +19,8 @@ function Admin() {
   }, []);
 
   return (
-    <div className="flex w-full gap-x-4 p-7">
-      <div className="w-1/2 items-center rounded-lg bg-slate-900 p-7">
+    <div className="flex w-full flex-col-reverse items-center gap-5 p-7 md:flex-row md:items-start md:justify-around">
+      <div className="w-full items-center rounded-lg bg-slate-900 p-7 md:w-1/2">
         <h2 className="text-- mb-4 text-center text-2xl font-bold">
           List of Staffs
         </h2>

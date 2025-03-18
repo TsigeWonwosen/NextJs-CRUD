@@ -15,7 +15,7 @@ function LogoutForm({
   };
 
   return (
-    <div className="flex w-[190px] flex-col items-start justify-center rounded-md bg-slate-800 p-[20px] hover:text-gray-200">
+    <div className="flex w-[190px] flex-col items-start justify-center rounded-md bg-[#151b23] p-[20px] hover:text-gray-200">
       <section className="flex w-full flex-row items-center justify-center gap-2">
         <Image
           src={user?.image || `/profile-avatar.png`}

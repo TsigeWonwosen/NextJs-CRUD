@@ -5,19 +5,27 @@ import Links from "./navBar/Links";
 import { useSession } from "next-auth/react";
 import UserMenu from "./UserMenu";
 import HombergerMenu from "./HombergerMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { Moon, Sun } from "lucide-react";
+import { toggleDarkMode } from "../reduxStore/darkModeSlice";
 
 const Header = () => {
   const { data: session } = useSession();
   const { user } = session || {};
 
-  let roles = user?.role.toLocaleLowerCase();
+  const dispatch = useDispatch();
+
+  const isDarkMode = useSelector(
+    (state: { darkMode: { isDarkMode: boolean } }) => state.darkMode.isDarkMode,
+  );
+  let roles: string | undefined = user?.role.toLocaleLowerCase();
 
   return (
     <div className="sticky right-0 top-0 z-50 mb-4 flex h-[50px] w-full items-center justify-end border-b border-gray-700 border-opacity-50 bg-[#08081A] px-10 py-8 shadow-md">
       {
         <>
-          <HombergerMenu />
-          <ul className="relative ml-auto hidden h-[30px] w-auto items-center justify-center space-x-2 text-center sm:flex">
+          <HombergerMenu user={user} />
+          <ul className="relative ml-auto hidden h-[30px] w-auto items-center justify-center space-x-1 text-center sm:flex">
             {navLists?.map((list) => <Links {...list} key={list.name} />)}
             {user ? (
               <>
@@ -39,6 +47,17 @@ const Header = () => {
                 <Links name="Login" path="/login" />
               </>
             )}
+            <div className="flex items-center justify-center">
+              <span className="px-2 text-gray-500">|</span>
+              {isDarkMode ? (
+                <Sun onClick={() => dispatch(toggleDarkMode())} size={"20px"} />
+              ) : (
+                <Moon
+                  onClick={() => dispatch(toggleDarkMode())}
+                  size={"20px"}
+                />
+              )}
+            </div>
           </ul>
         </>
       }
