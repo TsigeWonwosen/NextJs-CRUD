@@ -11,9 +11,10 @@ async function SearchAndHeaderServerSide({
   table: string;
 }) {
   const session = await getServerSession(Options);
-  let role = session?.user.role.toLocaleLowerCase();
+  // let role = session?.user?.role?.toLocaleLowerCase();
+  let role = "admin";
   return (
-    <div className="mb-3 flex h-full w-full flex-col items-start justify-start overflow-visible md:flex-row md:justify-between">
+    <div className="bg-light-bgw dark:bg-dark-bg mb-4 flex h-full w-full flex-col items-start justify-start overflow-visible rounded-md px-4 py-5 md:flex-row md:justify-between">
       <section className="flex">
         <h4 className="mb-2 text-left text-base text-slate-500">{title}</h4>
       </section>

@@ -16,7 +16,7 @@ type lessonType = {
 
 function BigCalander({ data }: { data: lessonType[] }) {
   return (
-    <div className="mb-4 mt-4 h-full w-full px-6 py-2">
+    <div className="bg-light-bgw dark:bg-dark-bg px 2 mb-4 mt-4 h-full w-full rounded-md p-6">
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

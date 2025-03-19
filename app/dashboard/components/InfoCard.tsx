@@ -1,4 +1,5 @@
 import { prisma } from "@/app/libs/prisma";
+import { Ellipsis } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -16,19 +17,13 @@ async function InfoCard({
 
   const Count: any = await compoundCount[name].count();
   return (
-    <div className="odd:bg-wondebgHardColo flex h-[125px] max-w-[400px] flex-col justify-between gap-2 rounded-xl px-5 py-3 shadow-sm shadow-slate-100/20 even:bg-wondeblackColor/20">
+    <div className="odd:bg-light-bgw dark:odd:bg-dark-bg flex h-[125px] max-w-[400px] flex-col justify-between gap-2 rounded-xl px-5 py-3 shadow-sm shadow-slate-100/20 even:bg-wondeblackColor/20">
       <div className="flex w-full items-center justify-between">
-        <h1 className="rounded-md bg-slate-700 px-[4px] py-[1px] text-left text-[10px] text-cyan-600">
+        <h1 className="text-light-accent dark:text-light-accent bg-light-primary dark:bg-dark-primary rounded-md px-[4px] py-[1px] text-left text-[10px]">
           <p>{new Date().getFullYear()}</p>
         </h1>
         <button>
-          <Image
-            src={`/more.png`}
-            alt="More"
-            width={20}
-            height={20}
-            className="rounded-md"
-          />
+          <Ellipsis className="text-light-text dark:text-dark-text" />
         </button>
       </div>
       <div className="flex justify-start">

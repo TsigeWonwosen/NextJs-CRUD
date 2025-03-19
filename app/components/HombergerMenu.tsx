@@ -6,6 +6,7 @@ import UserMenu from "./UserMenu";
 import { toggleMainMenu } from "../reduxStore/mainMenuSlice";
 import Border from "../dashboard/components/border";
 import { toggleDarkMode } from "../reduxStore/darkModeSlice";
+import { RootState } from "@/app/reduxStore/store";
 
 type UserType = {
   id: string;
@@ -18,12 +19,11 @@ type UserType = {
 function HombergerMenu({ user }: { user?: UserType }) {
   const dispatch = useDispatch();
   const isMainMenuOpen = useSelector(
-    (state: { mainMenu: { isMainMenuOpen: boolean } }) =>
-      state.mainMenu.isMainMenuOpen,
+    (state: RootState) => state.mainMenu.isMainMenuOpen,
   );
 
   const isDarkMode = useSelector(
-    (state: { darkMode: { isDarkMode: boolean } }) => state.darkMode.isDarkMode,
+    (state: RootState) => state.darkMode.isDarkMode,
   );
 
   let menuUser = {
@@ -34,13 +34,13 @@ function HombergerMenu({ user }: { user?: UserType }) {
     <div className="relative flex items-center justify-center sm:hidden">
       {!isMainMenuOpen && (
         <Menu
-          className="h-[25px] w-[25px]"
+          className="text-light-button dark:text-dark-button h-[24px] w-[24px]"
           onClick={() => dispatch(toggleMainMenu())}
         />
       )}
       {isMainMenuOpen && (
         <X
-          className="h-[25px] w-[25px]"
+          className="text-light-button dark:text-dark-button h-[24px] w-[24px]"
           onClick={() => dispatch(toggleMainMenu())}
         />
       )}

@@ -18,7 +18,7 @@ function ReactCalandor() {
 
   useEffect(() => {
     if (value instanceof Date) {
-      router.push(`?date=${value.toLocaleDateString("en-CA")}`);
+      router.push(`?date=${value?.toLocaleDateString("en-CA")}`);
     }
     const updateWidth = () => {
       if (parentRef.current) {
@@ -42,7 +42,7 @@ function ReactCalandor() {
       <Calendar
         onChange={onChange}
         value={value}
-        className="responsive-calendar"
+        className="responsive-calendar bg-light-bg!"
       />
     </div>
   );

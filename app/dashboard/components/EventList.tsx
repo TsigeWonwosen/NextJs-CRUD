@@ -14,7 +14,7 @@ const EventList = async ({ dateParam }: { dateParam: string | undefined }) => {
 
   return data.map((event) => (
     <div
-      className="w-full rounded-md border-2 border-t-2 p-5 odd:border-slate-900 even:border-slate-700"
+      className="h-auto w-full rounded-md border-2 border-t-2 p-5 odd:border-slate-900 even:border-slate-700"
       key={event.id}
     >
       <div className="flex items-center justify-between">

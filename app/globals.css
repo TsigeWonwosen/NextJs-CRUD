@@ -35,18 +35,6 @@
   --btn: #516391;
   --btnPink: #516391;
   --textActive: #f3eeee;
-  --color-secondary: #bf1650;
-  --color-light-pink: #ec5990;
-  --color-primary: #0e101c;
-  --color-blue: #1e2a4a;
-  --color-button-blue: #191d3a;
-  --color-light-blue: #516391;
-  --color-link: #ff7aa8;
-  --color-medium-blue: #4f6294;
-  --color-black: #2d2d2d;
-  --color-purple: #0f111b;
-  --color-grey: #333;
-  --color-light-grey: #ccc;
 }
 
 * {
@@ -56,14 +44,13 @@
 }
 
 .bodyStyle {
-  /* background-image: linear-gradient(to bottom right, #020212fb, #010116); */
-  /* color: var(--text); */
   min-height: 100vh;
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-  font-family: Segoe UI ", Roboto, Helvetica, Arial, sans-serif";
+  font-size: 14px;
+  font-family: "Poppins", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 a {

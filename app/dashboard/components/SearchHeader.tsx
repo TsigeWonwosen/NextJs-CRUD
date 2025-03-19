@@ -29,8 +29,8 @@ function SearchHeader() {
         onSubmit={handleSubmit}
         className="flex min-w-[250px] items-center justify-between gap-2 rounded-full py-[1px] text-slate-200 sm:w-full"
       >
-        <section className="relative mr-[2px] flex h-full flex-1 items-center justify-between rounded-full bg-slate-900 px-2">
-          <Search className="absolute left-[6px] top-1/2 mr-3 h-5 w-5 -translate-y-1/2 cursor-pointer rounded-l-full object-cover opacity-60" />
+        <section className="bg-light-bg relative mr-[2px] flex h-full flex-1 items-center justify-between rounded-full px-2 dark:bg-slate-900">
+          <Search className="text-light-secondary absolute left-[6px] top-1/2 mr-3 h-5 w-5 -translate-y-1/2 cursor-pointer rounded-l-full object-cover opacity-60" />
           <input
             className="ml-2 h-full w-full rounded-md bg-transparent px-5 py-1.5 text-sm text-slate-200/50 outline-none [&::-webkit-search-cancel-button]:bg-red-500"
             type="search"

@@ -78,7 +78,7 @@ const data = [
 
 function SchoolChart() {
   return (
-    <div className="mb-4 mt-4 h-[400px] w-[95%] py-5">
+    <div className="bg-light-bgw dark:bg-dark-bg mb-4 mt-4 h-[400px] w-[95%] rounded-md p-6">
       <section className="mb-2 flex h-[30px] items-center justify-between">
         <h3 className="text-xl font-semibold">Finance</h3>
         <Link href={`#`}>

@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <SessionProviderWrapper>
       <html lang="en" suppressHydrationWarning className={"scrollbar"}>
-        <body className="scrollbar bodyStyle text-darkText from-custom-dark to-custom-darker bg-gradient-to-br dark:bg-gray-800 dark:text-gray-300">
+        <body className="scrollbar bodyStyle bg-light-bg text-light-text dark:text-dark-text dark:bg-dark-bg">
           <ReduxProviderWrapper>
             <main className="flex h-full min-h-screen w-full flex-col items-center justify-between">
               <div className="flex h-full w-full items-start justify-between">

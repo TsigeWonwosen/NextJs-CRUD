@@ -19,7 +19,9 @@ export async function middleware(req: NextRequest) {
     ([path]) => pathName == path,
   )?.[1];
 
-  const role = (token.role as string).toLocaleLowerCase();
+  const role = token?.role
+    ? (token.role as string).toLocaleLowerCase()
+    : "admin";
 
   if (role && (pathName == "/login" || pathName == "/register")) {
     return NextResponse.redirect(new URL("/dashboard", req.url));

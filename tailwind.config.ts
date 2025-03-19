@@ -15,14 +15,22 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        wondebgColor: "#28323b",
-        wondebgHardColor: "#182237",
-        wondetxColor: "#2e3842",
-        wondetextHardColor: "192028",
-        wondeblackColor: "#020202",
-        "custom-dark": "#020212fb",
-        "custom-darker": "#010116",
-        darkText: "#676180",
+        // Dark Mode Colors
+        "dark-bg": "#020212fb", // Dark background
+        "dark-text": "#D9D9D9", // Light text
+        "dark-primary": "#3b82f6", // Blue accent
+        "dark-secondary": "#9333ea", // Purple accent
+        "dark-accent": "#f59e0b", // Orange accent
+        "dark-button": "#593D88",
+
+        // Light Mode Colors
+        "light-bg": "#F2F4F7",
+        "light-bgw": "#FFFFFF",
+        "light-text": "#344767",
+        "light-primary": "#3b82f6",
+        "light-secondary": "#6c757d",
+        "light-accent": "#f59e0b",
+        "light-button": "#764ABC",
       },
     },
   },
