@@ -8,7 +8,7 @@ import { ChevronDown } from "lucide-react";
 function UserMenu({
   user,
 }: {
-  user: { username: string; image: string | undefined };
+  user: { username: string; image: string | undefined; email: string };
 }) {
   const [show, setShow] = useState(false);
   const handleChange = () => {
@@ -22,12 +22,12 @@ function UserMenu({
           <Image
             src={user?.image || `/profile-avatar.png`}
             className="object-cover"
-            width={23}
-            height={23}
+            width={30}
+            height={30}
             alt="User image"
           />
           <button
-            className="absolute -bottom-1 right-2 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-gray-600 font-bold caret-lime-300"
+            className="absolute -bottom-1 right-2 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-light-primary font-bold caret-lime-300 dark:bg-dark-primary"
             onClick={handleChange}
           >
             <ChevronDown className="text-gray-300" />

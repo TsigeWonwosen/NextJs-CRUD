@@ -20,7 +20,9 @@ function SearchAndHeader({
   const [sort, setSort] = useState(true);
 
   const session = useSession();
-  const role = session?.data?.user?.role.toLocaleLowerCase();
+  const role = session?.data?.user?.role
+    ? session?.data?.user?.role.toLocaleLowerCase()
+    : "admin";
 
   const handleSearchChange = () => {
     if (inputRef.current) {
@@ -39,12 +41,12 @@ function SearchAndHeader({
         {title}
       </h4>
       <section className="flex h-full w-full items-center justify-between gap-2 md:w-auto md:gap-0">
-        <div className="flex max-w-[250px] items-center justify-between gap-2 rounded-full bg-slate-800 py-[1px] text-slate-200 sm:w-full">
-          <section className="relative mr-[2px] flex h-full flex-1 items-center justify-between rounded-full bg-slate-900 px-2">
-            <Search className="translate absolute left-[6px] top-1/2 mr-3 h-5 w-5 -translate-y-1/2 cursor-pointer rounded-l-full opacity-60" />
+        <div className="flex max-w-[250px] items-center justify-between gap-2 rounded-full bg-light-bg py-[1px] text-slate-200 dark:bg-transparent sm:w-full">
+          <section className="relative mr-[2px] flex h-full flex-1 items-center justify-between rounded-full bg-light-bg px-2 dark:bg-dark-bg">
+            <Search className="translate absolute left-[6px] top-1/2 mr-3 h-5 w-5 -translate-y-1/2 cursor-pointer rounded-l-full text-light-text opacity-60 dark:text-dark-text" />
 
             <input
-              className="h-full w-full appearance-none rounded-md bg-transparent px-5 py-[6px] text-sm text-slate-200/50 outline-none"
+              className="h-full w-full appearance-none rounded-md bg-transparent px-5 py-[6px] text-sm text-light-text outline-none dark:text-dark-text"
               type="search"
               placeholder=" Search ..."
               ref={inputRef}

@@ -38,7 +38,7 @@ type dataType = {
 
 export default function StatusChart({ data }: { data: dataType[] }) {
   return (
-    <div className="flex h-[400px] w-full flex-col justify-between rounded-md bg-[#0C162E] px-2 py-4 md:w-[95%] md:px-5">
+    <div className="flex h-[400px] w-full flex-col justify-between rounded-md border-[0.1px] border-gray-400 p-4 text-left dark:border-gray-800 md:w-[95%]">
       <section className="flex h-[30px] items-center justify-between">
         <h3 className="text-xl font-semibold">Students</h3>
         <Link href={`/dashboard/students`}>
@@ -74,12 +74,16 @@ export default function StatusChart({ data }: { data: dataType[] }) {
       </ResponsiveContainer>
       <div className="flex w-full items-center justify-center gap-5">
         <section className="flex items-center justify-center gap-2">
-          <span className="h-[12px] w-[12px] rounded-full bg-[#3788D8]"></span>
-          <p className="text-[13px] font-semibold text-gray-200">Boys</p>
+          <span className="h-[14px] w-[14px] rounded-full bg-[#3788D8]"></span>
+          <p className="text-[15px] font-semibold text-light-text dark:text-dark-text">
+            Boys
+          </p>
         </section>
         <section className="flex items-center justify-center gap-2">
-          <span className="h-[12px] w-[12px] rounded-full bg-[#06093C]"></span>
-          <p className="text-[13px] font-semibold text-gray-200">Gilrs</p>
+          <span className="h-[14px] w-[14px] rounded-full bg-[#06093C]"></span>
+          <p className="text-[15px] font-semibold text-light-text dark:text-dark-text">
+            Gilrs
+          </p>
         </section>
       </div>
     </div>

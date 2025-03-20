@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { navLists } from "./navBar/navLists";
+import NavLists, { navLists } from "./navBar/navLists";
 import Link from "next/link";
-import { Menu, Moon, Sun, X } from "lucide-react";
-import UserMenu from "./UserMenu";
+import { Menu, Moon, Sun, X, House, Cog, FileUser } from "lucide-react";
 import { toggleMainMenu } from "../reduxStore/mainMenuSlice";
 import Border from "../dashboard/components/border";
 import { toggleDarkMode } from "../reduxStore/darkModeSlice";
 import { RootState } from "@/app/reduxStore/store";
+import LogoutForm from "./LogoutForm";
 
 type UserType = {
   id: string;
@@ -29,37 +29,28 @@ function HombergerMenu({ user }: { user?: UserType }) {
   let menuUser = {
     username: user?.username || "",
     image: user?.image,
+    email: user?.email,
   };
   return (
     <div className="relative flex items-center justify-center sm:hidden">
       {!isMainMenuOpen && (
         <Menu
-          className="text-light-button dark:text-dark-button h-[24px] w-[24px]"
+          className="h-[24px] w-[24px] text-light-button dark:text-dark-button"
           onClick={() => dispatch(toggleMainMenu())}
         />
       )}
       {isMainMenuOpen && (
         <X
-          className="text-light-button dark:text-dark-button h-[24px] w-[24px]"
+          className="h-[24px] w-[24px] text-light-button dark:text-dark-button"
           onClick={() => dispatch(toggleMainMenu())}
         />
       )}
       {isMainMenuOpen && (
-        <ul className="absolute -right-[20px] top-[50px] z-10 flex h-[250px] w-[200px] flex-col items-center justify-between rounded-b-md bg-slate-800 py-3 text-center font-semibold text-gray-500">
-          <UserMenu user={menuUser} />
-          {navLists?.map((list) => (
-            <Link
-              key={list.name}
-              href={list.path}
-              onClick={() => dispatch(toggleMainMenu())}
-              className="w-[90%] rounded-md px-2 py-1 hover:bg-slate-600"
-            >
-              {list.name}{" "}
-            </Link>
-          ))}
-          <div className="w-[80%]">
-            <Border direction="b" />
-          </div>
+        <ul className="dark:bg-dark-contrest bg-light-contrest absolute -right-[20px] top-[50px] z-10 flex h-auto w-[200px] flex-col items-center justify-between rounded-b-md py-3 text-center font-semibold text-gray-500">
+          <LogoutForm user={menuUser} />
+          <Border direction="b" />
+          <NavLists />
+          <Border direction="b" />
           {isDarkMode ? (
             <Sun onClick={() => dispatch(toggleDarkMode())} />
           ) : (

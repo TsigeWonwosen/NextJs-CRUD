@@ -1,14 +1,14 @@
 .react-calendar {
   width: 100% !important;
   max-width: 100% !important;
-  background: #0c162e !important;
-  border: 0.2px solid #0906138e !important;
-  font-family: Arial, Helvetica, sans-serif;
+  background: transparent !important;
+  border: 0.1px solid #43337d6d !important;
+  /* font-family: Arial, Helvetica, sans-serif; */
   line-height: 1.125em;
   border-radius: 5px;
   box-shadow: #090613 !important;
   height: auto !important; /* Allow height to adjust dynamically */
-  border: 1px solid #ccc;
+  border: 0.5px solid #ccc;
   font-family: Arial, sans-serif;
   padding: 5px 10px;
 }
@@ -23,24 +23,26 @@ input:where([type="submit"]) {
 }
 
 .react-calendar button:hover {
-  background-color: #040448aa !important;
+  background-color: #3b82f6 !important;
   transition: all ease-in-out 0.4s;
+  color: #fff !important;
 }
 
 .react-calendar .react-calendar__tile--now {
-  background: #180555 !important;
+  background: #3b82f6 !important;
   border-radius: 3px;
+  color: #fff !important;
 }
 
 .react-calendar__tile--active {
-  background: #14034d !important;
+  background: #3778e2 !important;
   border-radius: 3px;
-  color: #fff;
+  color: #fff !important;
 }
 
 .react-calendar .highlight {
   background-color: #240881 !important;
-  color: rgba(255, 255, 255, 0.748);
+  color: #fff !important;
   border-radius: 1px;
 }
 

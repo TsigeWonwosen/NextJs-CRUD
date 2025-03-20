@@ -14,6 +14,36 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      borderWidth: {
+        "1": "0.5px",
+        "3": "3px",
+        "5": "5px",
+        "10": "10px",
+        "20": "20px", // Custom border width
+      },
+      fontFamily: {
+        system: [
+          "apple-system",
+          "system-ui",
+          "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
+          '"Helvetica Neue"',
+          '"Fira Sans"',
+          "Ubuntu",
+          "Oxygen",
+          '"Oxygen Sans"',
+          "Cantarell",
+          '"Droid Sans"',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+          '"Lucida Grande"',
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
+      },
       colors: {
         // Dark Mode Colors
         "dark-bg": "#020212fb", // Dark background
@@ -22,15 +52,17 @@ const config: Config = {
         "dark-secondary": "#9333ea", // Purple accent
         "dark-accent": "#f59e0b", // Orange accent
         "dark-button": "#593D88",
+        "dark-contrest": "#010A1F",
 
         // Light Mode Colors
         "light-bg": "#F2F4F7",
         "light-bgw": "#FFFFFF",
-        "light-text": "#344767",
+        "light-text": "#191919",
         "light-primary": "#3b82f6",
         "light-secondary": "#6c757d",
         "light-accent": "#f59e0b",
         "light-button": "#764ABC",
+        "light-contrest": "#e5e5e5",
       },
     },
   },

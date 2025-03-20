@@ -13,7 +13,7 @@ async function Annauncement({
     {},
   );
   return (
-    <div className="h-auto w-full rounded-md bg-[#0C162E] p-4 text-left">
+    <div className="h-auto w-full rounded-md border-[0.1px] border-gray-400 p-4 text-left dark:border-gray-800">
       <div className="flex w-full items-center justify-between">
         <h1 className="text-xl font-semibold">Announcements</h1>
         <span className="text-xs text-gray-400">View All</span>
