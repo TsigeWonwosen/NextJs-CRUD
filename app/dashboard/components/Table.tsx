@@ -10,13 +10,13 @@ function Table({
   Lists: (item: any) => React.ReactNode;
 }) {
   return (
-    <table className="min-w-full border-collapse overflow-hidden rounded-md border-0 border-b-slate-700">
-      <thead className="w-full rounded-full border-0">
-        <tr className="w-full border-0 border-slate-800 bg-gray-900 text-[14px]">
+    <table className="min-w-full overflow-hidden rounded-md py-2">
+      <thead className="text-light-text-d dark:text-dark-text-d w-full rounded-full">
+        <tr className="border-light-text-d w-full border-b-[0.2px] text-[13px] dark:border-slate-900">
           {tableHeader.map((header, index) => (
             <th
               key={index}
-              className={`border-b border-gray-500 px-3 py-2 text-left last:text-center ${header.class}`}
+              className={`px-3 py-2 text-left last:text-center ${header.class}`}
             >
               {header.header}
             </th>

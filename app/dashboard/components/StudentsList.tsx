@@ -24,19 +24,21 @@ function StudentsList({
   return (
     <tr
       key={id}
-      className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
+      className="h-full w-full rounded-sm border-b-[0.1px] border-gray-200 text-[12px] text-gray-600 dark:border-gray-900 dark:text-gray-400"
     >
       <td className="flex flex-row justify-start px-1 py-2">
         <Image
           src={typeof img === "string" ? img : `/avatar.png`}
-          width={35}
-          height={35}
+          width={30}
+          height={30}
           alt="Profile Photo"
-          className="h-8 w-8 rounded-full object-cover object-center"
+          className="h-7 w-7 rounded-md object-cover object-center"
         />
         <section className="ml-[6px] flex flex-col items-start justify-start sm:ml-2 md:ml-3">
           <p className="text-sm">{name}</p>
-          <span className="text-xs text-slate-700">{email}</span>
+          <span className="text-xs text-slate-400 dark:text-gray-700">
+            {email}
+          </span>
         </section>
       </td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{id}</td>

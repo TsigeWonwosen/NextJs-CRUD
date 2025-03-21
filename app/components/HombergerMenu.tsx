@@ -46,7 +46,7 @@ function HombergerMenu({ user }: { user?: UserType }) {
         />
       )}
       {isMainMenuOpen && (
-        <ul className="dark:bg-dark-contrest bg-light-contrest absolute -right-[20px] top-[50px] z-10 flex h-auto w-[200px] flex-col items-center justify-between rounded-b-md py-3 text-center font-semibold text-gray-500">
+        <ul className="dark:bg-dark-text-d bg-light-text-d absolute -right-[20px] top-[50px] z-10 flex h-auto w-[200px] flex-col items-center justify-between rounded-b-md py-3 text-center font-semibold text-gray-500">
           <LogoutForm user={menuUser} />
           <Border direction="b" />
           <NavLists />

@@ -31,11 +31,11 @@ function LessonsList(lesson: LessonType) {
             <FormModel
               table="lesson"
               type="update"
-              studentId={lesson.id}
+              id={lesson.id}
               data={lesson}
             />
           </Link>
-          <FormModel table="lesson" type="delete" studentId={lesson.id} />
+          <FormModel table="lesson" type="delete" id={lesson.id} />
         </div>
       </td>
     </tr>

@@ -4,10 +4,7 @@ import Pagination from "./Pagination";
 import SearchAndHeader from "./SearchAndHeader";
 import StudentsList, { StudentListProps } from "./StudentsList";
 import { PER_PAGE } from "@/app/libs/constants";
-import {
-  getStudents,
-  getStudentsWithQuery,
-} from "@/app/actions/studentActions";
+import { getStudentsWithQuery } from "@/app/actions/studentActions";
 import { useSearchParams } from "next/navigation";
 
 function StudentClient({
@@ -115,22 +112,22 @@ function StudentClient({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full rounded-md bg-light-bgw p-3 dark:bg-dark-bg">
       <SearchAndHeader
         title="All Students"
         handleSearch={handleSearch}
         relatedData={relatedData}
         hundleUpdateStudent={hundleUpdateStudent}
       />
-      <table className="min-w-full border-collapse overflow-hidden rounded-md border-0 border-b-slate-700">
-        <thead className="w-full rounded-full border-0">
-          <tr className="w-full border-0 border-slate-800 bg-gray-900 text-[14px]">
+      <table className="mb-3 min-w-full overflow-hidden rounded-md">
+        <thead className="w-full rounded-full">
+          <tr className="w-full border-b-[0.2px] border-gray-200 text-gray-400 dark:border-gray-950 dark:text-gray-600">
             {HeaderClass.map((header, index) => (
               <th
                 key={index}
-                className={`border-b border-gray-500 px-3 py-2 text-left last:text-center ${header.class}`}
+                className={`fist:px-0 px-4 py-2 text-left text-[10px] first:text-left last:text-center ${header.class}`}
               >
-                {header.header}
+                {header.header.toLocaleUpperCase()}
               </th>
             ))}
           </tr>

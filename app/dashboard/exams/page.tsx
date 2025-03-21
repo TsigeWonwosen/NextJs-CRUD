@@ -1,6 +1,5 @@
 import React from "react";
 import SearchAndHeaderServerSide from "../components/SearchAndHeaderServerSide";
-import { role } from "@/app/utils/data";
 import PaginationServerSide from "../components/PaginationServerSide";
 import Table from "../components/Table";
 import { prisma } from "@/app/libs/prisma";
@@ -16,7 +15,9 @@ export default async function Exams({
   searchParams: { [value: string]: string | undefined };
 }) {
   const session = await getServerSession(Options);
-  const role = session?.user?.role.toLocaleLowerCase();
+  const role = session?.user?.role
+    ? session?.user?.role.toLocaleLowerCase()
+    : "admin";
   const { search = "" } = await searchParams;
 
   const columns = [
@@ -31,12 +32,12 @@ export default async function Exams({
     {
       header: "Start Time",
       accessor: "start time",
-      className: "hidden md:table-cell",
+      class: "hidden md:table-cell",
     },
     {
       header: "End Time",
       accessor: "end time",
-      className: "hidden md:table-cell",
+      class: "hidden md:table-cell",
     },
     ...(role === "admin"
       ? [
@@ -64,13 +65,8 @@ export default async function Exams({
         <div className="flex items-center justify-center gap-2">
           {role === "admin" && (
             <>
-              <FormModel
-                studentId={item.id}
-                table="exam"
-                type="update"
-                data={item}
-              />
-              <FormModel studentId={item.id} table="exam" type="delete" />
+              <FormModel id={item.id} table="exam" type="update" data={item} />
+              <FormModel id={item.id} table="exam" type="delete" />
             </>
           )}
         </div>
@@ -90,7 +86,7 @@ export default async function Exams({
   const numberofPage = Math.ceil(exams.length / PER_PAGE);
   return (
     <div className="mx-auto flex h-full w-full flex-col p-4">
-      <SearchAndHeaderServerSide title="All Exams" />
+      <SearchAndHeaderServerSide title="All Exams" table="exam" />
       <Table Lists={renderRow} data={exams} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>

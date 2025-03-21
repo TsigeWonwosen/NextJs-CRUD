@@ -12,7 +12,7 @@ const HeaderClass = [
   },
   {
     header: "Classes",
-    class: "hidden md:table-cell",
+    class: "hidden sm:table-cell",
   },
   {
     header: "Teacher",
@@ -62,7 +62,7 @@ async function Lessons({
 
   return (
     <div className="mx-auto flex h-full w-full flex-col p-4">
-      <SearchAndHeaderServerSide title="All Lessons" />
+      <SearchAndHeaderServerSide title="All Lessons" table="lesson" />
       <Table Lists={LessonsList} data={lessons} tableHeader={HeaderClass} />
       <PaginationServerSide totalPages={totalPage} />
     </div>
