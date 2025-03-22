@@ -10,15 +10,15 @@ function Table({
   Lists: (item: any) => React.ReactNode;
 }) {
   return (
-    <table className="min-w-full overflow-hidden rounded-md py-2">
-      <thead className="text-light-text-d dark:text-dark-text-d w-full rounded-full">
-        <tr className="border-light-text-d w-full border-b-[0.2px] text-[13px] dark:border-slate-900">
+    <table className="min-w-full overflow-hidden rounded-md py-4">
+      <thead className="w-full rounded-full text-gray-400 dark:text-gray-700">
+        <tr className="w-full border-b-[0.2px] border-gray-200 text-gray-400 dark:border-gray-950 dark:text-gray-600">
           {tableHeader.map((header, index) => (
             <th
               key={index}
-              className={`px-3 py-2 text-left last:text-center ${header.class}`}
+              className={`fist:px-4 py-2 text-left text-[10px] first:text-left last:text-center ${header.class}`}
             >
-              {header.header}
+              {header.header.toUpperCase()}
             </th>
           ))}
         </tr>

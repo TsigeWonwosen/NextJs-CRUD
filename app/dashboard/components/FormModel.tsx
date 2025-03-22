@@ -91,25 +91,34 @@ function FormModel({
 
   const BgColor =
     type === "create"
-      ? "bg-[#4493F8]"
+      ? " border border-light-primary/60 dark: border-dark-primary/20"
       : type === "update"
-        ? "bg-green-900/80"
-        : "bg-red-600/65";
+        ? " border border-green-900/70"
+        : "border border-red-600/40";
 
   const Icon =
     type === "create" ? (
-      <CirclePlus size={"16px"} className="text-gray-300" />
+      <CirclePlus
+        size={"16px"}
+        className="text-light-text hover:text-teal-600 dark:text-dark-text"
+      />
     ) : type === "update" ? (
-      <Pencil size={"14px"} className="text-gray-300" />
+      <Pencil
+        size={"14px"}
+        className="text-light-text hover:text-green-400 dark:text-dark-text"
+      />
     ) : (
-      <Trash size={"14px"} className="text-gray-300" />
+      <Trash
+        size={"14px"}
+        className="text-light-text hover:text-red-400 dark:text-dark-text"
+      />
     );
 
   return (
     <div className="h-full w-auto">
       <>
         {show && (
-          <div className="overflew-x-hidden absolute bottom-0 left-0 top-2 z-50 flex h-full min-h-screen w-full items-center justify-center bg-black bg-opacity-70">
+          <div className="overflew-x-hidden absolute bottom-0 left-0 top-2 z-50 flex h-full min-h-screen w-full items-center justify-center">
             {id && type == "delete" ? (
               <DeleteForm
                 id={id}
@@ -129,10 +138,10 @@ function FormModel({
           </div>
         )}
       </>
-      <div className="ml-2 flex w-auto flex-row items-center justify-center">
+      <div className="flex w-auto flex-row items-center justify-center">
         <button
           onClick={handleToggle}
-          className={` ${styleType} ${BgColor} flex items-center justify-center rounded-full`}
+          className={` ${styleType} ${BgColor} flex items-center justify-center rounded-md`}
         >
           {Icon}
         </button>

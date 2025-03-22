@@ -7,16 +7,18 @@ function TeachersList(user: TeacherProps) {
   return (
     <tr
       key={user.id}
-      className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
+      className="h-full w-full rounded-sm border border-transparent"
     >
-      <td className="flex flex-row justify-start px-1 py-2">
-        <Image
-          src={user.img || "/profile.png"}
-          width={30}
-          height={30}
-          alt="Profile Photo"
-          className="h-8 w-8 rounded-full object-cover object-center"
-        />
+      <td className="justify-star flex flex-row">
+        <div className="dark:bg-dark-bg-b flex h-7 w-7 items-center justify-center rounded-md bg-cyan-800/20">
+          <Image
+            src={user.img || "/profile.png"}
+            width={30}
+            height={30}
+            alt="Profile Photo"
+            className="h-6 w-6 rounded-md object-cover object-center"
+          />
+        </div>
         <section className="ml-[6px] flex flex-col items-start justify-start sm:ml-2 md:ml-3">
           <p className="text-sm">{user.name}</p>
           <span className="text-xs text-slate-700">{user.email}</span>

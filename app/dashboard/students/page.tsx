@@ -1,6 +1,12 @@
 import StudentClient from "../components/StudentClient";
 import { getStudentsWithQuery } from "../../actions/studentActions";
 import { prisma } from "@/app/libs/prisma";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard | Student",
+  description: "All Student lists",
+};
 
 async function Students({
   searchParams,

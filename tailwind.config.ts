@@ -47,8 +47,9 @@ const config: Config = {
       colors: {
         // Dark Mode Colors
         "dark-bg": "#020212fb", // Dark background
+        "dark-bg-b": "#080822fb",
         "dark-text": "#D9D9D9", // Light text
-        "dark-text-d": "#000033",
+        "dark-text-d": "#06061ffe",
         "dark-primary": "#3b82f6", // Blue accent
         "dark-secondary": "#9333ea", // Purple accent
         "dark-accent": "#f59e0b", // Orange accent
@@ -56,10 +57,10 @@ const config: Config = {
         "dark-contrest": "#010A1F",
 
         // Light Mode Colors
-        "light-bg": "#F2F4F7",
+        "light-bg": "#F5F5F5",
         "light-bgw": "#FFFFFF",
-        "light-text": "#191919",
-        "light-text-d": "#DDE1E7",
+        "light-text": "#27272A",
+        "light-text-d": "#d4d4d8",
         "light-primary": "#3b82f6",
         "light-secondary": "#6c757d",
         "light-accent": "#f59e0b",

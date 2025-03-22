@@ -29,10 +29,10 @@ function SearchHeader() {
         onSubmit={handleSubmit}
         className="flex min-w-[250px] items-center justify-between gap-2 rounded-full py-[1px] text-slate-200 sm:w-full"
       >
-        <section className="bg-light-bg relative mr-[2px] flex h-full flex-1 items-center justify-between rounded-full px-2 dark:bg-slate-900">
-          <Search className="text-light-secondary absolute left-[6px] top-1/2 mr-3 h-5 w-5 -translate-y-1/2 cursor-pointer rounded-l-full object-cover opacity-60" />
+        <section className="relative mr-[2px] flex h-full flex-1 items-center justify-between rounded-full bg-light-bg px-2 dark:bg-slate-900">
+          <Search className="absolute left-[6px] top-1/2 mr-3 h-5 w-5 -translate-y-1/2 cursor-pointer rounded-l-full object-cover text-light-secondary opacity-60" />
           <input
-            className="ml-2 h-full w-full rounded-md bg-transparent px-5 py-1.5 text-sm text-slate-200/50 outline-none [&::-webkit-search-cancel-button]:bg-red-500"
+            className="ml-2 h-full w-full rounded-md bg-transparent px-5 py-[8px] text-sm text-slate-200/50 outline-none [&::-webkit-search-cancel-button]:bg-red-500"
             type="search"
             placeholder=" Search ..."
             value={search}
@@ -41,11 +41,11 @@ function SearchHeader() {
         </section>
       </form>
       <div className="flex items-center justify-center gap-x-1">
-        <button className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200/80">
+        <button className="flex h-8 w-8 items-center justify-center rounded-md border border-gray-300 hover:border-[#010A1F]/50 dark:border-gray-900/90">
           <Filter size={"15px"} />
         </button>
         <button
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-[#7dd37b]"
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-[#010A1F]/50 hover:border-[#010A1F]/50 dark:border-gray-900/90"
           onClick={() => setSort((prvStat) => !prvStat)}
         >
           {sort ? <SortAsc size={"15px"} /> : <SortDesc size={"15px"} />}

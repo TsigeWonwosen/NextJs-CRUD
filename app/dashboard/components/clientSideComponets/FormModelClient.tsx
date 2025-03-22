@@ -93,18 +93,27 @@ function FormModelClient({
 
   const BgColor =
     type === "create"
-      ? "bg-[#4493F8]"
+      ? "border dark:border-[#4493F8]/30 border-[#4493F8]/50"
       : type === "update"
-        ? "bg-green-900/80"
-        : "bg-red-600/65";
+        ? "border dark:border-green-900/30 border-green-400/50 hover:border-green-400/90"
+        : "border dark:border-red-900/30 border-red-400/50 hover:border-red-400/90";
 
   const Icon =
     type === "create" ? (
-      <CirclePlus size={"16px"} className="text-white" />
+      <CirclePlus
+        size={"16px"}
+        className="text-light-text hover:text-teal-600 dark:text-dark-text"
+      />
     ) : type === "update" ? (
-      <Pencil size={"14px"} className="text-white" />
+      <Pencil
+        size={"14px"}
+        className="text-light-text hover:text-green-400 dark:text-dark-text"
+      />
     ) : (
-      <Trash size={"14px"} className="text-white" />
+      <Trash
+        size={"14px"}
+        className="text-light-text hover:text-red-400 dark:text-dark-text"
+      />
     );
 
   return (
@@ -135,7 +144,7 @@ function FormModelClient({
       <div className="flex flex-row items-center justify-center gap-2">
         <button
           onClick={handleToggle}
-          className={` ${styleType} flex items-center justify-center ${BgColor} rounded-full`}
+          className={` ${styleType} flex items-center justify-center ${BgColor} rounded-md`}
         >
           {Icon}
         </button>
