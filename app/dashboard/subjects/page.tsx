@@ -61,7 +61,7 @@ async function Subjects({
 
   const numberOfPage = Math.ceil(totalSubject / PER_PAGE);
   return (
-    <div className="mx-auto flex h-full w-full flex-col p-4">
+    <div className="mx-auto flex h-full w-full flex-col bg-light-bgw p-4 dark:bg-dark-bg">
       <SearchAndHeaderServerSide title="All Subjects" table="subject" />
       <Table Lists={SubjectsList} data={subjects} tableHeader={HeaderClass} />
       <PaginationServerSide totalPages={numberOfPage} />

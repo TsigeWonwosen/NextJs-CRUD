@@ -56,10 +56,11 @@ function MenuWithLogo({ role, email }: { role: string; email: string }) {
                 <Link
                   href={item.href}
                   key={item.label}
-                  className="m-0 w-full bg-slate-200 p-0"
+                  className="w-full bg-slate-200 p-0"
+                  // transition-all duration-500 hover:bg-light-primary/90
                 >
                   <li
-                    className={`justify-left flex w-full cursor-pointer flex-row items-center gap-2 rounded px-1 py-[2.5px] text-left font-['apple-system,_system-ui,_BlinkMacSystemFont,_"Segoe_UI",_Roboto,_"Helvetica_Neue",_"Fira_Sans",_Ubuntu,_Oxygen,_"Oxygen_Sans",_Cantarell,_"Droid_Sans",_"Apple_Color_Emoji",_"Segoe_UI_Emoji",_"Segoe_UI_Symbol",_"Lucida_Grande",_Helvetica,_Arial,_sans-serif'] font-thin hover:bg-light-primary hover:text-light-bgw dark:hover:bg-dark-primary dark:hover:text-dark-text lg:px-2 xl:px-4 ${pathName === item.href ? "bg-light-primary text-light-bgw dark:bg-dark-primary dark:text-dark-text" : ""}`}
+                    className={`justify-left m-[1px] flex w-[90%] cursor-pointer flex-row items-center gap-2 rounded-sm px-1 py-[2.4px] text-left font-['apple-system,_system-ui,_BlinkMacSystemFont,_"Segoe_UI",_Roboto,_"Helvetica_Neue",_"Fira_Sans",_Ubuntu,_Oxygen,_"Oxygen_Sans",_Cantarell,_"Droid_Sans",_"Apple_Color_Emoji",_"Segoe_UI_Emoji",_"Segoe_UI_Symbol",_"Lucida_Grande",_Helvetica,_Arial,_sans-serif'] font-thin transition-all duration-500 hover:bg-light-primary/70 hover:text-light-bgw dark:hover:bg-dark-primary/70 dark:hover:text-dark-text lg:px-2 xl:px-4 ${pathName === item.href ? "bg-light-primary text-light-bgw dark:bg-dark-primary dark:text-dark-text" : ""}`}
                   >
                     <Image
                       src={item.icon}

@@ -51,7 +51,7 @@ const columns = [
 const renderRow = (item: assignmentList) => (
   <tr
     key={item.id}
-    className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
+    className="h-full w-full rounded-sm border-b-[0.1px] border-gray-200 text-[12px] text-gray-600 dark:border-gray-900 dark:text-gray-400"
   >
     <td className="flex items-center gap-4 p-4">{item.title}</td>
     <td className="hidden md:table-cell">{item.lesson.name || "-"}</td>
@@ -66,8 +66,8 @@ const renderRow = (item: assignmentList) => (
       <div className="flex items-center justify-center gap-2">
         {role === "admin" && (
           <>
-            <FormModel studentId={item.id} table="assignment" type="update" />
-            <FormModel studentId={item.id} table="assignment" type="delete" />
+            <FormModel id={item.id} table="assignment" type="update" />
+            <FormModel id={item.id} table="assignment" type="delete" />
           </>
         )}
       </div>
@@ -92,8 +92,8 @@ export default async function Assignments({
 
   const numberofPage = Math.ceil(announcement.length / PER_PAGE);
   return (
-    <div className="h-ful mx-auto flex w-full flex-col p-4">
-      <SearchAndHeaderServerSide title="All Assignments" />
+    <div className="mx-auto flex h-full w-full flex-col rounded-md bg-light-bgw p-4 dark:bg-dark-bg">
+      <SearchAndHeaderServerSide title="All Assignments" table="assignment" />
       <Table Lists={renderRow} data={announcement} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>

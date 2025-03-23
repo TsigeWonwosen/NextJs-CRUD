@@ -27,12 +27,12 @@ function SearchHeader() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex min-w-[250px] items-center justify-between gap-2 rounded-full py-[1px] text-slate-200 sm:w-full"
+        className="flex min-w-[250px] items-center justify-between gap-2 rounded-md py-[1px] text-slate-200 sm:w-full"
       >
-        <section className="relative mr-[2px] flex h-full flex-1 items-center justify-between rounded-full bg-light-bg px-2 dark:bg-slate-900">
+        <section className="relative mr-[2px] flex h-full flex-1 items-center justify-between rounded-md bg-light-bg px-2 dark:bg-slate-900">
           <Search className="absolute left-[6px] top-1/2 mr-3 h-5 w-5 -translate-y-1/2 cursor-pointer rounded-l-full object-cover text-light-secondary opacity-60" />
           <input
-            className="ml-2 h-full w-full rounded-md bg-transparent px-5 py-[8px] text-sm text-slate-200/50 outline-none [&::-webkit-search-cancel-button]:bg-red-500"
+            className="ml-2 h-full w-full rounded-md bg-transparent px-5 py-[10px] text-sm text-light-text outline-none dark:text-dark-text [&::-webkit-search-cancel-button]:bg-red-500"
             type="search"
             placeholder=" Search ..."
             value={search}

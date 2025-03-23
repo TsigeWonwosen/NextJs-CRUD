@@ -46,16 +46,18 @@ function HombergerMenu({ user }: { user?: UserType }) {
         />
       )}
       {isMainMenuOpen && (
-        <ul className="dark:bg-dark-text-d bg-light-text-d absolute -right-[20px] top-[50px] z-10 flex h-auto w-[200px] flex-col items-center justify-between rounded-b-md py-3 text-center font-semibold text-gray-500">
+        <ul className="absolute -right-[20px] top-[50px] z-10 flex h-auto w-[200px] flex-col items-center justify-between rounded-b-md bg-light-text-d py-3 text-center font-semibold text-gray-500 dark:bg-dark-text-d">
           <LogoutForm user={menuUser} />
           <Border direction="b" />
           <NavLists />
           <Border direction="b" />
-          {isDarkMode ? (
-            <Sun onClick={() => dispatch(toggleDarkMode())} />
-          ) : (
-            <Moon onClick={() => dispatch(toggleDarkMode())} />
-          )}
+          <section className="transition-all duration-500 hover:text-light-button">
+            {isDarkMode ? (
+              <Sun onClick={() => dispatch(toggleDarkMode())} size={"19px"} />
+            ) : (
+              <Moon onClick={() => dispatch(toggleDarkMode())} size={"19px"} />
+            )}
+          </section>
         </ul>
       )}
     </div>

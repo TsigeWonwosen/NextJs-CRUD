@@ -7,10 +7,10 @@ function TeachersList(user: TeacherProps) {
   return (
     <tr
       key={user.id}
-      className="h-full w-full rounded-sm border border-transparent"
+      className="h-full w-full rounded-sm border-b-[0.1px] border-gray-200 text-[12px] text-gray-600 dark:border-gray-900 dark:text-gray-400"
     >
       <td className="justify-star flex flex-row">
-        <div className="dark:bg-dark-bg-b flex h-7 w-7 items-center justify-center rounded-md bg-cyan-800/20">
+        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-cyan-800/20 dark:bg-dark-bg-b">
           <Image
             src={user.img || "/profile.png"}
             width={30}
@@ -35,7 +35,7 @@ function TeachersList(user: TeacherProps) {
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.phone}</td>
       <td className="px-4 py-2 text-sm">
         <div className="flex items-center justify-center gap-1">
-          <Link href={`/dashboard/teachers/${user.id}`}></Link>
+          {/* <Link href={`/dashboard/teachers/${user.id}`}></Link> */}
           <FormContainer
             table="teacher"
             type="update"

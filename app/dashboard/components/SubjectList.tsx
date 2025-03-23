@@ -7,7 +7,7 @@ function SubjectsList(subject: SubjectProps) {
   return (
     <tr
       key={subject.id}
-      className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
+      className="h-full w-full rounded-sm border-b-[0.1px] border-gray-200 text-[12px] text-gray-600 dark:border-gray-900 dark:text-gray-400"
     >
       <td className="flex flex-row justify-start px-1 py-2">
         <section className="ml-[6px] flex flex-col items-start justify-start sm:ml-2 md:ml-3">

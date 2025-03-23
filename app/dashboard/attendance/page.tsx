@@ -8,7 +8,6 @@ import { prisma } from "@/app/libs/prisma";
 import FormModel from "../components/FormModel";
 import { PER_PAGE } from "@/app/libs/constants";
 import { AttendanceList } from "@/app/libs/types";
-import { time } from "console";
 
 const columns = [
   {
@@ -41,7 +40,7 @@ const columns = [
 const renderRow = (item: AttendanceList) => (
   <tr
     key={item.id}
-    className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
+    className="h-full w-full rounded-sm border-b-[0.1px] border-gray-200 text-[12px] text-gray-600 dark:border-gray-900 dark:text-gray-400"
   >
     <td className="flex items-center gap-4 p-4">
       {new Intl.DateTimeFormat("en-US").format(item.date)}
@@ -54,12 +53,12 @@ const renderRow = (item: AttendanceList) => (
         {role === "admin" && (
           <>
             <FormModel
-              studentId={item.id}
+              id={item.id}
               table="attendace"
               type="update"
               data={item}
             />
-            <FormModel studentId={item.id} table="attendace" type="delete" />
+            <FormModel id={item.id} table="attendace" type="delete" />
           </>
         )}
       </div>
@@ -84,8 +83,8 @@ export default async function Attendaces({
 
   const numberofPage = Math.ceil(attendace.length / PER_PAGE);
   return (
-    <div className="h-ful mx-auto flex w-full flex-col p-4">
-      <SearchAndHeaderServerSide title="All Attendances" />
+    <div className="mx-auto flex h-full w-full flex-col rounded-md bg-light-bgw p-4 dark:bg-dark-bg">
+      <SearchAndHeaderServerSide title="All Attendances" table="attendance" />
       <Table Lists={renderRow} data={attendace} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>

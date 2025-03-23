@@ -78,7 +78,7 @@ const data = [
 
 function SchoolChart() {
   return (
-    <div className="bg-light-bgw dark:bg-dark-bg mb-4 mt-4 h-[400px] w-[95%] rounded-md p-6">
+    <div className="mb-4 mt-4 h-[400px] w-[95%] rounded-md bg-light-bgw p-6 dark:bg-dark-bg">
       <section className="mb-2 flex h-[30px] items-center justify-between">
         <h3 className="text-xl font-semibold">Finance</h3>
         <Link href={`#`}>
@@ -91,7 +91,7 @@ function SchoolChart() {
           />
         </Link>
       </section>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%" className="py-5">
         <LineChart
           width={500}
           height={300}

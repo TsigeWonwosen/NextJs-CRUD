@@ -16,7 +16,7 @@ function Table({
           {tableHeader.map((header, index) => (
             <th
               key={index}
-              className={`fist:px-4 py-2 text-left text-[10px] first:text-left last:text-center ${header.class}`}
+              className={`pb-4 text-left text-[10px] first:px-4 first:text-left last:text-center ${header.class}`}
             >
               {header.header.toUpperCase()}
             </th>

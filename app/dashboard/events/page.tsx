@@ -16,7 +16,9 @@ export default async function Events({
 }) {
   const { search = "" } = await searchParams;
   const session = await getServerSession(Options);
-  const role = session?.user?.role.toLocaleLowerCase();
+  const role = session?.user?.role
+    ? session?.user?.role.toLocaleLowerCase()
+    : "admin";
 
   const columns = [
     {
@@ -50,7 +52,7 @@ export default async function Events({
   const renderRow = (item: EventList) => (
     <tr
       key={item.id}
-      className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
+      className="h-full w-full rounded-sm border-b-[0.1px] border-gray-200 text-[12px] text-gray-600 dark:border-gray-900 dark:text-gray-400"
     >
       <td className="flex items-center gap-4 p-4">{item.title}</td>
       <td>{item.description || "-"}</td>
@@ -89,7 +91,7 @@ export default async function Events({
 
   const numberofPage = Math.ceil(events.length / PER_PAGE);
   return (
-    <div className="mx-auto flex h-full w-full flex-col p-4">
+    <div className="mx-auto flex h-full w-full flex-col rounded-md bg-light-bgw p-4 dark:bg-dark-bg">
       <SearchAndHeaderServerSide title="All Events" table="event" />
       <Table Lists={renderRow} data={events} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />

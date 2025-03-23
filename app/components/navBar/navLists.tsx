@@ -27,7 +27,7 @@ export default function NavLists() {
           key={list.name}
           href={list.path}
           onClick={() => dispatch(toggleMainMenu())}
-          className="flex w-[100%] flex-row-reverse items-center justify-end gap-3 rounded-md px-[20px] py-1 text-light-secondary hover:bg-light-primary hover:text-white dark:text-dark-text"
+          className="flex w-[90%] flex-row-reverse items-center justify-end gap-3 rounded-sm px-[10px] py-[6px] text-light-secondary transition-all duration-500 hover:bg-light-primary/90 hover:text-white dark:text-dark-text"
         >
           <span className="text-[12px]">{list.name}</span>
           {list.icon}

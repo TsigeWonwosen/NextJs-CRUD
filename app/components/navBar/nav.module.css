@@ -10,12 +10,12 @@
 }
 
 .navButton:hover {
-  color: var(--textActive);
+  color: #567aed;
   transition: all ease-in-out 0.3s;
 }
 
 .active {
-  color: var(--textActive);
+  color: #567aed;
   transition: all ease-in-out 0.3s;
 }
 

@@ -11,7 +11,7 @@ const listofParent = (user: ParentSchemaType) => {
   return (
     <tr
       key={user.id}
-      className="flex-grow-1 h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
+      className="h-full w-full rounded-sm border-b-[0.1px] border-gray-200 text-[12px] text-gray-600 dark:border-gray-900 dark:text-gray-400"
     >
       <td className="ml-[6px] flex flex-col items-start justify-start sm:ml-2 md:ml-3">
         <p className="text-sm">{user.name}</p>
@@ -24,7 +24,7 @@ const listofParent = (user: ParentSchemaType) => {
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.phone}</td>
       <td className="hidden px-4 py-2 text-sm md:table-cell">{user.address}</td>
       <td className="px-[10px] py-2 text-sm">
-        <div className="flex items-center justify-center gap-0">
+        <div className="flex items-center justify-center gap-2">
           {/* <Link href={`/dashboard/parents/${user.id}`}></Link> */}
           <FormContainer
             table="parent"
@@ -76,7 +76,7 @@ async function Parents({
   ];
   const totalPages = Math.ceil(totalparent / PER_PAGE);
   return (
-    <div className="mx-auto flex h-full w-full flex-col p-4">
+    <div className="mx-auto flex h-full w-full flex-col rounded-md bg-light-bgw p-4 dark:bg-dark-bg">
       <SearchAndHeaderServerSide title="All Parents" table="parent" />
       <Table data={parents} tableHeader={HeaderClass} Lists={listofParent} />
       <PaginationServerSide totalPages={totalPages} />

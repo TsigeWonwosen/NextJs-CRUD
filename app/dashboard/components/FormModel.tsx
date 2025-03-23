@@ -100,17 +100,17 @@ function FormModel({
     type === "create" ? (
       <CirclePlus
         size={"16px"}
-        className="text-light-text hover:text-teal-600 dark:text-dark-text"
+        className="text-light-text transition-all duration-500 hover:text-teal-600 dark:text-dark-text"
       />
     ) : type === "update" ? (
       <Pencil
         size={"14px"}
-        className="text-light-text hover:text-green-400 dark:text-dark-text"
+        className="text-light-text transition-all duration-500 hover:text-green-400 dark:text-dark-text"
       />
     ) : (
       <Trash
         size={"14px"}
-        className="text-light-text hover:text-red-400 dark:text-dark-text"
+        className="text-light-text transition-all duration-500 hover:text-red-400 dark:text-dark-text"
       />
     );
 

@@ -54,7 +54,7 @@ export default async function Results({
   const renderRow = (item: ResultList) => (
     <tr
       key={item.id}
-      className="h-full w-full rounded-sm border border-transparent even:bg-slate-900 hover:bg-gray-700"
+      className="h-full w-full rounded-sm border-b-[0.1px] border-gray-200 text-[12px] text-gray-600 dark:border-gray-900 dark:text-gray-400"
     >
       <td className="flex items-center gap-4 p-4">{item.student.name}</td>
       <td>{item.assignment?.title || "-"}</td>
@@ -70,12 +70,12 @@ export default async function Results({
           {(role === "admin" || role === "teacher") && (
             <>
               <FormModel
-                studentId={item.id}
+                id={item.id}
                 table="result"
                 type="update"
                 data={item}
               />
-              <FormModel studentId={item.id} table="result" type="delete" />
+              <FormModel id={item.id} table="result" type="delete" />
             </>
           )}
         </div>
@@ -104,8 +104,8 @@ export default async function Results({
 
   const numberofPage = Math.ceil(results.length / PER_PAGE);
   return (
-    <div className="mx-auto flex h-full w-full flex-col p-4">
-      <SearchAndHeaderServerSide title="All Results" />
+    <div className="mx-auto flex h-full w-full flex-col rounded-md bg-light-bgw p-4 dark:bg-dark-bg">
+      <SearchAndHeaderServerSide title="All Results" table="result" />
       <Table Lists={renderRow} data={results} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />
     </div>

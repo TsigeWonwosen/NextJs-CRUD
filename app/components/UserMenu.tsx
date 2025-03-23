@@ -18,7 +18,7 @@ function UserMenu({
   return (
     <>
       <section className="relative h-auto w-[44px]">
-        <section className="flex h-[27px] w-[27px] items-center justify-center overflow-hidden rounded-full bg-gray-500">
+        <section className="flex h-[25px] w-[25px] items-center justify-center overflow-hidden rounded-full bg-gray-500">
           <Image
             src={user?.image || `/profile-avatar.png`}
             className="object-cover"
@@ -27,7 +27,7 @@ function UserMenu({
             alt="User image"
           />
           <button
-            className="absolute -bottom-1 right-2 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-light-primary font-bold caret-lime-300 dark:bg-dark-primary"
+            className="absolute -bottom-1 right-3 flex h-[14px] w-[14px] items-center justify-center rounded-full bg-light-button font-bold caret-lime-300 dark:bg-dark-button"
             onClick={handleChange}
           >
             <ChevronDown className="text-gray-300" />

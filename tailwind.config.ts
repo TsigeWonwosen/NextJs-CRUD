@@ -53,18 +53,18 @@ const config: Config = {
         "dark-primary": "#3b82f6", // Blue accent
         "dark-secondary": "#9333ea", // Purple accent
         "dark-accent": "#f59e0b", // Orange accent
-        "dark-button": "#593D88",
+        "dark-button": "#567AED",
         "dark-contrest": "#010A1F",
 
         // Light Mode Colors
-        "light-bg": "#F5F5F5",
+        "light-bg": "#F3F4F3",
         "light-bgw": "#FFFFFF",
         "light-text": "#27272A",
         "light-text-d": "#d4d4d8",
         "light-primary": "#3b82f6",
         "light-secondary": "#6c757d",
         "light-accent": "#f59e0b",
-        "light-button": "#764ABC",
+        "light-button": "#567AED",
         "light-contrest": "#e5e5e5",
       },
     },

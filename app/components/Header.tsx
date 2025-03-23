@@ -23,7 +23,7 @@ const Header = () => {
     : "admin";
 
   return (
-    <div className="bg-light-bg dark:bg-dark-bg sticky right-0 top-0 z-50 mb-4 flex h-[50px] w-full items-center justify-end border-b border-gray-400 border-opacity-50 px-10 py-8 shadow-md dark:border-gray-700">
+    <div className="sticky right-0 top-0 z-50 mb-4 flex h-[50px] w-full items-center justify-end border-b border-gray-400 border-opacity-50 bg-light-bg px-10 py-8 text-light-text shadow-md dark:border-gray-700 dark:bg-dark-bg dark:text-dark-text">
       {
         <>
           <HombergerMenu user={user} />
@@ -49,7 +49,7 @@ const Header = () => {
                 <Links name="Login" path="/login" />
               </>
             )}
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center transition-all duration-500 hover:text-light-button">
               <span className="px-2 text-gray-500">|</span>
               {isDarkMode ? (
                 <Sun onClick={() => dispatch(toggleDarkMode())} size={"20px"} />
