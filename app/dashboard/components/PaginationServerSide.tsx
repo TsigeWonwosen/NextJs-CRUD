@@ -40,8 +40,7 @@ function PaginationServerSide({ totalPages }: { totalPages: number }) {
     <div className="mt-5 flex w-full flex-col items-center justify-center gap-1 rounded-md border-[0.5px] border-slate-700/10 px-4 py-2 dark:border-slate-700/20 sm:flex-row">
       <section className="mb-2 w-full text-center sm:mb-0 sm:text-left">
         <p>
-          Showing {pageStart} to {numberOfLists} of {totalPages * PER_PAGE}{" "}
-          entries
+          {pageStart} - {numberOfLists} of {totalPages * PER_PAGE} entries
         </p>
       </section>
       <section className="justify-right flex h-full w-auto items-center gap-2 text-light-text dark:text-dark-text">

@@ -17,13 +17,16 @@ async function InfoCard({
 
   const Count: any = await compoundCount[name].count();
   return (
-    <div className="odd:bg-light-bgw dark:odd:bg-dark-bg flex h-[125px] max-w-[400px] flex-col justify-between gap-2 rounded-xl px-5 py-3 shadow-sm shadow-slate-100/20 even:bg-wondeblackColor/20">
+    <div className="even:bg-wondeblackColor/20 flex h-[125px] max-w-[400px] flex-col justify-between gap-2 rounded-xl px-5 py-3 shadow-sm shadow-slate-100/20 odd:bg-light-bgw dark:odd:bg-dark-bg">
       <div className="flex w-full items-center justify-between">
-        <h1 className="text-light-accent dark:text-light-accent bg-light-primary dark:bg-dark-primary rounded-md px-[4px] py-[1px] text-left text-[10px]">
+        <h1 className="rounded-sm bg-light-primary/90 px-[4px] py-[1px] text-left text-[10px] text-white/80 dark:bg-dark-primary/90 dark:text-white">
           <p>{new Date().getFullYear()}</p>
         </h1>
         <button>
-          <Ellipsis className="text-light-text dark:text-dark-text" />
+          <Ellipsis
+            className="text-light-text dark:text-dark-text"
+            size={"16px"}
+          />
         </button>
       </div>
       <div className="flex justify-start">
