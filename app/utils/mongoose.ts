@@ -42,7 +42,6 @@ const connectToDatabase = async () => {
     });
 
     isConnected = db.connections[0].readyState === 1;
-    console.log("🚀 Connected to MongoDB Atlas");
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
   }

@@ -12,7 +12,7 @@ import { toggleDarkMode } from "../reduxStore/darkModeSlice";
 const Header = () => {
   const { data: session } = useSession();
   const { user } = session || {};
-
+  console.log("User", user);
   const dispatch = useDispatch();
 
   const isDarkMode = useSelector(

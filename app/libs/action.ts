@@ -74,7 +74,6 @@ export const getStaffs = async () => {
     await connectToDatabase();
     const users: StaffType[] | any = await Staff.find().lean();
 
-    // console.log("Users", users);
     let serializedData = await users.sort((a: any, b: any) => {
       return b.createdAt - a.createdAt;
     });
@@ -97,7 +96,7 @@ export const getStaffs = async () => {
 
 export const deleteStaff = async (
   formData: FormData,
-): Promise<{ error: string | null } | null | undefined> => {
+): Promise<{ error?: string; success?: boolean }> => {
   try {
     await connectToDatabase();
 
@@ -111,6 +110,35 @@ export const deleteStaff = async (
     await Staff.findByIdAndDelete({ _id });
     revalidatePath("/services");
     revalidatePath("/admin");
+    return { success: true };
+  } catch (error) {
+    return { error: "Error deleting user." };
+  }
+};
+
+export const updateStaff = async (
+  _id: string,
+  formData: StaffType,
+): Promise<{ error: string | null } | null | undefined> => {
+  try {
+    await connectToDatabase();
+
+    // const { _id } = Object.fromEntries(formData);
+    const user: StaffType | any = await Staff.findOne({ _id });
+
+    if (!user) {
+      return { error: "User not found" };
+    }
+
+    await Staff.findOneAndUpdate(
+      { _id },
+      {
+        $set: formData,
+      },
+      { new: true, runValidators: true },
+    );
+    revalidatePath("/services");
+    revalidatePath("/dashboard/profile");
   } catch (error) {
     return { error: "Error deleting user." };
   }

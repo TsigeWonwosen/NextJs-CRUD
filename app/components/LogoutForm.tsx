@@ -20,7 +20,7 @@ function LogoutForm({
   };
 
   return (
-    <div className="shadow-t-sm dark:bg-dark-text-d bg-light-text-d relative flex w-[190px] flex-col items-start justify-center rounded-md p-[20px] text-light-text shadow-gray-500/50 transition-shadow duration-300 hover:shadow-sm hover:shadow-gray-700/50 dark:text-dark-text">
+    <div className="shadow-t-sm relative flex w-[190px] flex-col items-start justify-center rounded-md bg-light-text-d p-[20px] text-light-text shadow-gray-500/50 transition-shadow duration-300 hover:shadow-sm hover:shadow-gray-700/50 dark:bg-dark-text-d dark:text-dark-text">
       <section className="flex w-full flex-row items-start justify-center gap-2">
         <Image
           src={user?.image || `/profile-avatar.png`}
@@ -47,7 +47,7 @@ function LogoutForm({
         <span className="rounded-md px-[5px] text-[12px]">Log Out</span>
       </button>
 
-      <section className="dark:bg-dark-text-d bg-light-text-d absolute -top-2 right-5 h-[15px] w-[15px] rotate-45"></section>
+      <section className="absolute -top-2 right-5 h-[15px] w-[15px] rotate-45 bg-light-text-d dark:bg-dark-text-d"></section>
     </div>
   );
 }

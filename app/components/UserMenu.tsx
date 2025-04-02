@@ -27,7 +27,7 @@ function UserMenu({
             alt="User image"
           />
           <button
-            className="absolute -bottom-1 right-3 flex h-[14px] w-[14px] items-center justify-center rounded-full bg-light-button font-bold caret-lime-300 dark:bg-dark-button"
+            className="absolute -bottom-1 right-4 flex h-[12px] w-[12px] items-center justify-center rounded-full bg-light-button font-bold caret-lime-300 dark:bg-dark-button"
             onClick={handleChange}
           >
             <ChevronDown className="text-gray-300" />

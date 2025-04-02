@@ -21,6 +21,7 @@ export type StaffType = {
   username: string;
   email: string;
   password?: string;
+  img?: string;
   role?: string;
   createdAt?: string;
 };

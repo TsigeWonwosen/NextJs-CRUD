@@ -4,6 +4,7 @@ import GoogleProviders from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectToDatabase from "../utils/mongoose";
 import { Staff } from "../models/userModel";
+import { StaffType } from "./types";
 
 export const Options: NextAuthOptions = {
   providers: [
@@ -40,6 +41,10 @@ export const Options: NextAuthOptions = {
               username: username,
               password: password,
             });
+
+            if (!user) {
+              return null;
+            }
             if (user) {
               return user;
             } else {
@@ -66,11 +71,14 @@ export const Options: NextAuthOptions = {
     },
 
     async jwt({ token, user }) {
+      console.log("Staff found", user);
+
       if (user) {
         token.id = user._id;
         token.name = user.username || user.name;
         token.email = user.email;
         token.role = user.role;
+        token.picture = user.img || user.image || "";
       }
       return token;
     },
