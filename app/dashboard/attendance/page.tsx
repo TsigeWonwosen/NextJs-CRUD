@@ -83,7 +83,7 @@ export default async function Attendaces({
 
   const numberofPage = Math.ceil(attendace.length / PER_PAGE);
   return (
-    <div className="mx-auto flex h-full w-full flex-col rounded-md bg-light-bgw p-4 dark:bg-dark-bg">
+    <div className="mx-auto flex h-full w-full flex-col justify-start rounded-md bg-light-bgw p-4 dark:bg-dark-bg">
       <SearchAndHeaderServerSide title="All Attendances" table="attendance" />
       <Table Lists={renderRow} data={attendace} tableHeader={columns} />
       <PaginationServerSide totalPages={numberofPage} />

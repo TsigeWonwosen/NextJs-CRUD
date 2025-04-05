@@ -48,7 +48,7 @@ async function Students({
   const relatedData = { results, attendances, grades, classes, parents };
 
   return (
-    <div className="mx-auto flex h-full w-full flex-col rounded-md bg-light-bgw p-5 dark:bg-dark-bg">
+    <div className="flex h-full w-full flex-col rounded-md bg-light-bgw p-5 dark:bg-dark-bg">
       <StudentClient
         students={studentsUpdated}
         totalSudents={totalStudents}

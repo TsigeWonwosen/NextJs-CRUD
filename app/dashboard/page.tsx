@@ -25,7 +25,6 @@ export default async function DashboardPage({
   searchParams: { [key: string]: string | undefined };
 }) {
   const { date } = await searchParams;
-  console.log("Date : " + date);
 
   return (
     <div className="relative flex h-full w-full flex-col justify-between gap-2 md:flex-row md:gap-4">

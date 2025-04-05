@@ -112,7 +112,7 @@ function StudentClient({
   };
 
   return (
-    <div className="w-full rounded-md bg-light-bgw p-3 dark:bg-dark-bg">
+    <div className="flex h-full w-full flex-col rounded-md bg-light-bgw p-3 dark:bg-dark-bg">
       <SearchAndHeader
         title="All Students"
         handleSearch={handleSearch}

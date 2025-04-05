@@ -94,9 +94,7 @@ export const getStaffs = async () => {
   }
 };
 
-export const deleteStaff = async (
-  formData: FormData,
-): Promise<{ error?: string; success?: boolean }> => {
+export const deleteStaff = async (formData: FormData): Promise<void> => {
   try {
     await connectToDatabase();
 
@@ -104,15 +102,14 @@ export const deleteStaff = async (
     const user: StaffType | any = await Staff.findOne({ _id });
 
     if (!user) {
-      return { error: "User not found" };
+      throw new Error("User not found");
     }
 
     await Staff.findByIdAndDelete({ _id });
     revalidatePath("/services");
     revalidatePath("/admin");
-    return { success: true };
   } catch (error) {
-    return { error: "Error deleting user." };
+    console.log(error);
   }
 };
 
@@ -123,7 +120,6 @@ export const updateStaff = async (
   try {
     await connectToDatabase();
 
-    // const { _id } = Object.fromEntries(formData);
     const user: StaffType | any = await Staff.findOne({ _id });
 
     if (!user) {

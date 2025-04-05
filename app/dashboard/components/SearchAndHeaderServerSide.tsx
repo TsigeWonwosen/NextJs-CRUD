@@ -15,7 +15,7 @@ async function SearchAndHeaderServerSide({
     ? session?.user?.role?.toLocaleLowerCase()
     : "admin";
   return (
-    <div className="mb-4 flex h-full w-full flex-col items-start justify-start overflow-visible rounded-md bg-light-bgw px-3 py-2 dark:bg-dark-bg md:flex-row md:justify-between">
+    <div className="mb-4 flex h-auto w-full flex-col items-start justify-start overflow-visible rounded-md bg-light-bgw px-3 py-2 dark:bg-dark-bg md:flex-row md:justify-between">
       <section className="flex">
         <h4 className="mb-2 text-left text-base text-slate-500">{title}</h4>
       </section>

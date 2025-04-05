@@ -4,7 +4,7 @@ export default function DashBoardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex h-full w-full flex-col items-start justify-between gap-2 px-2 py-4 md:gap-4 md:p-4 md:px-5">
+    <div className="flex w-full flex-1 flex-col items-start justify-between px-2 py-4 md:gap-4 md:p-4 md:px-5">
       {children}
     </div>
   );

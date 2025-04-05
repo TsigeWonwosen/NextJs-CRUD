@@ -6,7 +6,7 @@ async function Profile() {
   const users = await getStaffs();
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center text-gray-500">
+    <div className="flex h-full w-full flex-col items-center justify-center text-gray-500">
       <Staff users={users} />
     </div>
   );
