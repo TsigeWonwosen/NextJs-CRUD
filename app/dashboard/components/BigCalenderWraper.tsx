@@ -18,11 +18,7 @@ async function BigCalenderWraper() {
     start: new Date(res.startTime),
     end: new Date(res.endTime),
   }));
-  return (
-    <>
-      <BigCalander data={data} />
-    </>
-  );
+  return <BigCalander data={data} />;
 }
 
 export default BigCalenderWraper;

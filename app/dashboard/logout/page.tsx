@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 function Logout() {
   const { data: session } = useSession();
   const { user } = session || {};
-  console.log("User in Logout: ", user);
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">

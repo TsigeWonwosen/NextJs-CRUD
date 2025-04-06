@@ -27,13 +27,13 @@ export default async function DashboardPage({
   const { date } = await searchParams;
 
   return (
-    <div className="relative flex h-full w-full flex-col justify-between gap-2 md:flex-row md:gap-4">
-      <div className="flex h-full w-full flex-col items-center justify-between gap-5">
+    <div className="flex h-full w-full flex-col justify-between gap-2 md:flex-row md:gap-4">
+      <div className="">
         <InfoCardsWrapper />
         <BigCalenderWraper />
         <SchoolChart />
       </div>
-      <div className="mt-4 flex h-full w-full md:mt-0 md:w-[300px]">
+      <div className="mt-4 flex h-full w-full md:mt-0 md:w-[350px]">
         <Card>
           <ReactCalandor />
           <EventList dateParam={date} />

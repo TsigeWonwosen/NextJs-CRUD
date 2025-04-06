@@ -5,6 +5,7 @@
   border-right-width: 0.1px !important;
   border-width: 0.1px !important;
   border-radius: 2px;
+  background: transparent !important;
 }
 
 * :before,
@@ -17,6 +18,7 @@
 
 .fc-theme-standard .fc-scrollgrid {
   border: 0.4px solid var(--color-light-blue) !important;
+  background: transparent !important;
 }
 
 /* FullCalendar.css */
@@ -26,13 +28,13 @@
 }
 
 .fc thead {
-  background: #0d0e27;
+  background: transparent !important; /* Change header background */
   border: none;
 }
 .fc-event {
-  background-color: #1f1d5e; /* Change event background */
+  background-color: transparent; /* Change event background */
   border-color: #393737; /* Change event border */
-  color: rgb(126, 106, 106); /* Change event text color */
+  color: rgb(156, 182, 220); /* Change event text color */
 }
 
 .fc .fc-daygrid-day-number {
@@ -40,25 +42,26 @@
 }
 
 .fc .fc-button-primary {
-  background-color: #162f58;
+  background-color: #5181cef3;
   border: none;
   color: rgba(255, 255, 255, 0.499);
 }
 
 .fc .fc-button-primary:hover {
-  background-color: #0f2452;
+  background-color: #284991;
 }
 
-/* Example FullCalendar Styles */
-
-/* Change background of the time slots */
-.fc-timegrid-slot {
-  /* background-color: #0c162e; */
+.fc .fc-button-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(81, 129, 206, 0.5);
+  background-color: #2a4b8f;
+}
+.fc .fc-button-primary:active {
+  background-color: #2a4b8f;
 }
 
 /* Customize event appearance */
 .fc-event {
-  background-color: #06093c !important; /* Blue */
+  background-color: #115dd0 !important; /* Blue */
   color: #ffffff !important; /* White text */
   border: none !important; /* Remove border */
   border-radius: 5px !important; /* Rounded corners */
@@ -99,6 +102,10 @@
   margin-left: 0.75em;
 }
 
+.fc .fc-toolbar-title {
+  font-size: 1.3rem;
+  color: #5a9ae4d7;
+}
 .fc .fc-button-group {
   display: inline-flex;
   position: relative;
@@ -106,27 +113,25 @@
 }
 
 .fc .fc-scrollgrid th {
-  border: 0.3px solid rgba(36, 28, 78, 0.863) !important; /* Remove all borders */
+  border: 0.2px solid rgba(36, 28, 78, 0.863) !important; /* Remove all borders */
   background: #15145fe1;
 }
 .fc .fc-scrollgrid,
 .fc .fc-scrollgrid td {
-  border: 0.3px solid rgba(36, 28, 78, 0.805) !important; /* Remove all borders */
+  border: 0.1px solid #204bd73d !important;
 }
-
-/* FullCalendar Responsive Styles */
 
 /* Default calendar styles */
 .fc {
   font-family: Arial, sans-serif;
 }
 
-/* Optional: Add rounded corners to table cells */
-/* .fc .fc-scrollgrid td {
-  border-radius: 4px !important;
-} */
-
-/* Calendar container responsiveness *
+.fc .fc-scrollgrid th {
+  background: transparent !important; /* Change header background */
+  border: 0.1px solid #204bd73d !important;
+  border-bottom: none !important; /* Remove bottom border */
+  padding: 0.1rem 0.5px; /* Add padding to header cells */
+}
 
 /* Header toolbar adjustments for small screens */
 .fc-toolbar {

@@ -16,7 +16,7 @@ function Staff({
       {
         <li
           key={user?._id}
-          className="duration-3000 mb-1 flex h-full w-full items-center justify-between rounded-md border-[0.3px] border-gray-500/10 px-4 py-1 pr-6 transition-all hover:scale-[1.01]"
+          className="duration-3000 mb-1 flex h-auto w-full items-center justify-between rounded-md border-[0.3px] border-gray-500/10 px-4 py-1 pr-6 transition-all hover:scale-[1.01]"
         >
           <section className="mb-1 w-full">
             <h5 className="font-semibold capitalize text-slate-400">
