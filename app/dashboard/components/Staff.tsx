@@ -4,6 +4,7 @@ import StaffList from "../components/StaffList";
 import { updateStaff } from "@/app/libs/action";
 import { X } from "lucide-react";
 import { useSession } from "next-auth/react";
+import SingleProfile from "./SingleProfile";
 
 export type StaffType = {
   _id: string;
@@ -46,19 +47,21 @@ function Staff({ users }: { users: StaffType[] }) {
 
   return (
     <div className="relative flex h-full w-full flex-col rounded-md bg-light-bgw p-4 dark:bg-dark-bg-b">
-      <section className="flex items-center justify-between px-5 text-[13px] font-semibold text-slate-500">
-        <span>Info</span>
-        <span>Role</span>
-        <span>Action</span>
-      </section>
-      <ul className="mt-3 flex h-full w-full flex-col">
+      <div className="h-auto w-full">
         {userRole === "admin"
           ? users?.map((user: StaffType, index) => (
-              <StaffList
-                key={index}
-                user={user}
-                handleEditeUser={handleEditeUser}
-              />
+              <ul className="mt-3 flex h-full w-full flex-col">
+                <section className="flex items-center justify-between px-5 text-[13px] font-semibold text-slate-500">
+                  <span>Info</span>
+                  <span>Role</span>
+                  <span>Action</span>
+                </section>
+                <StaffList
+                  key={index}
+                  user={user}
+                  handleEditeUser={handleEditeUser}
+                />
+              </ul>
             ))
           : users
               ?.filter(
@@ -67,13 +70,13 @@ function Staff({ users }: { users: StaffType[] }) {
                   user._id === userId,
               )
               .map((user: StaffType, index) => (
-                <StaffList
+                <SingleProfile
                   key={index}
                   user={user}
                   handleEditeUser={handleEditeUser}
                 />
               ))}
-      </ul>
+      </div>
       {isEdit && (
         <div className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center bg-gray-500/30 dark:bg-gray-800/40">
           <div className="relative flex h-auto w-[80%] max-w-[400px] flex-col items-center justify-center rounded-md bg-light-bgw p-6 dark:bg-dark-bg-b sm:w-[50%]">
