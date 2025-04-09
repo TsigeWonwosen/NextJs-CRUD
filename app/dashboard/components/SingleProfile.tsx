@@ -9,7 +9,7 @@ function SingleProfile({
   handleEditeUser: (id: string) => void;
 }) {
   return (
-    <section className="relative flex h-[950px] w-full flex-col rounded-md">
+    <section className="flex h-full w-full flex-col rounded-md px-1 pb-4 pt-0">
       <div className="relative h-[250px] w-full rounded-md">
         <Image
           src="https://thumbs.dreamstime.com/z/3d-blue-space-14179501.jpg?ct=jpeg"
@@ -18,7 +18,7 @@ function SingleProfile({
           className="h-full w-full rounded-md object-cover object-center"
         />
       </div>
-      <div className="absolute left-[2.5%] top-[220px] flex h-[700px] w-[95%] flex-col items-start justify-between gap-3 rounded-md bg-light-bgw/95 p-4 pt-8 dark:bg-dark-bg/90">
+      <div className="z-10 mx-auto -mt-[40px] flex h-full w-[97%] flex-col items-start justify-between gap-3 rounded-md bg-light-bgw/95 p-4 pt-8 dark:bg-dark-bg/90">
         <div className="flex h-auto w-full items-center justify-between gap-4">
           <div className="flex h-auto w-full items-center justify-between gap-4 md:w-[30%]">
             <Image
@@ -48,14 +48,20 @@ function SingleProfile({
           </div>
         </div>
         <div className="flex h-auto w-full items-start justify-between gap-4">
-          <div className="w-[30%]">Platform Settings</div>
+          <div className="flex h-full w-full flex-col items-center justify-start">
+            <h1 className="w-full text-left text-lg font-bold capitalize text-light-text/90 dark:text-dark-text">
+              Platform Settings
+            </h1>
+          </div>
           <div className="flex h-full w-full flex-col items-start justify-between gap-4">
-            <h4>Profile Information</h4>
+            <h1 className="w-full text-left text-lg font-bold capitalize text-light-text/90 dark:text-dark-text">
+              Profile Information
+            </h1>
             <p>
-              Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer
-              is no. If two equally difficult paths, choose the one more painful
-              in the short term (pain avoidance is creating an illusion of
-              equality).
+              Hi, I’m {user.username}, Decisions: If you can’t decide, the
+              answer is no. If two equally difficult paths, choose the one more
+              painful in the short term (pain avoidance is creating an illusion
+              of equality).
             </p>
             <span className="text-[20px] font-semibold capitalize text-light-text dark:text-dark-text">
               {user?.username}
@@ -63,14 +69,45 @@ function SingleProfile({
             <span> {user?.email}</span>
             <span> {user?.role}</span>
           </div>
-          <div className="w-[30%]">
-            <h1>Convarsation</h1>
+          <div className="flex h-full w-full flex-col items-center justify-start gap-2">
+            <h1 className="w-full text-left text-lg font-bold capitalize text-light-text/90 dark:text-dark-text">
+              Convarsations
+            </h1>
+            <div className="flex h-full w-full flex-col items-center justify-start gap-2">
+              {avatars.map((src, index) => (
+                <div
+                  key={index}
+                  className="flex h-full w-full items-center justify-between rounded-md"
+                >
+                  <div className="flex h-full w-full items-center justify-start gap-2">
+                    <Image
+                      src={src.src}
+                      alt={src.name}
+                      width={200}
+                      height={200}
+                      className="h-9 w-9 rounded-md border-1 border-light-bgw object-cover dark:border-dark-text"
+                    />
+                    <section className="flex flex-col items-start justify-start gap-1 text-left">
+                      <span className="text-[13px] font-semibold capitalize">
+                        {src.name}
+                      </span>
+                      <p className="text-[10px] text-light-text/70 dark:text-dark-text/70">
+                        {src.message}
+                      </p>
+                    </section>
+                  </div>
+                  <button className="text-dark-button/90">Reply</button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="flex h-auto w-full flex-col items-start justify-between gap-4">
-          <div>Projects</div>
+        <div className="flex h-full w-full flex-col items-start justify-between gap-4">
+          <h1 className="w-full text-left text-lg font-bold capitalize text-light-text/90 dark:text-dark-text">
+            Projects
+          </h1>
 
-          <div className="flex h-full w-full items-center justify-between gap-4">
+          <div className="flex h-full w-full items-center justify-between gap-3">
             {Projects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
@@ -116,7 +153,7 @@ const Projects = [
 
 const ProjectCard = ({ project }: { project: any }) => {
   return (
-    <div className="flex h-[260px] w-full flex-col items-center justify-between rounded-md bg-light-bg text-left shadow-md transition duration-200 hover:scale-[1.01] dark:bg-dark-bg-b">
+    <div className="flex h-[280px] w-full flex-col items-center justify-between rounded-md bg-light-bg text-left shadow-md transition duration-300 dark:bg-dark-bg-b">
       <Image
         src={project.photo}
         alt="Project"
@@ -124,26 +161,56 @@ const ProjectCard = ({ project }: { project: any }) => {
         height={200}
         className="h-[120px] w-full rounded-t-md object-cover object-center"
       />
-      <div className="flex h-auto w-full flex-col items-start justify-between gap-2 p-2 text-left">
+      <div className="flex h-auto w-full flex-col items-start justify-between gap-3 p-2 px-3 text-left">
         <div className="flex h-auto w-full flex-col items-start justify-between gap-1">
-          <p>{project.name}</p>
-          <h4 className="text-[15px] font-semibold capitalize text-light-text dark:text-dark-text">
+          <p className="text-[10px] font-normal">{project.name}</p>
+          <h4 className="text-[15px] font-semibold capitalize text-light-text dark:text-dark-text/80">
             {project.title}
           </h4>
         </div>
-        <p className="line-clamp-2">{project.body}</p>
+        <p className="line-clamp-2 text-light-text/80 dark:text-dark-text/60">
+          {project.body}
+        </p>
         <section className="mb-1 mt-1 flex w-full items-center justify-between gap-4">
           <button className="rounded-md border-[0.3px] border-cyan-700 px-2 py-[2px] text-[12px] font-semibold text-gray-500/80 transition duration-200 hover:bg-gray-500/10">
             View Project
           </button>
-          <div className="relative flex h-[10px] w-[50px] items-center justify-end">
-            <span className="absolute left-5 top-0 h-5 w-5 rounded-full bg-green-400"></span>
-            <span className="absolute left-3 top-0 h-5 w-5 rounded-full bg-red-400"></span>
-            <span className="absolute left-1 top-0 h-5 w-5 rounded-full bg-orange-400"></span>
-            <span className="absolute -left-1 top-0 h-5 w-5 rounded-full bg-red-900"></span>
+          <div className="flex items-center justify-end">
+            {avatars.map((src, index) => (
+              <div
+                key={index}
+                className={`group relative h-6 w-6 rounded-full border-1 border-light-bgw dark:border-dark-text ${
+                  index !== 0 ? "-ml-2" : ""
+                } transition duration-200 hover:z-10`}
+              >
+                <Image
+                  src={src.src}
+                  alt={src.name}
+                  fill
+                  className="rounded-full object-cover transition-transform duration-200 group-hover:scale-125"
+                />
+                <div className="absolute -bottom-10 left-1/2 mb-1 -translate-x-1/2 whitespace-nowrap rounded-sm bg-black px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100">
+                  <div className="relative flex h-full w-full items-center justify-center gap-1">
+                    {src.name}
+                    <span className="absolute -top-2 right-3 h-2 w-2 rotate-45 bg-black"></span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       </div>
     </div>
   );
 };
+
+const avatars = [
+  {
+    name: "John",
+    src: "/photo1.jpg",
+    message: "Hi! I need more information..",
+  },
+  { name: "Alice", src: "/photo2.jpg", message: "Awesome work, can you.." },
+  { name: "Steve", src: "/photo3.jpg", message: "Have a great afternoon..." },
+  { name: "Emma", src: "/photo4.jpg", message: "Hi! I need more information." },
+];
