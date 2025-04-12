@@ -46,11 +46,11 @@ function Staff({ users }: { users: StaffType[] }) {
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col rounded-md bg-light-bgw p-4 dark:bg-dark-bg-b">
-      <div className="h-auto w-full">
+    <div className="relative flex h-full w-full flex-col rounded-md bg-light-bgw dark:bg-dark-bg-b">
+      <div className="h-full w-full">
         {userRole === "admin" ? (
-          <ul className="mt-3 flex h-full w-full flex-col">
-            <section className="flex items-center justify-between px-5 text-[13px] font-semibold text-slate-500">
+          <ul className="mt-3 flex h-full w-full flex-col p-4">
+            <section className="flex items-center justify-between px-5 py-3 text-[13px] font-semibold text-slate-500">
               <span>Info</span>
               <span>Role</span>
               <span>Action</span>
